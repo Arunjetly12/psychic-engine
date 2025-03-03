@@ -52,16 +52,31 @@
                     const { jsPDF } = window.jspdf;
                     const doc = new jsPDF();
 
+                    // Title text
+                    const title = "My Image PDF";
+                    const fontSize = 16;  // You can adjust the font size
+                    doc.setFontSize(fontSize);
+
+                    // Calculate the title's width and position to center it
+                    const titleWidth = doc.getStringUnitWidth(title) * fontSize / 2;
+                    const titleX = (doc.internal.pageSize.width - titleWidth) / 2;
+                    const titleY = 20; // Position the title at the top
+
+                    // Add the title text centered
+                    doc.text(title, titleX, titleY);
+
                     // Customize the image position and size on the PDF
-                    const x = 20;  // Horizontal position (left margin)
-                    const y = 30;  // Vertical position (top margin)
-                    const width = 180;  // Width of the image
-                    const height = 160; // Height of the image
+                    const imageWidth = 180;  // Width of the image
+                    const imageHeight = 160; // Height of the image
 
-                    // Add the image to the PDF with the adjusted position and size
-                    doc.addImage(uploadedImage, 'JPEG', x, y, width, height);
+                    // Calculate the image's x position to center it
+                    const imageX = (doc.internal.pageSize.width - imageWidth) / 2;
+                    const imageY = 40;  // Position the image below the title
 
-                    // Save the PDF with the adjusted image position and size
+                    // Add the image to the PDF with the centered position
+                    doc.addImage(uploadedImage, 'JPEG', imageX, imageY, imageWidth, imageHeight);
+
+                    // Save the PDF with the centered title and image
                     doc.save('generated.pdf');
                 }
             });
