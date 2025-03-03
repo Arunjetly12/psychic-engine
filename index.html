@@ -5,18 +5,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Image to PDF Converter</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        /* Ensure full height for centering */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+        }
+
+        /* Center all elements in the page */
+        .container {
+            text-align: center;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        #upload, #download {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        #imagePreview {
+            max-width: 100%;
+            height: auto;
+            display: none;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Image to PDF Converter</h1>
 
-    <input type="file" id="upload" accept="image/*" />
-    <br><br>
-
-    <button id="download" disabled>Download PDF</button>
-
-    <br><br>
-
-    <img id="imagePreview" style="max-width: 100%; height: auto; display: none;" />
+    <div class="container">
+        <h1>Image to PDF Converter</h1>
+        <input type="file" id="upload" accept="image/*" />
+        <br><br>
+        <button id="download" disabled>Download PDF</button>
+        <br><br>
+        <img id="imagePreview" />
+    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -54,7 +97,7 @@
 
                     // Title text
                     const title = "My Image PDF";
-                    const fontSize = 30;  // Font size for title
+                    const fontSize = 16;  // Font size for title
                     doc.setFontSize(fontSize);
 
                     // Calculate the width of the title based on font size
@@ -82,5 +125,6 @@
             });
         });
     </script>
+
 </body>
 </html>
