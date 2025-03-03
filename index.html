@@ -62,13 +62,40 @@
             display: none;
             margin-top: 10px;
         }
+
+        /* Custom file input button styling */
+        #upload {
+            font-size: 16px;
+            cursor: pointer;
+            border: 2px solid #6A0DAD; /* Border color same as buttons */
+            background-color: #6A0DAD;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+
+        /* Hide default file input button */
+        input[type="file"] {
+            display: none;
+        }
+
+        /* Custom file input button hover effect */
+        #upload:hover {
+            background-color: #5c0a98;
+        }
+
     </style>
 </head>
 <body>
 
     <div class="container">
         <h1>Image to PDF Converter</h1>
-        <input type="file" id="upload" accept="image/*" />
+
+        <!-- Custom File Input Button -->
+        <label for="file-input" id="upload">Choose File</label>
+        <input type="file" id="file-input" accept="image/*" />
+        
         <br><br>
         <button id="download" disabled>Download PDF</button>
         <br><br>
@@ -77,14 +104,14 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const uploadButton = document.getElementById('upload');
+            const fileInput = document.getElementById('file-input');
             const downloadButton = document.getElementById('download');
             const imagePreview = document.getElementById('imagePreview');
 
             let uploadedImage = null;
 
             // Handle image upload
-            uploadButton.addEventListener('change', function (e) {
+            fileInput.addEventListener('change', function (e) {
                 const file = e.target.files[0];
 
                 if (file && file.type.startsWith('image/')) {
