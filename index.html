@@ -59,7 +59,7 @@
 
         /* Image preview */
         #imagePreview {
-            max-width: 40%;
+            max-width: 100%;
             height: auto;
             display: none;
             margin-top: 10px;
@@ -91,11 +91,18 @@
 
         /* Logo Styling */
         #logo {
-            width: 200px;
+            width: 150px;
             height: auto;
             display: block;
             margin: 0 auto;
             margin-bottom: 20px;
+        }
+
+        /* Input for sliders */
+        .slider {
+            width: 100%;
+            max-width: 300px;
+            margin: 5px;
         }
 
     </style>
@@ -115,7 +122,40 @@
         <br><br>
         <button id="download" disabled>Download PDF</button>
         <br><br>
+
+        <!-- Image preview -->
         <img id="imagePreview" />
+
+        <!-- Size and position controls -->
+        <div>
+            <label>Width</label>
+            <input type="range" id="widthSlider" class="slider" min="50" max="500" value="180" />
+            <span id="widthValue">180</span>px
+
+            <br>
+
+            <label>Height</label>
+            <input type="range" id="heightSlider" class="slider" min="50" max="500" value="160" />
+            <span id="heightValue">160</span>px
+
+            <br>
+
+            <label>Rotation</label>
+            <input type="range" id="rotationSlider" class="slider" min="0" max="360" value="0" />
+            <span id="rotationValue">0</span>°
+
+            <br>
+
+            <label>X Position</label>
+            <input type="range" id="xSlider" class="slider" min="0" max="300" value="100" />
+            <span id="xValue">100</span>px
+
+            <br>
+
+            <label>Y Position</label>
+            <input type="range" id="ySlider" class="slider" min="0" max="300" value="80" />
+            <span id="yValue">80</span>px
+        </div>
     </div>
 
     <script>
@@ -123,6 +163,16 @@
             const fileInput = document.getElementById('file-input');
             const downloadButton = document.getElementById('download');
             const imagePreview = document.getElementById('imagePreview');
+            const widthSlider = document.getElementById('widthSlider');
+            const heightSlider = document.getElementById('heightSlider');
+            const rotationSlider = document.getElementById('rotationSlider');
+            const xSlider = document.getElementById('xSlider');
+            const ySlider = document.getElementById('ySlider');
+            const widthValue = document.getElementById('widthValue');
+            const heightValue = document.getElementById('heightValue');
+            const rotationValue = document.getElementById('rotationValue');
+            const xValue = document.getElementById('xValue');
+            const yValue = document.getElementById('yValue');
 
             let uploadedImage = null;
 
@@ -146,6 +196,34 @@
                 }
             });
 
+            // Update preview image size, position, and rotation
+            widthSlider.addEventListener('input', function () {
+                widthValue.textContent = widthSlider.value;
+                imagePreview.style.width = widthSlider.value + 'px';
+            });
+
+            heightSlider.addEventListener('input', function () {
+                heightValue.textContent = heightSlider.value;
+                imagePreview.style.height = heightSlider.value + 'px';
+            });
+
+            rotationSlider.addEventListener('input', function () {
+                rotationValue.textContent = rotationSlider.value;
+                imagePreview.style.transform = `rotate(${rotationSlider.value}deg)`;
+            });
+
+            xSlider.addEventListener('input', function () {
+                xValue.textContent = xSlider.value;
+                imagePreview.style.position = 'absolute';
+                imagePreview.style.left = xSlider.value + 'px';
+            });
+
+            ySlider.addEventListener('input', function () {
+                yValue.textContent = ySlider.value;
+                imagePreview.style.position = 'absolute';
+                imagePreview.style.top = ySlider.value + 'px';
+            });
+
             // Handle PDF generation and download
             downloadButton.addEventListener('click', function () {
                 if (uploadedImage) {
@@ -166,15 +244,15 @@
                     doc.text(title, titleX, titleY);
 
                     // Image size
-                    const imageWidth = 180;  // Width of the image
-                    const imageHeight = 160; // Height of the image
+                    const imageWidth = parseInt(widthSlider.value);  // Width of the image
+                    const imageHeight = parseInt(heightSlider.value); // Height of the image
 
                     // Calculate the image's x position to center it
-                    const imageX = (doc.internal.pageSize.width - imageWidth) / 2;  // Center the image horizontally
-                    const imageY = titleY + fontSize + 10; // Position the image below the title (with space)
+                    const imageX = parseInt(xSlider.value);  // Position the image horizontally
+                    const imageY = parseInt(ySlider.value); // Position the image vertically
 
-                    // Add the image to the PDF with the centered position
-                    doc.addImage(uploadedImage, 'JPEG', imageX, imageY, imageWidth, imageHeight);
+                    // Add the image to the PDF with the adjusted position and rotation
+                    doc.addImage(uploadedImage, 'JPEG', imageX, imageY, imageWidth, imageHeight, undefined, 'NONE', rotationSlider.value);
 
                     // Save the PDF with the centered title and image
                     doc.save('generated.pdf');
