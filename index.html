@@ -129,13 +129,10 @@
 
             let uploadedImage = null;
 
-            // Define variables for image preview adjustments
-            let previewImageSettings = {
-                width: 180,  // Set initial width of the preview image
-                height: 160, // Set initial height of the preview image
-                xPosition: 50, // Initial x-position (horizontal alignment)
-                yPosition: 50, // Initial y-position (vertical alignment)
-                rotation: 0 // Initial rotation angle (in degrees)
+            // Define variables for image preview position
+            let previewPosition = {
+                xPosition: 50,  // Initial x-position (horizontal alignment)
+                yPosition: 50,  // Initial y-position (vertical alignment)
             };
 
             // Handle image upload
@@ -150,8 +147,8 @@
                         imagePreview.style.display = 'block';
                         uploadedImage = event.target.result;
 
-                        // Apply initial settings for image preview
-                        applyImagePreviewSettings();
+                        // Apply initial settings for image preview position
+                        applyImagePreviewPosition();
 
                         downloadButton.disabled = false;
                     };
@@ -162,31 +159,25 @@
                 }
             });
 
-            // Function to apply the settings to the preview image
-            function applyImagePreviewSettings() {
-                imagePreview.style.width = previewImageSettings.width + 'px';
-                imagePreview.style.height = previewImageSettings.height + 'px';
+            // Function to apply the position to the preview image
+            function applyImagePreviewPosition() {
                 imagePreview.style.position = 'absolute';
-                imagePreview.style.left = previewImageSettings.xPosition + 'px';
-                imagePreview.style.top = previewImageSettings.yPosition + 'px';
-                imagePreview.style.transform = `rotate(${previewImageSettings.rotation}deg)`;
+                imagePreview.style.left = previewPosition.xPosition + 'px';
+                imagePreview.style.top = previewPosition.yPosition + 'px';
             }
 
-            // Function to adjust the position, size, and rotation of the preview image
-            function adjustPreviewImageSettings(newWidth, newHeight, newX, newY, newRotation) {
-                previewImageSettings.width = newWidth;
-                previewImageSettings.height = newHeight;
-                previewImageSettings.xPosition = newX;
-                previewImageSettings.yPosition = newY;
-                previewImageSettings.rotation = newRotation;
+            // Function to adjust the position of the preview image
+            function adjustPreviewImagePosition(newX, newY) {
+                previewPosition.xPosition = newX;
+                previewPosition.yPosition = newY;
 
-                // Reapply the adjusted settings to the preview image
-                applyImagePreviewSettings();
+                // Reapply the adjusted position to the preview image
+                applyImagePreviewPosition();
             }
 
-            // Example of adjusting image position, size, and rotation programmatically:
-            // You can replace these with your desired values or functions to adjust dynamically
-            adjustPreviewImageSettings(250, 200, 100, 100, 45); // Adjust image settings to new values
+            // Example of adjusting image position programmatically:
+            // You can replace these values with new positions as needed.
+            adjustPreviewImagePosition(150, 100); // Adjust image position to new X, Y coordinates
 
             // Handle PDF generation and download
             downloadButton.addEventListener('click', function () {
@@ -207,16 +198,12 @@
                     // Add the title text centered
                     doc.text(title, titleX, titleY);
 
-                    // Image size and position
-                    const imageWidth = previewImageSettings.width;  // Width of the image
-                    const imageHeight = previewImageSettings.height; // Height of the image
+                    // Image size
+                    const imageWidth = 180;  // Width of the image
+                    const imageHeight = 160; // Height of the image
 
-                    // Calculate the image's x position to center it
-                    const imageX = previewImageSettings.xPosition;  // Position the image horizontally
-                    const imageY = previewImageSettings.yPosition; // Position the image vertically
-
-                    // Add the image to the PDF with the adjusted position and rotation
-                    doc.addImage(uploadedImage, 'JPEG', imageX, imageY, imageWidth, imageHeight, undefined, 'NONE', previewImageSettings.rotation);
+                    // Add the image to the PDF with the adjusted position
+                    doc.addImage(uploadedImage, 'JPEG', previewPosition.xPosition, previewPosition.yPosition, imageWidth, imageHeight);
 
                     // Save the PDF with the centered title and image
                     doc.save('generated.pdf');
