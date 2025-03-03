@@ -1,107 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PDF Maker and Converter</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        .container {
-            max-width: 800px;
-            margin: 40px auto;
-            padding: 20px;
-            background-color: #f9f9f9;
-            border: 1px solid #ddd;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>PDF Maker and Converter</h1>
-        <form>
-            <input type="file" id="file" accept="application/pdf">
-            <button id="convert-btn">Convert to PDF</button>
-            <button id="make-pdf-btn">Make PDF</button>
-        </form>
-        <div id="output"></div>
-    </div>
-
-    <script>
-        // We'll add JavaScript code here later
-    </script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PDF Maker and Converter</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.min.js"></script>
   <style>
-    #error-message {
-      color: red;
-      font-weight: bold;
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
     }
-    #pdf-controls {
+    .container {
+      max-width: 600px;
+      margin: auto;
+    }
+    input[type="file"] {
+      margin-bottom: 10px;
+    }
+    button {
+      padding: 10px 20px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+    #downloadBtn {
       display: none;
+      background-color: #28a745;
+      color: white;
+    }
+    .section {
+      margin-bottom: 30px;
     }
   </style>
 </head>
 <body>
-  <h1>PDF Maker and Converter</h1>
-  <!-- File Input -->
-  <input type="file" id="file-input" accept=".pdf" />
-  <p id="error-message"></p>
-  <!-- PDF Controls (Converted & Creation buttons) -->
-  <div id="pdf-controls">
-    <button id="convert-btn">Convert to PDF</button>
-    <button id="create-pdf-btn">Make PDF</button>
+  <div class="container">
+    <h1>PDF Maker and Converter</h1>
+
+    <!-- Image to PDF Section -->
+    <div class="section">
+      <h2>Image to PDF</h2>
+      <input type="file" id="imageInput" accept="image/*" multiple>
+      <button id="convertToPdfBtn">Convert to PDF</button>
+      <button id="downloadBtn">Download PDF</button>
+    </div>
+
+    <!-- PDF Converter Section -->
+    <div class="section">
+      <h2>PDF Converter</h2>
+      <input type="file" id="pdfInput" accept="application/pdf">
+      <button id="convertPdfBtn">Convert PDF</button>
+    </div>
   </div>
-  <script>
-    // DOM Elements
-    const fileInput = document.getElementById("file-input");
-    const errorMessage = document.getElementById("error-message");
-    const pdfControls = document.getElementById("pdf-controls");
-    const convertBtn = document.getElementById("convert-btn");
-    const createPdfBtn = document.getElementById("create-pdf-btn");
 
-    // Event listener for file input change
-    fileInput.addEventListener("change", handleFileSelection);
-
-    // Handle file selection
-    function handleFileSelection(event) {
-      const file = event.target.files[0];
-      // Reset previous error message and controls
-      errorMessage.textContent = '';
-      pdfControls.style.display = 'none';
-      // Check if the selected file is a PDF
-      if (file && file.type === 'application/pdf') {
-        // Enable PDF controls (buttons)
-        pdfControls.style.display = 'block';
-        // Event listeners for the buttons
-        convertBtn.addEventListener("click", handleConvertPdf);
-        createPdfBtn.addEventListener("click", handleCreatePdf);
-      } else {
-        // Display error message if not a PDF
-        errorMessage.textContent = "Please select a valid PDF file.";
-        pdfControls.style.display = 'none';
-      }
-    }
-
-    // Placeholder for PDF conversion logic
-    function handleConvertPdf() {
-      alert("Convert PDF functionality will be implemented here.");
-      // Add conversion logic here (e.g., converting to another format)
-    }
-
-    // Placeholder for PDF creation logic
-    function handleCreatePdf() {
-      alert("Create PDF functionality will be implemented here.");
-      // Add PDF creation logic here (e.g., creating a new PDF from text or other content)
-    }
-  </script>
+  <script src="app.js"></script>
 </body>
 </html>
