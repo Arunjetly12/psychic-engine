@@ -98,13 +98,6 @@
             margin-bottom: 20px;
         }
 
-        /* Input for sliders */
-        .slider {
-            width: 100%;
-            max-width: 300px;
-            margin: 5px;
-        }
-
     </style>
 </head>
 <body>
@@ -126,36 +119,6 @@
         <!-- Image preview -->
         <img id="imagePreview" />
 
-        <!-- Size and position controls -->
-        <div>
-            <label>Width</label>
-            <input type="range" id="widthSlider" class="slider" min="50" max="500" value="180" />
-            <span id="widthValue">180</span>px
-
-            <br>
-
-            <label>Height</label>
-            <input type="range" id="heightSlider" class="slider" min="50" max="500" value="160" />
-            <span id="heightValue">160</span>px
-
-            <br>
-
-            <label>Rotation</label>
-            <input type="range" id="rotationSlider" class="slider" min="0" max="360" value="0" />
-            <span id="rotationValue">0</span>°
-
-            <br>
-
-            <label>X Position</label>
-            <input type="range" id="xSlider" class="slider" min="0" max="300" value="100" />
-            <span id="xValue">100</span>px
-
-            <br>
-
-            <label>Y Position</label>
-            <input type="range" id="ySlider" class="slider" min="0" max="300" value="80" />
-            <span id="yValue">80</span>px
-        </div>
     </div>
 
     <script>
@@ -163,18 +126,17 @@
             const fileInput = document.getElementById('file-input');
             const downloadButton = document.getElementById('download');
             const imagePreview = document.getElementById('imagePreview');
-            const widthSlider = document.getElementById('widthSlider');
-            const heightSlider = document.getElementById('heightSlider');
-            const rotationSlider = document.getElementById('rotationSlider');
-            const xSlider = document.getElementById('xSlider');
-            const ySlider = document.getElementById('ySlider');
-            const widthValue = document.getElementById('widthValue');
-            const heightValue = document.getElementById('heightValue');
-            const rotationValue = document.getElementById('rotationValue');
-            const xValue = document.getElementById('xValue');
-            const yValue = document.getElementById('yValue');
 
             let uploadedImage = null;
+
+            // Define variables for image preview adjustments
+            let previewImageSettings = {
+                width: 180,  // Set initial width of the preview image
+                height: 160, // Set initial height of the preview image
+                xPosition: 50, // Initial x-position (horizontal alignment)
+                yPosition: 50, // Initial y-position (vertical alignment)
+                rotation: 0 // Initial rotation angle (in degrees)
+            };
 
             // Handle image upload
             fileInput.addEventListener('change', function (e) {
@@ -187,6 +149,10 @@
                         imagePreview.src = event.target.result;
                         imagePreview.style.display = 'block';
                         uploadedImage = event.target.result;
+
+                        // Apply initial settings for image preview
+                        applyImagePreviewSettings();
+
                         downloadButton.disabled = false;
                     };
 
@@ -196,33 +162,31 @@
                 }
             });
 
-            // Update preview image size, position, and rotation
-            widthSlider.addEventListener('input', function () {
-                widthValue.textContent = widthSlider.value;
-                imagePreview.style.width = widthSlider.value + 'px';
-            });
-
-            heightSlider.addEventListener('input', function () {
-                heightValue.textContent = heightSlider.value;
-                imagePreview.style.height = heightSlider.value + 'px';
-            });
-
-            rotationSlider.addEventListener('input', function () {
-                rotationValue.textContent = rotationSlider.value;
-                imagePreview.style.transform = `rotate(${rotationSlider.value}deg)`;
-            });
-
-            xSlider.addEventListener('input', function () {
-                xValue.textContent = xSlider.value;
+            // Function to apply the settings to the preview image
+            function applyImagePreviewSettings() {
+                imagePreview.style.width = previewImageSettings.width + 'px';
+                imagePreview.style.height = previewImageSettings.height + 'px';
                 imagePreview.style.position = 'absolute';
-                imagePreview.style.left = xSlider.value + 'px';
-            });
+                imagePreview.style.left = previewImageSettings.xPosition + 'px';
+                imagePreview.style.top = previewImageSettings.yPosition + 'px';
+                imagePreview.style.transform = `rotate(${previewImageSettings.rotation}deg)`;
+            }
 
-            ySlider.addEventListener('input', function () {
-                yValue.textContent = ySlider.value;
-                imagePreview.style.position = 'absolute';
-                imagePreview.style.top = ySlider.value + 'px';
-            });
+            // Function to adjust the position, size, and rotation of the preview image
+            function adjustPreviewImageSettings(newWidth, newHeight, newX, newY, newRotation) {
+                previewImageSettings.width = newWidth;
+                previewImageSettings.height = newHeight;
+                previewImageSettings.xPosition = newX;
+                previewImageSettings.yPosition = newY;
+                previewImageSettings.rotation = newRotation;
+
+                // Reapply the adjusted settings to the preview image
+                applyImagePreviewSettings();
+            }
+
+            // Example of adjusting image position, size, and rotation programmatically:
+            // You can replace these with your desired values or functions to adjust dynamically
+            adjustPreviewImageSettings(250, 200, 100, 100, 45); // Adjust image settings to new values
 
             // Handle PDF generation and download
             downloadButton.addEventListener('click', function () {
@@ -243,21 +207,22 @@
                     // Add the title text centered
                     doc.text(title, titleX, titleY);
 
-                    // Image size
-                    const imageWidth = parseInt(widthSlider.value);  // Width of the image
-                    const imageHeight = parseInt(heightSlider.value); // Height of the image
+                    // Image size and position
+                    const imageWidth = previewImageSettings.width;  // Width of the image
+                    const imageHeight = previewImageSettings.height; // Height of the image
 
                     // Calculate the image's x position to center it
-                    const imageX = parseInt(xSlider.value);  // Position the image horizontally
-                    const imageY = parseInt(ySlider.value); // Position the image vertically
+                    const imageX = previewImageSettings.xPosition;  // Position the image horizontally
+                    const imageY = previewImageSettings.yPosition; // Position the image vertically
 
                     // Add the image to the PDF with the adjusted position and rotation
-                    doc.addImage(uploadedImage, 'JPEG', imageX, imageY, imageWidth, imageHeight, undefined, 'NONE', rotationSlider.value);
+                    doc.addImage(uploadedImage, 'JPEG', imageX, imageY, imageWidth, imageHeight, undefined, 'NONE', previewImageSettings.rotation);
 
                     // Save the PDF with the centered title and image
                     doc.save('generated.pdf');
                 }
             });
+
         });
     </script>
 
