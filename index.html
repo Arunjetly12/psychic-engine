@@ -39,12 +39,46 @@ const convertBtn = document.getElementById('convert-btn');
 const makePdfBtn = document.getElementById('make-pdf-btn');
 const outputDiv = document.getElementById('output');
 
+fileInput.addEventListener('change', () => {
+  const file = fileInput.files[0];
+  if (file) {
+    const fileType = file.type;
+    if (fileType === 'application/pdf') {
+      // PDF file selected
+      convertBtn.disabled = false;
+      makePdfBtn.disabled = false;
+    } else {
+      // Non-PDF file selected
+      convertBtn.disabled = true;
+      makePdfBtn.disabled = true;
+    }
+  } else {
+    // No file selected
+    convertBtn.disabled = true;
+    makePdfBtn.disabled = true;
+  }
+});
+
 convertBtn.addEventListener('click', () => {
-  // TO DO: Add conversion logic here
+  const file = fileInput.files[0];
+  if (file) {
+    // TO DO: Add conversion logic here
+    outputDiv.innerText = 'Conversion in progress...';
+  } else {
+    outputDiv.innerText = 'No file selected';
+  }
 });
 
 makePdfBtn.addEventListener('click', () => {
-  // TO DO: Add PDF creation logic here
+  const file = fileInput.files[0];
+  if (file) {
+    // TO DO: Add PDF creation logic here
+    outputDiv.innerText = 'PDF creation in progress...';
+  } else {
+    outputDiv.innerText = 'No file selected';
+  }
 });
+
+
 
 
