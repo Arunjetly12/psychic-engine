@@ -8,7 +8,6 @@
     <style>
         /* Ensure full height for centering */
         body, html {
-          
             margin: 0;
             padding: 0;
             height: 100%;
@@ -19,6 +18,7 @@
             font-family: cursive;
             background-color: #8585b9; /* Light grey background */
         }
+
         /* Center all elements in the page */
         .container {
             text-align: center;
@@ -35,6 +35,15 @@
             font-size: 24px;
             color: #6A0DAD; /* Dark violet color for title */
             margin-bottom: 20px;
+        }
+
+        /* Logo Styling */
+        #logo {
+            width: 150px; /* Adjust the size of your logo */
+            height: auto;
+            display: block;
+            margin: 0 auto; /* Center the logo horizontally */
+            margin-bottom: 20px; /* Add some space below the logo */
         }
 
         /* Button Styling */
@@ -94,7 +103,11 @@
 </head>
 <body>
 
+    <!-- Container for content -->
     <div class="container">
+        <!-- Logo (add your logo image here) -->
+        <img src="images/logo.png" alt="Website Logo" id="logo" />
+
         <h1>Image to PDF Converter</h1>
 
         <!-- Custom File Input Button -->
