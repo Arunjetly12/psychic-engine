@@ -24,50 +24,78 @@
     <script src="app.js"></script>
 </body>
 </html>
-// Wait for the document to be loaded
-document.addEventListener('DOMContentLoaded', function () {
-    const uploadButton = document.getElementById('upload');
-    const downloadButton = document.getElementById('download');
-    const imagePreview = document.getElementById('imagePreview');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image to PDF Converter</title>
+    <!-- Include jsPDF Library from CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <h1>Image to PDF Converter</h1>
 
-    let uploadedImage = null;
+    <!-- Upload Button -->
+    <input type="file" id="upload" accept="image/*" />
+    <br><br>
 
-    // Handle image upload
-    uploadButton.addEventListener('change', function (e) {
-        const file = e.target.files[0];
+    <!-- Download Button -->
+    <button id="download" disabled>Download PDF</button>
 
-        // Check if the file is an image
-        if (file && file.type.startsWith('image/')) {
-            const reader = new FileReader();
+    <br><br>
 
-            reader.onload = function (event) {
-                // Create a preview of the image
-                imagePreview.src = event.target.result;
-                imagePreview.style.display = 'block';
-                uploadedImage = event.target.result;
+    <!-- Display the image -->
+    <img id="imagePreview" style="max-width: 100%; height: auto; display: none;" />
 
-                // Enable the download button
-                downloadButton.disabled = false;
-            };
+    <script>
+        // Wait for the document to be loaded
+        document.addEventListener('DOMContentLoaded', function () {
+            const uploadButton = document.getElementById('upload');
+            const downloadButton = document.getElementById('download');
+            const imagePreview = document.getElementById('imagePreview');
 
-            reader.readAsDataURL(file);
-        } else {
-            alert("Please upload a valid image.");
-        }
-    });
+            let uploadedImage = null;
 
-    // Handle PDF generation and download
-    downloadButton.addEventListener('click', function () {
-        if (uploadedImage) {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
+            // Handle image upload
+            uploadButton.addEventListener('change', function (e) {
+                const file = e.target.files[0];
 
-            // Add the image to the PDF
-            doc.addImage(uploadedImage, 'JPEG', 10, 10, 180, 160); // Adjust dimensions as needed
+                // Check if the file is an image
+                if (file && file.type.startsWith('image/')) {
+                    const reader = new FileReader();
 
-            // Save the PDF
-            doc.save('generated.pdf');
-        }
-    });
-});
+                    reader.onload = function (event) {
+                        // Create a preview of the image
+                        imagePreview.src = event.target.result;
+                        imagePreview.style.display = 'block';
+                        uploadedImage = event.target.result;
+
+                        // Enable the download button
+                        downloadButton.disabled = false;
+                    };
+
+                    reader.readAsDataURL(file);
+                } else {
+                    alert("Please upload a valid image.");
+                }
+            });
+
+            // Handle PDF generation and download
+            downloadButton.addEventListener('click', function () {
+                if (uploadedImage) {
+                    const { jsPDF } = window.jspdf;
+                    const doc = new jsPDF();
+
+                    // Add the image to the PDF
+                    doc.addImage(uploadedImage, 'JPEG', 10, 10, 180, 160); // Adjust dimensions as needed
+
+                    // Save the PDF
+                    doc.save('generated.pdf');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
 
