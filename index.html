@@ -63,7 +63,6 @@
             height: auto;
             display: none;
             margin-top: 10px;
-            position: absolute;
         }
 
         /* Custom file input button styling */
@@ -90,13 +89,13 @@
             background-color: #5c0a98;
         }
 
-        .position-controls {
-            margin-top: 20px;
-        }
-
-        .position-controls input {
-            width: 100px;
-            margin: 5px;
+        /* Logo Styling */
+        #logo {
+            width: 150px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            margin-bottom: 20px;
         }
 
     </style>
@@ -104,6 +103,9 @@
 <body>
 
     <div class="container">
+        <!-- Logo -->
+        <img src="https://i.postimg.cc/zvJ9FSsX/8004204-removebg-preview.png" alt="Website Logo" id="logo" />
+
         <h1>Image to PDF Converter</h1>
 
         <!-- Custom File Input Button -->
@@ -114,14 +116,6 @@
         <button id="download" disabled>Download PDF</button>
         <br><br>
         <img id="imagePreview" />
-        
-        <!-- Position Controls for Image -->
-        <div class="position-controls">
-            <label for="xPosition">X Position:</label>
-            <input type="number" id="xPosition" value="50" />
-            <label for="yPosition">Y Position:</label>
-            <input type="number" id="yPosition" value="50" />
-        </div>
     </div>
 
     <script>
@@ -129,8 +123,6 @@
             const fileInput = document.getElementById('file-input');
             const downloadButton = document.getElementById('download');
             const imagePreview = document.getElementById('imagePreview');
-            const xPositionInput = document.getElementById('xPosition');
-            const yPositionInput = document.getElementById('yPosition');
 
             let uploadedImage = null;
 
@@ -146,9 +138,6 @@
                         imagePreview.style.display = 'block';
                         uploadedImage = event.target.result;
                         downloadButton.disabled = false;
-
-                        // Set initial position for the image
-                        updateImagePosition();
                     };
 
                     reader.readAsDataURL(file);
@@ -156,18 +145,6 @@
                     alert("Please upload a valid image.");
                 }
             });
-
-            // Update the image position based on X and Y inputs
-            function updateImagePosition() {
-                const xPosition = parseInt(xPositionInput.value);
-                const yPosition = parseInt(yPositionInput.value);
-                imagePreview.style.left = `${xPosition}px`;
-                imagePreview.style.top = `${yPosition}px`;
-            }
-
-            // Update the position when X or Y input is changed
-            xPositionInput.addEventListener('input', updateImagePosition);
-            yPositionInput.addEventListener('input', updateImagePosition);
 
             // Handle PDF generation and download
             downloadButton.addEventListener('click', function () {
