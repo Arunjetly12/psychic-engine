@@ -54,17 +54,13 @@
 
                     // Title text
                     const title = "My Image PDF";
-                    const fontSize = 16;  // You can adjust the font size
+                    const fontSize = 16;  // Font size for title
                     doc.setFontSize(fontSize);
 
-                    // Calculate the title's width and position to center it
+                    // Calculate the width of the title based on font size
                     const titleWidth = doc.getTextWidth(title);
-                    const titleX = (doc.internal.pageSize.width - titleWidth) / 2;
-                    const titleY = 20; // Position the title at the top
-
-                    // Log the title width and X position for debugging
-                    console.log('Title Width: ' + titleWidth);
-                    console.log('Title X Position: ' + titleX);
+                    const titleX = (doc.internal.pageSize.width - titleWidth) / 2; // Center the title horizontally
+                    const titleY = 20; // Position the title near the top of the page
 
                     // Add the title text centered
                     doc.text(title, titleX, titleY);
@@ -74,12 +70,8 @@
                     const imageHeight = 160; // Height of the image
 
                     // Calculate the image's x position to center it
-                    const imageX = (doc.internal.pageSize.width - imageWidth) / 2;
-                    const imageY = titleY + 10;  // Position the image just below the title
-
-                    // Log the image position for debugging
-                    console.log('Image X Position: ' + imageX);
-                    console.log('Image Y Position: ' + imageY);
+                    const imageX = (doc.internal.pageSize.width - imageWidth) / 2;  // Center the image horizontally
+                    const imageY = titleY + fontSize + 10; // Position the image below the title (with space)
 
                     // Add the image to the PDF with the centered position
                     doc.addImage(uploadedImage, 'JPEG', imageX, imageY, imageWidth, imageHeight);
