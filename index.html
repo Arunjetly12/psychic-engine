@@ -58,7 +58,7 @@
                     doc.setFontSize(fontSize);
 
                     // Calculate the title's width and position to center it
-                    const titleWidth = doc.getStringUnitWidth(title) * fontSize / 2;
+                    const titleWidth = doc.getTextWidth(title);
                     const titleX = (doc.internal.pageSize.width - titleWidth) / 2;
                     const titleY = 20; // Position the title at the top
 
