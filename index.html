@@ -34,51 +34,81 @@
     </script>
 </body>
 </html>
-const fileInput = document.getElementById('file');
-const convertBtn = document.getElementById('convert-btn');
-const makePdfBtn = document.getElementById('make-pdf-btn');
-const outputDiv = document.getElementById('output');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF File Upload and Conversion</title>
+    <style>
+        #error-message {
+            color: red;
+            font-weight: bold;
+        }
+        #pdf-controls {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>PDF File Upload and Conversion</h1>
 
-fileInput.addEventListener('change', () => {
-  const file = fileInput.files[0];
-  if (file) {
-    const fileType = file.type;
-    if (fileType === 'application/pdf') {
-      // PDF file selected
-      convertBtn.disabled = false;
-      makePdfBtn.disabled = false;
-    } else {
-      // Non-PDF file selected
-      convertBtn.disabled = true;
-      makePdfBtn.disabled = true;
-    }
-  } else {
-    // No file selected
-    convertBtn.disabled = true;
-    makePdfBtn.disabled = true;
-  }
-});
+    <!-- File Input -->
+    <input type="file" id="file-input" accept=".pdf" />
+    <p id="error-message"></p>
 
-convertBtn.addEventListener('click', () => {
-  const file = fileInput.files[0];
-  if (file) {
-    // TO DO: Add conversion logic here
-    outputDiv.innerText = 'Conversion in progress...';
-  } else {
-    outputDiv.innerText = 'No file selected';
-  }
-});
+    <!-- PDF Controls (Converted & Creation buttons) -->
+    <div id="pdf-controls">
+        <button id="convert-btn">Convert PDF</button>
+        <button id="create-pdf-btn">Create PDF</button>
+    </div>
 
-makePdfBtn.addEventListener('click', () => {
-  const file = fileInput.files[0];
-  if (file) {
-    // TO DO: Add PDF creation logic here
-    outputDiv.innerText = 'PDF creation in progress...';
-  } else {
-    outputDiv.innerText = 'No file selected';
-  }
-});
+    <script>
+        // DOM Elements
+        const fileInput = document.getElementById("file-input");
+        const errorMessage = document.getElementById("error-message");
+        const pdfControls = document.getElementById("pdf-controls");
+        const convertBtn = document.getElementById("convert-btn");
+        const createPdfBtn = document.getElementById("create-pdf-btn");
 
+        // Event listener for file input change
+        fileInput.addEventListener("change", handleFileSelection);
 
+        // Handle file selection
+        function handleFileSelection(event) {
+            const file = event.target.files[0];
 
+            // Reset previous error message and controls
+            errorMessage.textContent = '';
+            pdfControls.style.display = 'none';
+
+            // Check if the selected file is a PDF
+            if (file && file.type === 'application/pdf') {
+                // Enable PDF controls (buttons)
+                pdfControls.style.display = 'block';
+
+                // Event listeners for the buttons
+                convertBtn.addEventListener("click", handleConvertPdf);
+                createPdfBtn.addEventListener("click", handleCreatePdf);
+            } else {
+                // Display error message if not a PDF
+                errorMessage.textContent = "Please select a valid PDF file.";
+                pdfControls.style.display = 'none';
+            }
+        }
+
+        // Placeholder for PDF conversion logic
+        function handleConvertPdf() {
+            alert("Convert PDF functionality will be implemented here.");
+            // Add conversion logic here (e.g., converting to another format)
+        }
+
+        // Placeholder for PDF creation logic
+        function handleCreatePdf() {
+            alert("Create PDF functionality will be implemented here.");
+            // Add PDF creation logic here (e.g., creating a new PDF from text or other content)
+        }
+    </script>
+</body>
+</html>
 
