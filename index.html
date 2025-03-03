@@ -62,16 +62,24 @@
                     const titleX = (doc.internal.pageSize.width - titleWidth) / 2;
                     const titleY = 20; // Position the title at the top
 
+                    // Log the title width and X position for debugging
+                    console.log('Title Width: ' + titleWidth);
+                    console.log('Title X Position: ' + titleX);
+
                     // Add the title text centered
                     doc.text(title, titleX, titleY);
 
-                    // Customize the image position and size on the PDF
+                    // Image size
                     const imageWidth = 180;  // Width of the image
                     const imageHeight = 160; // Height of the image
 
                     // Calculate the image's x position to center it
                     const imageX = (doc.internal.pageSize.width - imageWidth) / 2;
-                    const imageY = 40;  // Position the image below the title
+                    const imageY = titleY + 10;  // Position the image just below the title
+
+                    // Log the image position for debugging
+                    console.log('Image X Position: ' + imageX);
+                    console.log('Image Y Position: ' + imageY);
 
                     // Add the image to the PDF with the centered position
                     doc.addImage(uploadedImage, 'JPEG', imageX, imageY, imageWidth, imageHeight);
