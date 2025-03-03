@@ -72,3 +72,75 @@
     </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image to PDF Converter</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <h1>Image to PDF Converter</h1>
+
+    <input type="file" id="upload" accept="image/*" />
+    <br><br>
+
+    <button id="download" disabled>Download PDF</button>
+
+    <br><br>
+
+    <img id="imagePreview" style="max-width: 100%; height: auto; display: none;" />
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const uploadButton = document.getElementById('upload');
+            const downloadButton = document.getElementById('download');
+            const imagePreview = document.getElementById('imagePreview');
+
+            let uploadedImage = null;
+
+            // Handle image upload
+            uploadButton.addEventListener('change', function (e) {
+                const file = e.target.files[0];
+
+                if (file && file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+
+                    reader.onload = function (event) {
+                        imagePreview.src = event.target.result;
+                        imagePreview.style.display = 'block';
+                        uploadedImage = event.target.result;
+                        downloadButton.disabled = false;
+                    };
+
+                    reader.readAsDataURL(file);
+                } else {
+                    alert("Please upload a valid image.");
+                }
+            });
+
+            // Handle PDF generation and download
+            downloadButton.addEventListener('click', function () {
+                if (uploadedImage) {
+                    const { jsPDF } = window.jspdf;
+                    const doc = new jsPDF();
+
+                    // Customize the image position and size on the PDF
+                    const x = 20;  // Horizontal position (left margin)
+                    const y = 30;  // Vertical position (top margin)
+                    const width = 180;  // Width of the image
+                    const height = 160; // Height of the image
+
+                    // Add the image to the PDF with the adjusted position and size
+                    doc.addImage(uploadedImage, 'JPEG', x, y, width, height);
+
+                    // Save the PDF with the adjusted image position and size
+                    doc.save('generated.pdf');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
