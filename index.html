@@ -40,14 +40,17 @@
         /* Button Styling */
         #upload, #download {
             margin: 10px;
-            padding: 10px 20px;
-            font-size: 16px;
+            padding: 15px 30px; /* Increase padding for larger button */
+            font-size: 18px; /* Increase font size for larger text */
             cursor: pointer;
-            border: 1px solid #6A0DAD; /* Dark violet border */
+            border: 2px solid #6A0DAD; /* Dark violet border */
             border-radius: 5px;
             background-color: #6A0DAD; /* Dark violet background */
             color: white; /* White text */
             transition: background-color 0.3s ease;
+            display: inline-block;
+            width: 100%; /* Make the button fill the available width */
+            max-width: 300px; /* Limit max width */
         }
 
         /* Button Hover Effect */
@@ -65,14 +68,16 @@
 
         /* Custom file input button styling */
         #upload {
-            font-size: 16px;
+            font-size: 18px; /* Larger font size */
             cursor: pointer;
             border: 2px solid #6A0DAD; /* Border color same as buttons */
             background-color: #6A0DAD;
             color: white;
-            padding: 10px 20px;
+            padding: 15px 30px; /* Larger padding for bigger button */
             border-radius: 5px;
             display: inline-block;
+            width: 100%; /* Full width for the button */
+            max-width: 300px; /* Limit max width */
         }
 
         /* Hide default file input button */
