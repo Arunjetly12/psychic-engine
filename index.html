@@ -24,3 +24,50 @@
     <script src="app.js"></script>
 </body>
 </html>
+// Wait for the document to be loaded
+document.addEventListener('DOMContentLoaded', function () {
+    const uploadButton = document.getElementById('upload');
+    const downloadButton = document.getElementById('download');
+    const imagePreview = document.getElementById('imagePreview');
+
+    let uploadedImage = null;
+
+    // Handle image upload
+    uploadButton.addEventListener('change', function (e) {
+        const file = e.target.files[0];
+
+        // Check if the file is an image
+        if (file && file.type.startsWith('image/')) {
+            const reader = new FileReader();
+
+            reader.onload = function (event) {
+                // Create a preview of the image
+                imagePreview.src = event.target.result;
+                imagePreview.style.display = 'block';
+                uploadedImage = event.target.result;
+
+                // Enable the download button
+                downloadButton.disabled = false;
+            };
+
+            reader.readAsDataURL(file);
+        } else {
+            alert("Please upload a valid image.");
+        }
+    });
+
+    // Handle PDF generation and download
+    downloadButton.addEventListener('click', function () {
+        if (uploadedImage) {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            // Add the image to the PDF
+            doc.addImage(uploadedImage, 'JPEG', 10, 10, 180, 160); // Adjust dimensions as needed
+
+            // Save the PDF
+            doc.save('generated.pdf');
+        }
+    });
+});
+
