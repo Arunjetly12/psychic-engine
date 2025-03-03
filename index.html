@@ -18,8 +18,7 @@
             font-family: cursive;
             background-color: #8585b9; /* Light grey background */
         }
-
-        /* Container Style */
+        /* Center all elements in the page */
         .container {
             text-align: center;
             padding: 20px;
@@ -53,12 +52,18 @@
             max-width: 300px; /* Limit max width */
         }
 
+        /* Button Hover Effect */
+        #upload:hover, #download:hover {
+            background-color: #5c0a98; /* Darker violet on hover */
+        }
+
         /* Image preview */
         #imagePreview {
             max-width: 100%;
             height: auto;
             display: none;
-            position: absolute; /* Absolute position to move the image freely */
+            margin-top: 10px;
+            position: absolute;
         }
 
         /* Custom file input button styling */
@@ -85,6 +90,15 @@
             background-color: #5c0a98;
         }
 
+        .position-controls {
+            margin-top: 20px;
+        }
+
+        .position-controls input {
+            width: 100px;
+            margin: 5px;
+        }
+
     </style>
 </head>
 <body>
@@ -99,20 +113,15 @@
         <br><br>
         <button id="download" disabled>Download PDF</button>
         <br><br>
-
-        <!-- Image preview -->
         <img id="imagePreview" />
-
-        <!-- Controls for image position -->
-        <div>
-            <label for="x-position">X Position: </label>
-            <input type="number" id="x-position" value="50">
+        
+        <!-- Position Controls for Image -->
+        <div class="position-controls">
+            <label for="xPosition">X Position:</label>
+            <input type="number" id="xPosition" value="50" />
+            <label for="yPosition">Y Position:</label>
+            <input type="number" id="yPosition" value="50" />
         </div>
-        <div>
-            <label for="y-position">Y Position: </label>
-            <input type="number" id="y-position" value="50">
-        </div>
-
     </div>
 
     <script>
@@ -120,6 +129,8 @@
             const fileInput = document.getElementById('file-input');
             const downloadButton = document.getElementById('download');
             const imagePreview = document.getElementById('imagePreview');
+            const xPositionInput = document.getElementById('xPosition');
+            const yPositionInput = document.getElementById('yPosition');
 
             let uploadedImage = null;
 
@@ -135,6 +146,9 @@
                         imagePreview.style.display = 'block';
                         uploadedImage = event.target.result;
                         downloadButton.disabled = false;
+
+                        // Set initial position for the image
+                        updateImagePosition();
                     };
 
                     reader.readAsDataURL(file);
@@ -143,16 +157,17 @@
                 }
             });
 
-            // Adjust image preview position based on input fields
-            document.getElementById('x-position').addEventListener('input', function() {
-                const xPosition = parseInt(this.value);
-                imagePreview.style.left = xPosition + 'px';
-            });
+            // Update the image position based on X and Y inputs
+            function updateImagePosition() {
+                const xPosition = parseInt(xPositionInput.value);
+                const yPosition = parseInt(yPositionInput.value);
+                imagePreview.style.left = `${xPosition}px`;
+                imagePreview.style.top = `${yPosition}px`;
+            }
 
-            document.getElementById('y-position').addEventListener('input', function() {
-                const yPosition = parseInt(this.value);
-                imagePreview.style.top = yPosition + 'px';
-            });
+            // Update the position when X or Y input is changed
+            xPositionInput.addEventListener('input', updateImagePosition);
+            yPositionInput.addEventListener('input', updateImagePosition);
 
             // Handle PDF generation and download
             downloadButton.addEventListener('click', function () {
@@ -177,17 +192,17 @@
                     const imageWidth = 180;  // Width of the image
                     const imageHeight = 160; // Height of the image
 
-                    // Add the image to the PDF with the adjusted position
-                    const xPosition = parseInt(document.getElementById('x-position').value);
-                    const yPosition = parseInt(document.getElementById('y-position').value);
+                    // Calculate the image's x position to center it
+                    const imageX = (doc.internal.pageSize.width - imageWidth) / 2;  // Center the image horizontally
+                    const imageY = titleY + fontSize + 10; // Position the image below the title (with space)
 
-                    doc.addImage(uploadedImage, 'JPEG', xPosition, yPosition, imageWidth, imageHeight);
+                    // Add the image to the PDF with the centered position
+                    doc.addImage(uploadedImage, 'JPEG', imageX, imageY, imageWidth, imageHeight);
 
                     // Save the PDF with the centered title and image
                     doc.save('generated.pdf');
                 }
             });
-
         });
     </script>
 
