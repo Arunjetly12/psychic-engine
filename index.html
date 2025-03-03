@@ -22,5 +22,47 @@
     <script src="script.js"></script>
 </body>
 </html>
+document.getElementById("generatePdfBtn").addEventListener("click", function() {
+    const fileInput = document.getElementById("fileInput");
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+
+    if (fileInput.files.length === 0) {
+        alert("Please select an image to upload.");
+        return;
+    }
+
+    const file = fileInput.files[0];
+    const reader = new FileReader();
+
+    reader.onload = function(e) {
+        const img = new Image();
+        img.src = e.target.result;
+
+        img.onload = function() {
+            // Set canvas size based on image
+            canvas.width = img.width;
+            canvas.height = img.height;
+
+            // Draw the image on canvas
+            ctx.drawImage(img, 0, 0);
+
+            // Convert canvas to image data URL
+            const imageData = canvas.toDataURL("image/png");
+
+            // Create PDF using jsPDF
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF();
+
+            // Add the image to PDF
+            pdf.addImage(imageData, "PNG", 10, 10, img.width / 5, img.height / 5); // Adjust size as necessary
+
+            // Save the PDF
+            pdf.save("image.pdf");
+        };
+    };
+
+    reader.readAsDataURL(file);
+});
 
   
