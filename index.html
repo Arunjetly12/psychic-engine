@@ -18,6 +18,19 @@
             background-color: #8585b9;
         }
 
+        /* Logo to top-left corner */
+        #logo {
+            width: 120px;
+            height: auto;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            border: 3px solid #6A0DAD;
+            border-radius: 10px;
+            padding: 5px;
+            background-color: white;
+        }
+
         .container {
             text-align: center;
             padding: 20px;
@@ -95,21 +108,14 @@
         input[type="file"] {
             display: none;
         }
-
-        #logo {
-            width: 200px;
-            height: auto;
-            display: block;
-            margin: 0 auto;
-            margin-bottom: 20px;
-        }
     </style>
 </head>
 <body>
 
+    <!-- Logo moved out of container -->
+    <img src="https://i.postimg.cc/zvJ9FSsX/8004204-removebg-preview.png" alt="Website Logo" id="logo" />
+
     <div class="container">
-        <!-- Logo -->
-        <img src="https://i.postimg.cc/zvJ9FSsX/8004204-removebg-preview.png" alt="Website Logo" id="logo" />
 
         <h1>Image to PDF Converter</h1>
 
@@ -131,7 +137,6 @@
 
             let uploadedImage = null;
 
-            // Handle image upload
             fileInput.addEventListener('change', function (e) {
                 const file = e.target.files[0];
 
@@ -150,7 +155,6 @@
                 }
             });
 
-            // Handle PDF generation and download
             downloadButton.addEventListener('click', function () {
                 if (uploadedImage) {
                     const { jsPDF } = window.jspdf;
