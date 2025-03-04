@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Image to PDF Converter</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    
-    <!-- ✅ Add Lato font -->
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <!-- Poppins Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
     <style>
         body, html {
@@ -18,7 +18,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            font-family: 'Lato', sans-serif;
+            font-family: 'Poppins', sans-serif;
             background-color: #8585b9;
         }
 
@@ -41,7 +41,7 @@
             background-color: #ffffff;
             border-radius: 8px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            width: 400%;
+            width: 90%;
             max-width: 1000px;
         }
 
@@ -101,22 +101,44 @@
         }
 
         #imagePreview {
-            size: auto;
             max-width: 50%;
             height: auto;
             display: inline-block;
             margin-top: 10px;
-            margin-left: 285px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         input[type="file"] {
             display: none;
         }
+
+        @media (max-width: 768px) {
+            #imagePreview {
+                max-width: 100%;
+                margin-left: 0;
+            }
+
+            #logo {
+                width: 100px;
+                top: 10px;
+                left: 10px;
+            }
+
+            h1 {
+                font-size: 20px;
+            }
+
+            #upload, #download {
+                font-size: 16px;
+                padding: 12px 25px;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <!-- Logo moved out of container -->
+    <!-- Logo -->
     <img src="https://i.postimg.cc/zvJ9FSsX/8004204-removebg-preview.png" alt="Website Logo" id="logo" />
 
     <div class="container">
@@ -162,26 +184,32 @@
             downloadButton.addEventListener('click', function () {
                 if (uploadedImage) {
                     const { jsPDF } = window.jspdf;
-                    const doc = new jsPDF();
+                    const doc = new jsPDF({
+                        orientation: 'portrait',
+                        unit: 'px',
+                        format: 'a4'
+                    });
 
-                    const title = "My Image PDF";
-                    const fontSize = 16;
-                    doc.setFontSize(fontSize);
+                    const img = new Image();
+                    img.src = uploadedImage;
 
-                    const titleWidth = doc.getTextWidth(title);
-                    const titleX = (doc.internal.pageSize.width - titleWidth) / 2;
-                    const titleY = 20;
+                    img.onload = function () {
+                        const imgWidth = img.width;
+                        const imgHeight = img.height;
 
-                    doc.text(title, titleX, titleY);
+                        const pageWidth = doc.internal.pageSize.getWidth();
+                        const pageHeight = doc.internal.pageSize.getHeight();
 
-                    const imageWidth = 180;
-                    const imageHeight = 160;
-                    const imageX = (doc.internal.pageSize.width - imageWidth) / 2;
-                    const imageY = titleY + fontSize + 10;
+                        let ratio = Math.min(pageWidth / imgWidth, pageHeight / imgHeight);
+                        let newWidth = imgWidth * ratio;
+                        let newHeight = imgHeight * ratio;
 
-                    doc.addImage(uploadedImage, 'JPEG', imageX, imageY, imageWidth, imageHeight);
+                        const x = (pageWidth - newWidth) / 2;
+                        const y = (pageHeight - newHeight) / 2;
 
-                    doc.save('generated.pdf');
+                        doc.addImage(uploadedImage, 'JPEG', x, y, newWidth, newHeight);
+                        doc.save('generated.pdf');
+                    };
                 } else {
                     alert("Please upload an image first.");
                 }
