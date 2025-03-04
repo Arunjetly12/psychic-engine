@@ -12,88 +12,107 @@
             padding: 0;
             height: 100%;
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #5a189a, #240046);
-            overflow: visible;
+            background: linear-gradient(135deg, #5b2a82, #af58d0, #5b2a82);
+            background-size: 400% 400%;
+            animation: gradientFlow 15s ease infinite;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
-        #backgroundShapes {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            overflow: hidden;
-            z-index: -1;
-        }
-
-        .shape {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.08);
-            animation: float 20s infinite ease-in-out;
-        }
-
-        @keyframes float {
-            0% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-50px) rotate(180deg); }
-            100% { transform: translateY(0) rotate(360deg); }
+        @keyframes gradientFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         #logo {
             width: 120px;
+            height: auto;
             position: absolute;
             top: 20px;
             left: 20px;
-            border: 2px solid #fff;
+            border: 3px solid #6A0DAD;
             border-radius: 10px;
             padding: 5px;
-            background-color: rgba(255, 255, 255, 0.1);
+            background-color: white;
         }
 
         .container {
             text-align: center;
             padding: 20px;
             background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
             border-radius: 12px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-            width: 90%;
+            width: 150%;
             max-width: 500px;
-            margin: 100px auto;
-            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         h1 {
             font-size: 24px;
-            color: #fff;
+            color: #ffffff;
             margin-bottom: 20px;
         }
 
         #upload, #download {
-            margin: 15px;
+            margin: 13px;
             padding: 15px 30px;
             font-size: 18px;
             cursor: pointer;
-            border: none;
-            border-radius: 8px;
-            background: linear-gradient(135deg, #9d4edd, #7b2cbf);
-            color: #fff;
-            transition: transform 0.3s, box-shadow 0.3s;
-            width: 80%;
+            border: 2px solid #ffffff;
+            border-radius: 5px;
+            background-color: #8e44ad;
+            color: white;
+            transition: background-color 0.3s ease;
+            width: 70%;
             max-width: 300px;
         }
 
         #upload:hover, #download:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+            background-color: #732d91;
+        }
+
+        #upload {
+            position: relative;
+            z-index: 1;
+        }
+
+        #upload::before {
+            content: '';
+            position: absolute;
+            top: -6px;
+            left: -6px;
+            right: -6px;
+            bottom: -6px;
+            border-radius: 10px;
+            background: linear-gradient(257deg, #ff00ff, #00ffff, #ff00ff, #00ffff);
+            background-size: 400%;
+            z-index: -1;
+            filter: blur(9px);
+            animation: neonMove 14s linear infinite;
+        }
+
+        @keyframes neonMove {
+            0% {
+                background-position: 0% 50%;
+            }
+            100% {
+                background-position: 400% 50%;
+            }
         }
 
         #imagePreview {
-            max-width: 80%;
-            margin-top: 20px;
-            display: none;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            max-width: 50%;
+            height: auto;
+            display: inline-block;
+            margin-top: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
 
         input[type="file"] {
@@ -101,68 +120,78 @@
         }
 
         @media (max-width: 768px) {
+            #upload, #download {
+                padding: 10px 20px;
+                font-size: 16px;
+                max-width: 200px;
+            }
+
+            #imagePreview {
+                max-width: 90%;
+                margin: 10px auto;
+            }
+
+            .container {
+                padding: 15px;
+                width: 95%;
+            }
+
             #logo {
                 width: 80px;
                 top: 10px;
                 left: 10px;
-            }
-
-            h1 {
-                font-size: 20px;
-            }
-
-            #upload, #download {
-                padding: 12px 20px;
-                font-size: 16px;
-                max-width: 250px;
             }
         }
     </style>
 </head>
 <body>
 
-    <div id="backgroundShapes"></div>
-
     <img src="https://i.postimg.cc/zvJ9FSsX/8004204-removebg-preview.png" alt="Website Logo" id="logo" />
 
     <div class="container">
+
         <h1>Image to PDF Converter</h1>
 
         <label for="file-input" id="upload">Choose File</label>
         <input type="file" id="file-input" accept="image/*" />
-
+        
+        <br><br>
         <button id="download">Download PDF</button>
-
+        <br><br>
         <img id="imagePreview" />
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', function () {
             const fileInput = document.getElementById('file-input');
             const downloadButton = document.getElementById('download');
             const imagePreview = document.getElementById('imagePreview');
+
             let uploadedImage = null;
 
-            fileInput.addEventListener('change', (e) => {
+            fileInput.addEventListener('change', function (e) {
                 const file = e.target.files[0];
+
                 if (file && file.type.startsWith('image/')) {
                     const reader = new FileReader();
-                    reader.onload = (event) => {
+
+                    reader.onload = function (event) {
                         imagePreview.src = event.target.result;
                         imagePreview.style.display = 'block';
                         uploadedImage = event.target.result;
                     };
+
                     reader.readAsDataURL(file);
                 } else {
                     alert("Please upload a valid image.");
                 }
             });
 
-            downloadButton.addEventListener('click', () => {
+            downloadButton.addEventListener('click', function () {
                 if (uploadedImage) {
                     const { jsPDF } = window.jspdf;
                     const img = new Image();
-                    img.onload = () => {
+                    img.onload = function () {
                         const pdf = new jsPDF({
                             orientation: img.width > img.height ? 'landscape' : 'portrait',
                             unit: 'px',
@@ -176,20 +205,6 @@
                     alert("Please upload an image first.");
                 }
             });
-
-            // Generate floating shapes
-            const shapeContainer = document.getElementById('backgroundShapes');
-            for (let i = 0; i < 20; i++) {
-                const shape = document.createElement('div');
-                shape.classList.add('shape');
-                const size = Math.random() * 120 + 30;
-                shape.style.width = `${size}px`;
-                shape.style.height = `${size}px`;
-                shape.style.top = `${Math.random() * 100}%`;
-                shape.style.left = `${Math.random() * 100}%`;
-                shape.style.animationDuration = `${15 + Math.random() * 10}s`;
-                shapeContainer.appendChild(shape);
-            }
         });
     </script>
 
