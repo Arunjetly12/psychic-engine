@@ -5,10 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Image to PDF Converter</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
-    <!-- Poppins Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-
+    <!-- Poppins font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
         body, html {
             margin: 0;
@@ -41,7 +39,7 @@
             background-color: #ffffff;
             border-radius: 8px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            width: 90%;
+            width: 400%;
             max-width: 1000px;
         }
 
@@ -49,6 +47,7 @@
             font-size: 24px;
             color: #6A0DAD;
             margin-bottom: 20px;
+            font-family: 'Poppins', sans-serif;
         }
 
         #upload, #download {
@@ -64,6 +63,7 @@
             display: inline-block;
             width: 100%;
             max-width: 300px;
+            font-family: 'Poppins', sans-serif;
         }
 
         #upload:hover, #download:hover {
@@ -101,44 +101,22 @@
         }
 
         #imagePreview {
+            size: auto;
             max-width: 50%;
             height: auto;
             display: inline-block;
             margin-top: 10px;
-            margin-left: auto;
-            margin-right: auto;
+            margin-left: 285px;
         }
 
         input[type="file"] {
             display: none;
         }
-
-        @media (max-width: 768px) {
-            #imagePreview {
-                max-width: 100%;
-                margin-left: 0;
-            }
-
-            #logo {
-                width: 100px;
-                top: 10px;
-                left: 10px;
-            }
-
-            h1 {
-                font-size: 20px;
-            }
-
-            #upload, #download {
-                font-size: 16px;
-                padding: 12px 25px;
-            }
-        }
     </style>
 </head>
 <body>
 
-    <!-- Logo -->
+    <!-- Logo moved out of container -->
     <img src="https://i.postimg.cc/zvJ9FSsX/8004204-removebg-preview.png" alt="Website Logo" id="logo" />
 
     <div class="container">
@@ -184,32 +162,15 @@
             downloadButton.addEventListener('click', function () {
                 if (uploadedImage) {
                     const { jsPDF } = window.jspdf;
-                    const doc = new jsPDF({
-                        orientation: 'portrait',
-                        unit: 'px',
-                        format: 'a4'
-                    });
+                    const doc = new jsPDF();
 
-                    const img = new Image();
-                    img.src = uploadedImage;
+                    const imgProps = doc.getImageProperties(uploadedImage);
+                    const pdfWidth = doc.internal.pageSize.getWidth();
+                    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
 
-                    img.onload = function () {
-                        const imgWidth = img.width;
-                        const imgHeight = img.height;
+                    doc.addImage(uploadedImage, 'JPEG', 0, 0, pdfWidth, pdfHeight);
 
-                        const pageWidth = doc.internal.pageSize.getWidth();
-                        const pageHeight = doc.internal.pageSize.getHeight();
-
-                        let ratio = Math.min(pageWidth / imgWidth, pageHeight / imgHeight);
-                        let newWidth = imgWidth * ratio;
-                        let newHeight = imgHeight * ratio;
-
-                        const x = (pageWidth - newWidth) / 2;
-                        const y = (pageHeight - newHeight) / 2;
-
-                        doc.addImage(uploadedImage, 'JPEG', x, y, newWidth, newHeight);
-                        doc.save('generated.pdf');
-                    };
+                    doc.save('generated.pdf');
                 } else {
                     alert("Please upload an image first.");
                 }
