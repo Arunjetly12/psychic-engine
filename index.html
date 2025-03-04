@@ -16,7 +16,7 @@
             justify-content: center;
             align-items: center;
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #FF9A8B, #FF6A88, #FF99AC);
+            background: linear-gradient(135deg, #6a00f4, #9b4dff, #d299ff);
         }
 
         #logo {
@@ -25,7 +25,7 @@
             position: absolute;
             top: 20px;
             left: 20px;
-            border: 3px solid #FF6A88;
+            border: 3px solid #8a2be2;
             border-radius: 10px;
             padding: 5px;
             background-color: white;
@@ -34,9 +34,9 @@
         .container {
             text-align: center;
             padding: 20px;
-            background-color: rgba(255, 255, 255, 0.9);
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
             width: 150%;
             max-width: 500px;
             display: flex;
@@ -45,8 +45,8 @@
         }
 
         h1 {
-            font-size: 24px;
-            color: #FF6A88;
+            font-size: 26px;
+            color: #6a00f4;
             margin-bottom: 20px;
         }
 
@@ -55,19 +55,19 @@
             padding: 15px 30px;
             font-size: 18px;
             cursor: pointer;
-            border: 2px solid #FF6A88;
-            border-radius: 5px;
-            background: linear-gradient(135deg, #FF6A88, #FF99AC);
+            border: 2px solid #8a2be2;
+            border-radius: 8px;
+            background-color: #8a2be2;
             color: white;
-            transition: transform 0.3s ease, background-color 0.3s ease;
+            transition: background-color 0.3s ease, transform 0.2s ease;
             display: inline-block;
             width: 70%;
             max-width: 300px;
         }
 
         #upload:hover, #download:hover {
-            transform: translateY(-3px);
-            background-color: #FF5A78;
+            background-color: #6a00f4;
+            transform: translateY(-2px);
         }
 
         #upload {
@@ -83,20 +83,16 @@
             right: -6px;
             bottom: -6px;
             border-radius: 10px;
-            background: linear-gradient(257deg, #FF6A88, #FFD1DC, #FF6A88, #FFD1DC);
+            background: linear-gradient(257deg, #d299ff, #8a2be2, #d299ff, #8a2be2);
             background-size: 400%;
             z-index: -1;
-            filter: blur(9px);
-            animation: neonMove 12s linear infinite;
+            filter: blur(8px);
+            animation: neonGlow 12s linear infinite;
         }
 
-        @keyframes neonMove {
-            0% {
-                background-position: 0% 50%;
-            }
-            100% {
-                background-position: 400% 50%;
-            }
+        @keyframes neonGlow {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 400% 50%; }
         }
 
         #imagePreview {
