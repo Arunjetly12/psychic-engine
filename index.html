@@ -47,28 +47,31 @@
             display: inline-block;
             width: 100%;
             max-width: 300px;
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
         }
 
         #upload:hover, #download:hover {
             background-color: #5c0a98;
         }
 
-        #upload::before, #download::before {
+        /* Neon Border Effect only for Choose File button */
+        #upload {
+            position: relative;
+            z-index: 1;
+        }
+
+        #upload::before {
             content: '';
             position: absolute;
-            top: -5px;
-            left: -5px;
-            right: -5px;
-            bottom: -5px;
+            top: -6px;
+            left: -6px;
+            right: -6px;
+            bottom: -6px;
+            border-radius: 10px;
             background: linear-gradient(45deg, #ff00ff, #00ffff, #ff00ff, #00ffff);
             background-size: 400%;
             z-index: -1;
-            filter: blur(12px);
+            filter: blur(15px);
             animation: neonMove 4s linear infinite;
-            border-radius: 8px;
         }
 
         @keyframes neonMove {
@@ -115,7 +118,6 @@
         <input type="file" id="file-input" accept="image/*" />
         
         <br><br>
-        <!-- Download button (enabled to see the effect) -->
         <button id="download">Download PDF</button>
         <br><br>
         <img id="imagePreview" />
