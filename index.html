@@ -6,7 +6,6 @@
     <title>Image to PDF Converter</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
-        /* Ensure full height for centering */
         body, html {
             margin: 0;
             padding: 0;
@@ -48,58 +47,16 @@
             display: inline-block;
             width: 100%;
             max-width: 300px;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
         }
 
         #upload:hover, #download:hover {
             background-color: #5c0a98;
         }
 
-        #imagePreview {
-            size: auto;
-            max-width: 50%;
-            height: auto;
-            display: inline-block;
-            margin-top: 10px;
-            margin-left: 285px;
-        }
-
-        #upload {
-            font-size: 18px;
-            cursor: pointer;
-            border: 2px solid #6A0DAD;
-            background-color: #6A0DAD;
-            color: white;
-            padding: 15px 30px;
-            border-radius: 5px;
-            display: inline-block;
-            width: 100%;
-            max-width: 300px;
-        }
-
-        input[type="file"] {
-            display: none;
-        }
-
-        #upload:hover {
-            background-color: #5c0a98;
-        }
-
-        #logo {
-            width: 200px;
-            height: auto;
-            display: block;
-            margin: 0 auto;
-            margin-bottom: 20px;
-        }
-
-        /* Neon Moving Light Effect */
-        #download {
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
-        }
-
-        #download::before {
+        #upload::before, #download::before {
             content: '';
             position: absolute;
             top: -5px;
@@ -122,6 +79,27 @@
                 background-position: 400% 50%;
             }
         }
+
+        #imagePreview {
+            size: auto;
+            max-width: 50%;
+            height: auto;
+            display: inline-block;
+            margin-top: 10px;
+            margin-left: 285px;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        #logo {
+            width: 200px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
@@ -137,7 +115,7 @@
         <input type="file" id="file-input" accept="image/*" />
         
         <br><br>
-        <!-- Removed disabled from button -->
+        <!-- Download button (enabled to see the effect) -->
         <button id="download">Download PDF</button>
         <br><br>
         <img id="imagePreview" />
