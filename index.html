@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Image to PDF Converter</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
     <style>
         body, html {
             margin: 0;
@@ -15,7 +15,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            font-family: 'Dancing Script', cursive;
+            font-family: 'Lato', sans-serif;
             background-color: #8585b9;
         }
 
@@ -26,8 +26,7 @@
             border-radius: 8px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             width: 100%;
-            max-width: 500px;
-            box-sizing: border-box;
+            max-width: 1000px;
         }
 
         h1 {
@@ -76,40 +75,86 @@
         }
 
         @keyframes neonMove {
-            0% { background-position: 0% 50%; }
-            100% { background-position: 400% 50%; }
-        }
-
-        #logo {
-            width: 100px;
-            height: auto;
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            border: 2px solid #6A0DAD;
-            padding: 5px;
-            border-radius: 8px;
-            background-color: white;
+            0% {
+                background-position: 0% 50%;
+            }
+            100% {
+                background-position: 400% 50%;
+            }
         }
 
         #imagePreview {
             size: auto;
             max-width: 100%;
             height: auto;
-            display: block;
+            display: inline-block;
             margin-top: 10px;
-            margin-left: auto;
-            margin-right: auto;
         }
 
         input[type="file"] {
             display: none;
         }
 
-        /* Responsive adjustments */
+        #logo {
+            width: 120px;
+            height: auto;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            border: 3px solid #6A0DAD;
+            border-radius: 10px;
+            padding: 5px;
+        }
+
+        /* Neon Pulse Dots Loader */
+        .loader {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .loader span {
+            width: 15px;
+            height: 15px;
+            margin: 0 5px;
+            background: #6A0DAD;
+            border-radius: 50%;
+            animation: pulse 0.6s infinite alternate;
+        }
+
+        .loader span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .loader span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes pulse {
+            from {
+                opacity: 1;
+                transform: scale(1);
+            }
+            to {
+                opacity: 0.3;
+                transform: scale(1.3);
+            }
+        }
+
         @media (max-width: 768px) {
+            .container {
+                width: 90%;
+                padding: 15px;
+            }
+
             h1 {
                 font-size: 20px;
+            }
+
+            #logo {
+                width: 100px;
+                top: 10px;
+                left: 10px;
             }
 
             #upload, #download {
@@ -121,11 +166,13 @@
 </head>
 <body>
 
+    <!-- Logo -->
     <img src="https://i.postimg.cc/zvJ9FSsX/8004204-removebg-preview.png" alt="Website Logo" id="logo" />
 
     <div class="container">
         <h1>Image to PDF Converter</h1>
 
+        <!-- Custom File Input Button -->
         <label for="file-input" id="upload">Choose File</label>
         <input type="file" id="file-input" accept="image/*" />
         
@@ -133,6 +180,11 @@
         <button id="download">Download PDF</button>
         <br><br>
         <img id="imagePreview" />
+        <div class="loader">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
     </div>
 
     <script>
@@ -164,14 +216,17 @@
             downloadButton.addEventListener('click', function () {
                 if (uploadedImage) {
                     const { jsPDF } = window.jspdf;
-                    const doc = new jsPDF();
-
-                    const imgProps = doc.getImageProperties(uploadedImage);
-                    const pdfWidth = doc.internal.pageSize.getWidth();
-                    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-
-                    doc.addImage(uploadedImage, 'JPEG', 0, 0, pdfWidth, pdfHeight);
-                    doc.save('generated.pdf');
+                    const img = new Image();
+                    img.onload = function() {
+                        const doc = new jsPDF({
+                            orientation: img.width > img.height ? 'landscape' : 'portrait',
+                            unit: 'px',
+                            format: [img.width, img.height]
+                        });
+                        doc.addImage(uploadedImage, 'JPEG', 0, 0, img.width, img.height);
+                        doc.save('generated.pdf');
+                    };
+                    img.src = uploadedImage;
                 } else {
                     alert("Please upload an image first.");
                 }
