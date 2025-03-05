@@ -50,7 +50,6 @@
             z-index: 998;
             display: flex;
             align-items: center;
-            justify-content: flex-start;
             padding-left: 150px;
             gap: 15px;
         }
@@ -65,6 +64,7 @@
             color: #fff;
             cursor: pointer;
             transition: all 0.3s ease;
+            text-decoration: none;
         }
 
         .nav-button:hover {
@@ -208,7 +208,7 @@
 
             #navbar {
                 height: 50px;
-                padding-left: 110px;
+                padding-left: 100px;
             }
         }
     </style>
@@ -217,8 +217,8 @@
 <body>
 
     <div id="navbar">
-        <button class="nav-button">Image to PDF</button>
-        <button class="nav-button">Word to PDF</button>
+        <a href="index.html" class="nav-button">Image to PDF</a>
+        <a href="word-to-pdf.html" class="nav-button">Word to PDF</a>
     </div>
 
     <img src="https://i.postimg.cc/zvJ9FSsX/8004204-removebg-preview.png" alt="Website Logo" id="logo" />
