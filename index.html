@@ -10,14 +10,16 @@
         body, html {
             margin: 0;
             padding: 0;
-            height: 100%;
+            min-height: 100vh;
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(135deg, #5b2a82, #af58d0, #5b2a82);
             background-size: 400% 400%;
             animation: gradientFlow 15s ease infinite;
             display: flex;
             flex-direction: column;
+            justify-content: center;
             align-items: center;
+            overflow-y: auto;
         }
 
         @keyframes gradientFlow {
@@ -26,38 +28,11 @@
             100% { background-position: 0% 50%; }
         }
 
-        nav {
-            width: 100%;
-            background-color: rgba(75, 0, 130, 0.9);
-            padding: 10px;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 10;
-        }
-
-        nav button {
-            padding: 10px 20px;
-            font-size: 16px;
-            border: none;
-            border-radius: 5px;
-            background-color: #7a3ea1;
-            color: white;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        nav button:hover {
-            background-color: #6a2c8e;
-        }
-
         #logo {
             width: 120px;
+            height: auto;
             position: absolute;
-            top: 70px;
+            top: 20px;
             left: 20px;
             border: 3px solid #6A0DAD;
             border-radius: 10px;
@@ -73,10 +48,11 @@
             backdrop-filter: blur(10px);
             border-radius: 12px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-            margin-top: 150px;
-            margin-bottom: 20px;
-            width: 90%;
+            width: 150%;
             max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         h1 {
@@ -103,6 +79,11 @@
             background-color: #732d91;
         }
 
+        #upload {
+            position: relative;
+            z-index: 1;
+        }
+
         #upload::before {
             content: '';
             position: absolute;
@@ -119,43 +100,136 @@
         }
 
         @keyframes neonMove {
-            0% { background-position: 0% 50%; }
-            100% { background-position: 400% 50%; }
+            0% {
+                background-position: 0% 50%;
+            }
+            100% {
+                background-position: 400% 50%;
+            }
+        }
+
+        #imagePreview {
+            max-width: 50%;
+            height: auto;
+            display: inline-block;
+            margin-top: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        input[type="file"] {
+            display: none;
         }
 
         footer {
-            color: white;
-            padding: 10px;
-            margin-top: auto;
+            width: 100%;
             text-align: center;
+            padding: 15px 0;
+            position: fixed;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            color: white;
+            font-size: 14px;
+            backdrop-filter: blur(5px);
+        }
+
+        @media (max-width: 768px) {
+            #upload, #download {
+                padding: 10px 20px;
+                font-size: 16px;
+                max-width: 200px;
+            }
+
+            #imagePreview {
+                max-width: 90%;
+                margin: 10px auto;
+            }
+
+            .container {
+                padding: 15px;
+                width: 95%;
+            }
+
+            #logo {
+                width: 80px;
+                top: 10px;
+                left: 10px;
+            }
         }
     </style>
 </head>
 <body>
 
-<nav>
-    <button>Image to PDF</button>
-    <button>Word to PDF</button>
-    <button>Excel to PDF</button>
-</nav>
+    <img src="https://i.postimg.cc/zvJ9FSsX/8004204-removebg-preview.png" alt="Website Logo" id="logo" />
 
-<img src="https://i.postimg.cc/zvJ9FSsX/8004204-removebg-preview.png" alt="Website Logo" id="logo" />
+    <div class="container">
 
-<div class="container">
-    <h1>Image to PDF Converter</h1>
-    <label for="file-input" id="upload">Choose File</label>
-    <input type="file" id="file-input" accept="image/*" />
-    <button id="download">Download PDF</button>
-    <img id="imagePreview" />
-</div>
+        <h1>Image to PDF Converter</h1>
 
-<footer>
-    © 2025 Psychic Engine. All rights reserved.
-</footer>
+        <label for="file-input" id="upload">Choose File</label>
+        <input type="file" id="file-input" accept="image/*" />
+        
+        <br><br>
+        <button id="download">Download PDF</button>
+        <br><br>
+        <img id="imagePreview" />
+    </div>
 
-<script>
-    document.getElementById('logo').onclick = () => location.reload();
-</script>
+    <footer>
+        <p>© 2024 Image to PDF Converter. Made with ❤️ by Arun Jetly.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const fileInput = document.getElementById('file-input');
+            const downloadButton = document.getElementById('download');
+            const imagePreview = document.getElementById('imagePreview');
+            const logo = document.getElementById('logo');
+
+            let uploadedImage = null;
+
+            fileInput.addEventListener('change', function (e) {
+                const file = e.target.files[0];
+
+                if (file && file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+
+                    reader.onload = function (event) {
+                        imagePreview.src = event.target.result;
+                        imagePreview.style.display = 'block';
+                        uploadedImage = event.target.result;
+                    };
+
+                    reader.readAsDataURL(file);
+                } else {
+                    alert("Please upload a valid image.");
+                }
+            });
+
+            downloadButton.addEventListener('click', function () {
+                if (uploadedImage) {
+                    const { jsPDF } = window.jspdf;
+                    const img = new Image();
+                    img.onload = function () {
+                        const pdf = new jsPDF({
+                            orientation: img.width > img.height ? 'landscape' : 'portrait',
+                            unit: 'px',
+                            format: [img.width, img.height]
+                        });
+                        pdf.addImage(uploadedImage, 'JPEG', 0, 0, img.width, img.height);
+                        pdf.save('generated.pdf');
+                    };
+                    img.src = uploadedImage;
+                } else {
+                    alert("Please upload an image first.");
+                }
+            });
+
+            logo.addEventListener('click', function () {
+                location.reload();
+            });
+        });
+    </script>
 
 </body>
 </html>
