@@ -27,32 +27,31 @@
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
-               #logo {
-            width: 120px;
-            height: auto;
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            border-radius: 10px;
-            padding: 5px;
-            background-color: #ffffff00;
-            cursor: pointer;
 
-                   
-        /* Top bar styling */
-        .topbar {
-            width: 100%;
-            background-color: rgba(255, 255, 255, 0.15);
-            padding: 10px 0;
-            text-align: center;
+        #navbar {
             position: fixed;
             top: 0;
             left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
             z-index: 999;
-            height: 40px;
+        }
 
+        #logo {
+            width: 120px;
+            height: auto;
+            position: fixed;
+            top: 10px;
+            left: 20px;
+            border: 3px solid #6A0DAD;
+            border-radius: 10px;
+            padding: 5px;
+            background-color: white;
+            cursor: pointer;
+            z-index: 9999;
         }
 
         .container {
@@ -67,6 +66,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            margin-top: 100px;
         }
 
         h1 {
@@ -162,6 +162,7 @@
             .container {
                 padding: 15px;
                 width: 95%;
+                margin-top: 80px;
             }
 
             #logo {
@@ -169,13 +170,16 @@
                 top: 10px;
                 left: 10px;
             }
+
+            #navbar {
+                height: 50px;
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- Top bar -->
-    <div class="topbar"></div>
+    <div id="navbar"></div>
 
     <img src="https://i.postimg.cc/zvJ9FSsX/8004204-removebg-preview.png" alt="Website Logo" id="logo" />
 
