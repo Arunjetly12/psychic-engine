@@ -10,7 +10,7 @@
         body, html {
             margin: 0;
             padding: 0;
-            height: 100%;
+            min-height: 100vh;
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(135deg, #5b2a82, #af58d0, #5b2a82);
             background-size: 400% 400%;
@@ -19,6 +19,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            overflow-y: auto;
         }
 
         @keyframes gradientFlow {
@@ -120,6 +121,18 @@
             display: none;
         }
 
+        footer {
+            width: 100%;
+            text-align: center;
+            padding: 15px 0;
+            position: fixed;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            color: white;
+            font-size: 14px;
+            backdrop-filter: blur(5px);
+        }
+
         @media (max-width: 768px) {
             #upload, #download {
                 padding: 10px 20px;
@@ -147,7 +160,7 @@
 </head>
 <body>
 
-    <img src="https://i.postimg.cc/zvJ9FSsX/8004204-removebg-preview.png" alt="Website Logo" id="logo" onclick="location.reload();" />
+    <img src="https://i.postimg.cc/zvJ9FSsX/8004204-removebg-preview.png" alt="Website Logo" id="logo" />
 
     <div class="container">
 
@@ -162,11 +175,16 @@
         <img id="imagePreview" />
     </div>
 
+    <footer>
+        <p>© 2024 Image to PDF Converter. Made with ❤️ by Arun Jetly.</p>
+    </footer>
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const fileInput = document.getElementById('file-input');
             const downloadButton = document.getElementById('download');
             const imagePreview = document.getElementById('imagePreview');
+            const logo = document.getElementById('logo');
 
             let uploadedImage = null;
 
@@ -205,6 +223,10 @@
                 } else {
                     alert("Please upload an image first.");
                 }
+            });
+
+            logo.addEventListener('click', function () {
+                location.reload();
             });
         });
     </script>
