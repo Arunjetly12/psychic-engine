@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +8,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        body, html {
+        body,
+        html {
             margin: 0;
             padding: 0;
             min-height: 100vh;
@@ -23,9 +25,17 @@
         }
 
         @keyframes gradientFlow {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
         }
 
         #navbar {
@@ -37,31 +47,29 @@
             background-color: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(10px);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            z-index: 999;
+            z-index: 998;
             display: flex;
-            justify-content: center;
             align-items: center;
-            gap: 20px;
+            justify-content: flex-end;
+            padding-right: 20px;
+            gap: 15px;
         }
 
-        .nav-btn {
+        .nav-button {
             padding: 10px 20px;
             font-size: 16px;
-            color: white;
+            font-weight: 600;
             border: none;
-            border-radius: 12px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
             cursor: pointer;
-            backdrop-filter: blur(12px);
-            background: rgba(255, 255, 255, 0.1);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.3);
             transition: all 0.3s ease;
         }
 
-        .nav-btn:hover {
-            background: rgba(255, 255, 255, 0.25);
-            transform: translateY(-2px) scale(1.05);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3), 0 0 15px rgba(255, 0, 255, 0.6);
+        .nav-button:hover {
+            background: rgba(255, 255, 255, 0.35);
+            transform: translateY(-2px);
         }
 
         #logo {
@@ -98,7 +106,8 @@
             margin-bottom: 20px;
         }
 
-        #upload, #download {
+        #upload,
+        #download {
             margin: 13px;
             padding: 15px 30px;
             font-size: 18px;
@@ -112,7 +121,8 @@
             max-width: 300px;
         }
 
-        #upload:hover, #download:hover {
+        #upload:hover,
+        #download:hover {
             background-color: #732d91;
         }
 
@@ -140,6 +150,7 @@
             0% {
                 background-position: 0% 50%;
             }
+
             100% {
                 background-position: 400% 50%;
             }
@@ -148,7 +159,7 @@
         #imagePreview {
             max-width: 50%;
             height: auto;
-            display: inline-block;
+            display: none;
             margin-top: 10px;
             border-radius: 10px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
@@ -171,7 +182,8 @@
         }
 
         @media (max-width: 768px) {
-            #upload, #download {
+            #upload,
+            #download {
                 padding: 10px 20px;
                 font-size: 16px;
                 max-width: 200px;
@@ -200,11 +212,12 @@
         }
     </style>
 </head>
+
 <body>
 
     <div id="navbar">
-        <button class="nav-btn">Image to PDF</button>
-        <button class="nav-btn">Word to PDF</button>
+        <button class="nav-button">Image to PDF</button>
+        <button class="nav-button">Word to PDF</button>
     </div>
 
     <img src="https://i.postimg.cc/zvJ9FSsX/8004204-removebg-preview.png" alt="Website Logo" id="logo" />
@@ -215,7 +228,7 @@
 
         <label for="file-input" id="upload">Choose File</label>
         <input type="file" id="file-input" accept="image/*" />
-        
+
         <br><br>
         <button id="download">Download PDF</button>
         <br><br>
@@ -242,9 +255,9 @@
                     const reader = new FileReader();
 
                     reader.onload = function (event) {
-                        imagePreview.src = event.target.result;
-                        imagePreview.style.display = 'block';
                         uploadedImage = event.target.result;
+                        imagePreview.src = uploadedImage;
+                        imagePreview.style.display = 'block';
                     };
 
                     reader.readAsDataURL(file);
@@ -256,5 +269,20 @@
             downloadButton.addEventListener('click', function () {
                 if (uploadedImage) {
                     const { jsPDF } = window.jspdf;
-                    const img = new Image();
-                    img.onload = function () {
+                    const pdf = new jsPDF();
+                    pdf.addImage(uploadedImage, 'JPEG', 10, 10, 180, 160);
+                    pdf.save('generated.pdf');
+                } else {
+                    alert("Please upload an image first.");
+                }
+            });
+
+            logo.addEventListener('click', function () {
+                location.reload();
+            });
+        });
+    </script>
+
+</body>
+
+</html>
