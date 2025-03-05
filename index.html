@@ -8,24 +8,207 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        /* Existing styles unchanged */
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #5b2a82, #af58d0, #5b2a82);
+            background-size: 400% 400%;
+            animation: gradientFlow 15s ease infinite;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow-y: visible;
+        }
+
+        @keyframes gradientFlow {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        #navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            z-index: 998;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 20px;
+            gap: 15px;
+        }
 
         .nav-button {
             padding: 10px 20px;
             font-size: 16px;
             font-weight: 600;
             border: none;
-            border-radius: 30px;
-            background: linear-gradient(135deg, #ff7eb3, #ff758c);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.2);
             color: #fff;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
 
         .nav-button:hover {
-            background: linear-gradient(135deg, #ff758c, #ff7eb3);
-            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.35);
+            transform: translateY(-2px);
+        }
+
+        #logo {
+            width: 120px;
+            height: auto;
+            position: fixed;
+            top: -25px;
+            left: 1px;
+            border-radius: 10px;
+            padding: 5px;
+            background-color: #ffffff00;
+            cursor: pointer;
+            z-index: 9999;
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            width: 150%;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 100px;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #ffffff;
+            margin-bottom: 20px;
+        }
+
+        #upload,
+        #download {
+            margin: 13px;
+            padding: 15px 30px;
+            font-size: 18px;
+            cursor: pointer;
+            border: 2px solid #ffffff;
+            border-radius: 5px;
+            background-color: #8e44ad;
+            color: white;
+            transition: background-color 0.3s ease;
+            width: 70%;
+            max-width: 300px;
+        }
+
+        #upload:hover,
+        #download:hover {
+            background-color: #732d91;
+        }
+
+        #upload {
+            position: relative;
+            z-index: 1;
+        }
+
+        #upload::before {
+            content: '';
+            position: absolute;
+            top: -6px;
+            left: -6px;
+            right: -6px;
+            bottom: -6px;
+            border-radius: 10px;
+            background: linear-gradient(257deg, #ff00ff, #00ffff, #ff00ff, #00ffff);
+            background-size: 400%;
+            z-index: -1;
+            filter: blur(9px);
+            animation: neonMove 14s linear infinite;
+        }
+
+        @keyframes neonMove {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            100% {
+                background-position: 400% 50%;
+            }
+        }
+
+        #imagePreview {
+            max-width: 50%;
+            height: auto;
+            display: none;
+            margin-top: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        footer {
+            width: 100%;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            bottom: 0;
+            background: rgba(0, 0, 0, 3%);
+            color: white;
+            font-size: 14px;
+            backdrop-filter: blur(5px);
+        }
+
+        @media (max-width: 768px) {
+            #upload,
+            #download {
+                padding: 10px 20px;
+                font-size: 16px;
+                max-width: 200px;
+            }
+
+            #imagePreview {
+                max-width: 90%;
+                margin: 10px auto;
+            }
+
+            .container {
+                padding: 15px;
+                width: 95%;
+                margin-top: 80px;
+            }
+
+            #logo {
+                width: 80px;
+                top: 10px;
+                left: 10px;
+            }
+
+            #navbar {
+                height: 50px;
+            }
         }
     </style>
 </head>
@@ -86,32 +269,9 @@
             downloadButton.addEventListener('click', function () {
                 if (uploadedImage) {
                     const { jsPDF } = window.jspdf;
-                    const pdf = new jsPDF('p', 'mm', 'a4');
-                    const img = new Image();
-                    img.src = uploadedImage;
-
-                    img.onload = function () {
-                        const pdfWidth = pdf.internal.pageSize.getWidth();
-                        const pdfHeight = pdf.internal.pageSize.getHeight();
-
-                        const imgWidth = img.width;
-                        const imgHeight = img.height;
-
-                        let width, height;
-                        if (imgWidth > imgHeight) {
-                            width = pdfWidth - 20;
-                            height = (imgHeight * width) / imgWidth;
-                        } else {
-                            height = pdfHeight - 20;
-                            width = (imgWidth * height) / imgHeight;
-                        }
-
-                        const x = (pdfWidth - width) / 2;
-                        const y = (pdfHeight - height) / 2;
-
-                        pdf.addImage(uploadedImage, 'JPEG', x, y, width, height);
-                        pdf.save('generated.pdf');
-                    };
+                    const pdf = new jsPDF();
+                    pdf.addImage(uploadedImage, 'JPEG', 10, 10, 180, 160);
+                    pdf.save('generated.pdf');
                 } else {
                     alert("Please upload an image first.");
                 }
