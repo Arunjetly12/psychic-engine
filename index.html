@@ -10,16 +10,14 @@
         body, html {
             margin: 0;
             padding: 0;
-            min-height: 100vh;
+            height: 100%;
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(135deg, #5b2a82, #af58d0, #5b2a82);
             background-size: 400% 400%;
             animation: gradientFlow 15s ease infinite;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
-            overflow-y: visible;
         }
 
         @keyframes gradientFlow {
@@ -28,11 +26,40 @@
             100% { background-position: 0% 50%; }
         }
 
+        nav {
+            width: 100%;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            position: fixed;
+            top: 0;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+
+        nav button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background: linear-gradient(257deg, #ff00ff, #00ffff);
+            color: white;
+            font-weight: 600;
+            transition: transform 0.3s;
+        }
+
+        nav button:hover {
+            transform: scale(1.1);
+        }
+
         #logo {
             width: 120px;
-            height: auto;
-            position: absolute;
-            top: 20px;
+            position: fixed;
+            top: 60px;
             left: 20px;
             border: 3px solid #6A0DAD;
             border-radius: 10px;
@@ -42,6 +69,7 @@
         }
 
         .container {
+            margin-top: 150px;
             text-align: center;
             padding: 20px;
             background-color: rgba(255, 255, 255, 0.1);
@@ -50,9 +78,6 @@
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
             width: 150%;
             max-width: 500px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
         }
 
         h1 {
@@ -79,11 +104,6 @@
             background-color: #732d91;
         }
 
-        #upload {
-            position: relative;
-            z-index: 1;
-        }
-
         #upload::before {
             content: '';
             position: absolute;
@@ -100,18 +120,12 @@
         }
 
         @keyframes neonMove {
-            0% {
-                background-position: 0% 50%;
-            }
-            100% {
-                background-position: 400% 50%;
-            }
+            0% { background-position: 0% 50%; }
+            100% { background-position: 400% 50%; }
         }
 
         #imagePreview {
             max-width: 50%;
-            height: auto;
-            display: inline-block;
             margin-top: 10px;
             border-radius: 10px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
@@ -122,84 +136,77 @@
         }
 
         footer {
+            margin-top: 50px;
+            padding: 10px 0;
             width: 100%;
             text-align: center;
-            padding: 15px 0;
-            position: fixed;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.3);
-            color: white;
+            color: #fff;
             font-size: 14px;
-            backdrop-filter: blur(5px);
         }
 
         @media (max-width: 768px) {
+            nav button {
+                padding: 8px 15px;
+                font-size: 14px;
+            }
+
+            #logo {
+                width: 80px;
+                top: 60px;
+            }
+
             #upload, #download {
                 padding: 10px 20px;
                 font-size: 16px;
                 max-width: 200px;
             }
 
-            #imagePreview {
-                max-width: 90%;
-                margin: 10px auto;
-            }
-
             .container {
+                width: 90%;
                 padding: 15px;
-                width: 95%;
-            }
-
-            #logo {
-                width: 80px;
-                top: 10px;
-                left: 10px;
             }
         }
     </style>
 </head>
 <body>
 
-    <img src="https://i.postimg.cc/zvJ9FSsX/8004204-removebg-preview.png" alt="Website Logo" id="logo" />
+    <nav>
+        <button>Image to PDF</button>
+        <button>Word to PDF</button>
+        <button>Excel to PDF</button>
+    </nav>
+
+    <img src="https://i.postimg.cc/zvJ9FSsX/8004204-removebg-preview.png" alt="Website Logo" id="logo" onclick="location.reload();" />
 
     <div class="container">
-
         <h1>Image to PDF Converter</h1>
 
         <label for="file-input" id="upload">Choose File</label>
         <input type="file" id="file-input" accept="image/*" />
         
-        <br><br>
         <button id="download">Download PDF</button>
-        <br><br>
         <img id="imagePreview" />
     </div>
 
-    <footer>
-        <p>© 2024 Image to PDF Converter. Made with ❤️ by Arun Jetly.</p>
-    </footer>
+    <footer>© 2025 Arun Jetly. All Rights Reserved.</footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const fileInput = document.getElementById('file-input');
             const downloadButton = document.getElementById('download');
             const imagePreview = document.getElementById('imagePreview');
-            const logo = document.getElementById('logo');
 
             let uploadedImage = null;
 
             fileInput.addEventListener('change', function (e) {
                 const file = e.target.files[0];
-
                 if (file && file.type.startsWith('image/')) {
                     const reader = new FileReader();
-
                     reader.onload = function (event) {
                         imagePreview.src = event.target.result;
                         imagePreview.style.display = 'block';
                         uploadedImage = event.target.result;
                     };
-
                     reader.readAsDataURL(file);
                 } else {
                     alert("Please upload a valid image.");
@@ -223,10 +230,6 @@
                 } else {
                     alert("Please upload an image first.");
                 }
-            });
-
-            logo.addEventListener('click', function () {
-                location.reload();
             });
         });
     </script>
