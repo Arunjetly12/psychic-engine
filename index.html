@@ -28,38 +28,36 @@
 
         nav {
             width: 100%;
-            padding: 10px 20px;
+            background-color: rgba(75, 0, 130, 0.9);
+            padding: 10px;
             display: flex;
             justify-content: center;
-            gap: 15px;
+            gap: 20px;
             position: fixed;
             top: 0;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            left: 0;
             z-index: 10;
         }
 
         nav button {
             padding: 10px 20px;
             font-size: 16px;
-            cursor: pointer;
             border: none;
             border-radius: 5px;
-            background: linear-gradient(257deg, #ff00ff, #00ffff);
+            background-color: #7a3ea1;
             color: white;
-            font-weight: 600;
-            transition: transform 0.3s;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
         }
 
         nav button:hover {
-            transform: scale(1.1);
+            background-color: #6a2c8e;
         }
 
         #logo {
             width: 120px;
-            position: fixed;
-            top: 60px;
+            position: absolute;
+            top: 70px;
             left: 20px;
             border: 3px solid #6A0DAD;
             border-radius: 10px;
@@ -69,14 +67,15 @@
         }
 
         .container {
-            margin-top: 150px;
             text-align: center;
             padding: 20px;
             background-color: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             border-radius: 12px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-            width: 150%;
+            margin-top: 150px;
+            margin-bottom: 20px;
+            width: 90%;
             max-width: 500px;
         }
 
@@ -124,115 +123,39 @@
             100% { background-position: 400% 50%; }
         }
 
-        #imagePreview {
-            max-width: 50%;
-            margin-top: 10px;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-        }
-
-        input[type="file"] {
-            display: none;
-        }
-
         footer {
-            margin-top: 50px;
-            padding: 10px 0;
-            width: 100%;
+            color: white;
+            padding: 10px;
+            margin-top: auto;
             text-align: center;
-            color: #fff;
-            font-size: 14px;
-        }
-
-        @media (max-width: 768px) {
-            nav button {
-                padding: 8px 15px;
-                font-size: 14px;
-            }
-
-            #logo {
-                width: 80px;
-                top: 60px;
-            }
-
-            #upload, #download {
-                padding: 10px 20px;
-                font-size: 16px;
-                max-width: 200px;
-            }
-
-            .container {
-                width: 90%;
-                padding: 15px;
-            }
         }
     </style>
 </head>
 <body>
 
-    <nav>
-        <button>Image to PDF</button>
-        <button>Word to PDF</button>
-        <button>Excel to PDF</button>
-    </nav>
+<nav>
+    <button>Image to PDF</button>
+    <button>Word to PDF</button>
+    <button>Excel to PDF</button>
+</nav>
 
-    <img src="https://i.postimg.cc/zvJ9FSsX/8004204-removebg-preview.png" alt="Website Logo" id="logo" onclick="location.reload();" />
+<img src="https://i.postimg.cc/zvJ9FSsX/8004204-removebg-preview.png" alt="Website Logo" id="logo" />
 
-    <div class="container">
-        <h1>Image to PDF Converter</h1>
+<div class="container">
+    <h1>Image to PDF Converter</h1>
+    <label for="file-input" id="upload">Choose File</label>
+    <input type="file" id="file-input" accept="image/*" />
+    <button id="download">Download PDF</button>
+    <img id="imagePreview" />
+</div>
 
-        <label for="file-input" id="upload">Choose File</label>
-        <input type="file" id="file-input" accept="image/*" />
-        
-        <button id="download">Download PDF</button>
-        <img id="imagePreview" />
-    </div>
+<footer>
+    © 2025 Psychic Engine. All rights reserved.
+</footer>
 
-    <footer>© 2025 Arun Jetly. All Rights Reserved.</footer>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const fileInput = document.getElementById('file-input');
-            const downloadButton = document.getElementById('download');
-            const imagePreview = document.getElementById('imagePreview');
-
-            let uploadedImage = null;
-
-            fileInput.addEventListener('change', function (e) {
-                const file = e.target.files[0];
-                if (file && file.type.startsWith('image/')) {
-                    const reader = new FileReader();
-                    reader.onload = function (event) {
-                        imagePreview.src = event.target.result;
-                        imagePreview.style.display = 'block';
-                        uploadedImage = event.target.result;
-                    };
-                    reader.readAsDataURL(file);
-                } else {
-                    alert("Please upload a valid image.");
-                }
-            });
-
-            downloadButton.addEventListener('click', function () {
-                if (uploadedImage) {
-                    const { jsPDF } = window.jspdf;
-                    const img = new Image();
-                    img.onload = function () {
-                        const pdf = new jsPDF({
-                            orientation: img.width > img.height ? 'landscape' : 'portrait',
-                            unit: 'px',
-                            format: [img.width, img.height]
-                        });
-                        pdf.addImage(uploadedImage, 'JPEG', 0, 0, img.width, img.height);
-                        pdf.save('generated.pdf');
-                    };
-                    img.src = uploadedImage;
-                } else {
-                    alert("Please upload an image first.");
-                }
-            });
-        });
-    </script>
+<script>
+    document.getElementById('logo').onclick = () => location.reload();
+</script>
 
 </body>
 </html>
