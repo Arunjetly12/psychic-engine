@@ -8,205 +8,115 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        body,
-        html {
+        * {
             margin: 0;
             padding: 0;
-            min-height: 180vh;
+            box-sizing: border-box;
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #5b2a82, #af58d0, #5b2a82);
-            background-size: 400% 400%;
-            animation: gradientFlow 15s ease infinite;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            overflow-y: visible;
         }
 
-        @keyframes gradientFlow {
-            0% {
-                background-position: 0% 50%;
-            }
-
-            50% {
-                background-position: 100% 50%;
-            }
-
-            100% {
-                background-position: 0% 50%;
-            }
+        body {
+            background: #121212;
+            color: #fff;
+            padding: 20px;
         }
 
         #navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 60px;
-            background-color: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            z-index: 998;
             display: flex;
-            align-items: center;
-            padding-left: 150px;
-            gap: 15px;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
         }
 
         .nav-button {
             padding: 10px 20px;
-            font-size: 16px;
-            font-weight: 600;
+            background: rgba(255, 255, 255, 0.1);
             border: none;
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.2);
             color: #fff;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            border-radius: 8px;
             text-decoration: none;
-        }
-
-        .nav-button:hover {
-            background: rgba(255, 255, 255, 0.35);
-            transform: translateY(-2px);
+            font-weight: 600;
         }
 
         #logo {
+            display: block;
+            margin: 0 auto 20px;
             width: 120px;
-            height: auto;
-            position: fixed;
-            top: -25px;
-            left: 1px;
-            border-radius: 10px;
-            padding: 5px;
-            background-color: #ffffff00;
-            cursor: pointer;
-            z-index: 9999;
         }
 
         .intro-text {
             text-align: center;
-            color: #fff;
-            padding: 150px 20px 30px;
-            max-width: 900px;
-            font-family: 'Montserrat', sans-serif;
+            margin-bottom: 40px;
         }
 
         .intro-text h1 {
+            font-family: 'Montserrat', sans-serif;
             font-size: 40px;
-            font-weight: 600;
+            font-weight: 700;
             margin-bottom: 10px;
-            line-height: 1.3;
         }
 
         .intro-text h2 {
+            font-family: 'Montserrat', sans-serif;
             font-size: 28px;
             font-weight: 600;
             margin-bottom: 20px;
-            line-height: 1.4;
         }
 
         .intro-text p {
+            font-family: 'Montserrat', sans-serif;
             font-size: 18px;
-            font-weight: 400;
-            line-height: 1.8;
-            margin-bottom: 15px;
+            line-height: 1.6;
+            margin-bottom: 10px;
         }
 
         .container {
-            text-align: center;
-            padding: 20px;
-            background-color: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 12px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-            width: 150%;
             max-width: 500px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 20px;
-        }
-
-        h1 {
-            font-size: 24px;
-            color: #ffffff;
-            margin-bottom: 20px;
-        }
-
-        #upload,
-        #download {
-            margin: 13px;
-            padding: 15px 30px;
-            font-size: 18px;
-            cursor: pointer;
-            border: 2px solid #ffffff;
-            border-radius: 5px;
-            background-color: #8e44ad;
-            color: white;
-            transition: background-color 0.3s ease;
-            width: 70%;
-            max-width: 300px;
-        }
-
-        #upload:hover,
-        #download:hover {
-            background-color: #732d91;
+            margin: 0 auto;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            text-align: center;
         }
 
         #upload {
-            position: relative;
-            z-index: 1;
+            display: block;
+            padding: 12px 24px;
+            background: #6200ea;
+            color: #fff;
+            border-radius: 30px;
+            margin: 20px auto;
+            cursor: pointer;
+            font-weight: 600;
         }
 
-        #upload::before {
-            content: '';
-            position: absolute;
-            top: -6px;
-            left: -6px;
-            right: -6px;
-            bottom: -6px;
-            border-radius: 10px;
-            background: linear-gradient(257deg, #ff00ff, #00ffff, #ff00ff, #00ffff);
-            background-size: 400%;
-            z-index: -1;
-            filter: blur(9px);
-            animation: neonMove 14s linear infinite;
+        #file-input {
+            display: none;
         }
 
-        @keyframes neonMove {
-            0% {
-                background-position: 0% 50%;
-            }
-
-            100% {
-                background-position: 400% 50%;
-            }
+        #download {
+            padding: 12px 24px;
+            background: #03dac6;
+            color: #000;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 20px;
         }
 
         #imagePreview {
-            max-width: 50%;
-            height: auto;
             display: none;
-            margin-top: 10px;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-        }
-
-        input[type="file"] {
-            display: none;
+            margin-top: 20px;
+            max-width: 100%;
+            border-radius: 12px;
         }
 
         footer {
-            width: 100%;
             text-align: center;
-            padding: 10px 0;
-            margin-top: 80px;
-            background: rgba(0, 0, 0, 3%);
-            color: white;
+            margin-top: 50px;
             font-size: 14px;
-            backdrop-filter: blur(5px);
+            opacity: 0.7;
         }
     </style>
 </head>
@@ -242,17 +152,50 @@
     <script>
         const fileInput = document.getElementById('file-input');
         const imagePreview = document.getElementById('imagePreview');
+        const downloadButton = document.getElementById('download');
+
+        let uploadedImageDataUrl = '';
 
         fileInput.addEventListener('change', (event) => {
             const file = event.target.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = (e) => {
-                    imagePreview.src = e.target.result;
+                    uploadedImageDataUrl = e.target.result;
+                    imagePreview.src = uploadedImageDataUrl;
                     imagePreview.style.display = 'block';
                 };
                 reader.readAsDataURL(file);
             }
+        });
+
+        downloadButton.addEventListener('click', () => {
+            if (!uploadedImageDataUrl) {
+                alert('Please choose an image first!');
+                return;
+            }
+
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF('p', 'mm', 'a4');
+
+            const img = new Image();
+            img.src = uploadedImageDataUrl;
+            img.onload = () => {
+                const pageWidth = pdf.internal.pageSize.getWidth();
+                const pageHeight = pdf.internal.pageSize.getHeight();
+                let imgWidth = img.width;
+                let imgHeight = img.height;
+
+                const ratio = Math.min(pageWidth / imgWidth, pageHeight / imgHeight);
+                imgWidth *= ratio;
+                imgHeight *= ratio;
+
+                const x = (pageWidth - imgWidth) / 2;
+                const y = (pageHeight - imgHeight) / 2;
+
+                pdf.addImage(img, 'PNG', x, y, imgWidth, imgHeight);
+                pdf.save('converted.pdf');
+            };
         });
     </script>
 
