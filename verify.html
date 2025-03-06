@@ -3,37 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Email Verification - PDF Converter</title>
+  <title>Email Verification</title>
   <style>
     body {
       font-family: Montserrat, sans-serif;
       background-color: #0F0F0F;
       color: white;
-      margin: 0;
-      padding: 0;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       height: 100vh;
-      text-align: center;
+      margin: 0;
     }
-    .verify-container {
+    .container {
       background-color: #1A1A1A;
-      padding: 40px;
+      padding: 30px;
       border-radius: 12px;
+      text-align: center;
       box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
-      width: 100%;
-      max-width: 400px;
     }
     h2 {
-      margin-bottom: 20px;
-    }
-    p {
-      margin-bottom: 30px;
+      margin-bottom: 15px;
     }
     button {
+      margin-top: 20px;
       padding: 12px 20px;
-      margin: 10px;
       border: none;
       border-radius: 8px;
       background-color: #8A2BE2;
@@ -48,17 +43,15 @@
 </head>
 <body>
 
-  <div class="verify-container">
-    <h2>Verify Your Email</h2>
-    <p>We've sent a verification email to your Gmail address.<br> Please check your inbox and confirm your email to continue.</p>
-    <button id="resendBtn">Resend Verification</button>
-    <button onclick="window.location.href='login.html'">Back to Login</button>
-    <p id="resendMessage" style="margin-top: 20px; color: #4CAF50;"></p>
+  <div class="container">
+    <h2>📩 Check your email to verify!</h2>
+    <p>We've sent a verification link to your email address.</p>
+    <button id="resendButton">Resend Verification Email</button>
   </div>
 
   <script>
-    document.getElementById('resendBtn').addEventListener('click', function() {
-      document.getElementById('resendMessage').textContent = "✅ Verification email resent!";
+    document.getElementById('resendButton').addEventListener('click', function() {
+      alert('Verification email has been resent!');
     });
   </script>
 
