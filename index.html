@@ -8,7 +8,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* (your full original CSS is untouched here) */
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
         body,
         html {
             margin: 0;
@@ -22,7 +26,6 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            overflow-y: visible;
         }
 
         @keyframes gradientFlow {
