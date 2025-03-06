@@ -23,12 +23,14 @@
       box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
       width: 100%;
       max-width: 400px;
+      position: relative;
     }
     h2 {
       text-align: center;
       margin-bottom: 20px;
     }
     input[type="text"],
+    input[type="email"],
     input[type="password"] {
       width: 100%;
       padding: 12px;
@@ -50,37 +52,40 @@
     button:hover {
       background-color: #A74CED;
     }
-
-    /* Error message */
-    .error {
-      color: #FF4D4D;
+    #emailError {
+      color: red;
       font-size: 14px;
-      margin-top: -8px;
+      margin-top: -5px;
       margin-bottom: 10px;
+      display: none;
     }
 
-    /* Thank You Page */
+    /* Thank You Popup */
     #thankYouPopup {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
       background-color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
       color: #333;
-      font-size: 28px;
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+      font-size: 20px;
       font-weight: bold;
+      animation: popup 0.4s forwards;
       z-index: 9999;
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.5s ease, visibility 0.5s ease;
     }
-    #thankYouPopup.show {
-      opacity: 1;
-      visibility: visible;
+
+    @keyframes popup {
+      from {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 0;
+      }
+      to {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+      }
     }
   </style>
 </head>
@@ -88,68 +93,46 @@
 
   <div class="signup-container">
     <h2>Create Account</h2>
-    <form id="signupForm" novalidate>
-      <input type="text" id="fullName" placeholder="Full Name" required>
-      
-      <input type="text" id="email" placeholder="Email Address" required>
-      <div class="error" id="emailError"></div>
-      
-      <input type="password" id="password" placeholder="Password" required>
-      
-      <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
-      <div class="error" id="passwordError"></div>
-      
+    <form id="signupForm">
+      <input type="text" placeholder="Full Name" required>
+      <input type="email" id="emailInput" placeholder="Email Address" required>
+      <div id="emailError">Please enter a valid @gmail.com email address.</div>
+      <input type="password" placeholder="Password" required>
+      <input type="password" placeholder="Confirm Password" required>
       <button type="submit">Sign Up</button>
     </form>
   </div>
 
-  <!-- Full White Thank You Page -->
-  <div id="thankYouPopup">
+  <!-- Thank You Popup (Hidden initially) -->
+  <div id="thankYouPopup" style="display: none;">
     🎉 Thank You for Signing Up!
   </div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const form = document.getElementById('signupForm');
-      const emailInput = document.getElementById('email');
-      const passwordInput = document.getElementById('password');
-      const confirmPasswordInput = document.getElementById('confirmPassword');
-      const emailError = document.getElementById('emailError');
-      const passwordError = document.getElementById('passwordError');
-      const thankYouPopup = document.getElementById('thankYouPopup');
+    const form = document.getElementById('signupForm');
+    const emailInput = document.getElementById('emailInput');
+    const emailError = document.getElementById('emailError');
+    const thankYouPopup = document.getElementById('thankYouPopup');
 
-      form.addEventListener('submit', function(event) {
-        event.preventDefault();
+    form.addEventListener('submit', function(event) {
+      event.preventDefault(); // Stop actual form submission
 
-        let valid = true;
+      const emailValue = emailInput.value;
+      if (!emailValue.endsWith('@gmail.com')) {
+        emailError.style.display = 'block';
+        return;
+      } else {
+        emailError.style.display = 'none';
+      }
 
-        // Reset previous errors
-        emailError.textContent = '';
-        passwordError.textContent = '';
+      // Show the popup
+      thankYouPopup.style.display = 'block';
 
-        // Email validation
-        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailPattern.test(emailInput.value.trim())) {
-          emailError.textContent = '❌ Invalid email address.';
-          valid = false;
-        }
-
-        // Password match validation
-        if (passwordInput.value !== confirmPasswordInput.value) {
-          passwordError.textContent = '❌ Passwords do not match.';
-          valid = false;
-        }
-
-        if (valid) {
-          // Show Thank You Popup
-          thankYouPopup.classList.add('show');
-
-          // After 3 seconds, redirect to login
-          setTimeout(() => {
-            window.location.href = "login.html";
-          }, 3000);
-        }
-      });
+      // Hide after 3 seconds and redirect to login
+      setTimeout(() => {
+        thankYouPopup.style.display = 'none';
+        window.location.href = "login.html";
+      }, 3000);
     });
   </script>
 
