@@ -241,8 +241,10 @@
     </footer>
 
     <script>
+        const { jsPDF } = window.jspdf;
         const fileInput = document.getElementById('file-input');
         const imagePreview = document.getElementById('imagePreview');
+        const downloadButton = document.getElementById('download');
 
         fileInput.addEventListener('change', function () {
             const file = fileInput.files[0];
@@ -254,6 +256,12 @@
                 };
                 reader.readAsDataURL(file);
             }
+        });
+
+        downloadButton.addEventListener('click', () => {
+            const pdf = new jsPDF();
+            pdf.addImage(imagePreview.src, 'JPEG', 10, 10, 180, 260);
+            pdf.save('converted.pdf');
         });
     </script>
 
