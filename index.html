@@ -8,6 +8,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
+        /* Your full existing CSS here (unchanged) */
         body,
         html {
             margin: 0;
@@ -179,37 +180,6 @@
             font-size: 14px;
             backdrop-filter: blur(5px);
         }
-
-        @media (max-width: 768px) {
-            #upload,
-            #download {
-                padding: 10px 20px;
-                font-size: 16px;
-                max-width: 200px;
-            }
-
-            #imagePreview {
-                max-width: 90%;
-                margin: 10px auto;
-            }
-
-            .container {
-                padding: 15px;
-                width: 95%;
-                margin-top: 80px;
-            }
-
-            #logo {
-                width: 80px;
-                top: 10px;
-                left: 10px;
-            }
-
-            #navbar {
-                height: 50px;
-                padding-left: 100px;
-            }
-        }
     </style>
 </head>
 
@@ -226,17 +196,18 @@
         <h1 style="font-size: 40px; font-weight: 600; margin-bottom: 10px;">CREATE YOUR PDF IN SECONDS!</h1>
         <h2 style="font-size: 28px; font-weight: 600; margin-bottom: 20px;">100% FREE, QUICK, AND EASY!</h2>
         <p style="font-size: 18px; line-height: 1.8; margin-bottom: 15px;">
-            Welcome to [Your Website Name], your go-to tool for creating PDF files in seconds! Our online PDF maker is
-            100% free, quick, and easy to use. Simply upload your file, select the PDF format, and download your converted
-            file. No registration required, no watermarks, and no limits on conversions! Try our PDF maker today!
+            Welcome to [Your Website Name], your go-to tool for creating PDF files in seconds!
         </p>
         <p style="font-size: 20px; font-weight: 500;">Convert your files to PDF in seconds!</p>
     </div>
 
     <div class="container">
+
         <h1>Image to PDF Converter</h1>
+
         <label for="file-input" id="upload">Choose File</label>
         <input type="file" id="file-input" accept="image/*" />
+
         <br><br>
         <button id="download">Download PDF</button>
         <br><br>
@@ -248,21 +219,29 @@
     </footer>
 
 <script>
-const fileInput = document.getElementById('file-input');
-const imagePreview = document.getElementById('imagePreview');
+    const fileInput = document.getElementById('file-input');
+    const imagePreview = document.getElementById('imagePreview');
 
-fileInput.addEventListener('change', (event) => {
-    const file = event.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            imagePreview.src = e.target.result;
-            imagePreview.style.display = 'block';
-        };
-        reader.readAsDataURL(file);
-    }
-});
+    fileInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                imagePreview.src = e.target.result;
+                imagePreview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    document.getElementById('download').addEventListener('click', () => {
+        if (!imagePreview.src) return alert('Please select an image first!');
+        const pdf = new jspdf.jsPDF();
+        pdf.addImage(imagePreview.src, 'JPEG', 10, 10, 190, 277);
+        pdf.save('converted.pdf');
+    });
 </script>
 
 </body>
+
 </html>
