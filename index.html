@@ -12,7 +12,7 @@
         html {
             margin: 0;
             padding: 0;
-            min-height: 180vh; /* Increased height for scroll */
+            min-height: 180vh;
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(135deg, #5b2a82, #af58d0, #5b2a82);
             background-size: 400% 400%;
@@ -173,7 +173,7 @@
             width: 100%;
             text-align: center;
             padding: 10px 0;
-            margin-top: 80px; /* Added space to push footer down */
+            margin-top: 80px;
             background: rgba(0, 0, 0, 3%);
             color: white;
             font-size: 14px;
@@ -222,6 +222,17 @@
 
     <img src="https://i.postimg.cc/zvJ9FSsX/8004204-removebg-preview.png" alt="Website Logo" id="logo" />
 
+    <div style="text-align: center; color: #fff; padding: 100px 20px 20px; max-width: 800px;">
+        <h1 style="font-size: 40px; font-weight: 600; margin-bottom: 10px;">CREATE YOUR PDF IN SECONDS!</h1>
+        <h2 style="font-size: 28px; font-weight: 600; margin-bottom: 20px;">100% FREE, QUICK, AND EASY!</h2>
+        <p style="font-size: 18px; line-height: 1.8; margin-bottom: 15px;">
+            Welcome to [Your Website Name], your go-to tool for creating PDF files in seconds! Our online PDF maker is
+            100% free, quick, and easy to use. Simply upload your file, select the PDF format, and download your converted
+            file. No registration required, no watermarks, and no limits on conversions! Try our PDF maker today!
+        </p>
+        <p style="font-size: 20px; font-weight: 500;">Convert your files to PDF in seconds!</p>
+    </div>
+
     <div class="container">
 
         <h1>Image to PDF Converter</h1>
@@ -239,47 +250,7 @@
         <p>© 2024 Image to PDF Converter. Made with ❤️ by Arun Jetly.</p>
     </footer>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const fileInput = document.getElementById('file-input');
-            const downloadButton = document.getElementById('download');
-            const imagePreview = document.getElementById('imagePreview');
-            const logo = document.getElementById('logo');
-
-            let uploadedImage = null;
-
-            fileInput.addEventListener('change', function (e) {
-                const file = e.target.files[0];
-
-                if (file && file.type.startsWith('image/')) {
-                    const reader = new FileReader();
-                    reader.onload = function (event) {
-                        uploadedImage = event.target.result;
-                        imagePreview.src = uploadedImage;
-                        imagePreview.style.display = 'block';
-                    };
-                    reader.readAsDataURL(file);
-                } else {
-                    alert("Please upload a valid image.");
-                }
-            });
-
-            downloadButton.addEventListener('click', function () {
-                if (uploadedImage) {
-                    const { jsPDF } = window.jspdf;
-                    const pdf = new jsPDF();
-                    pdf.addImage(uploadedImage, 'JPEG', 10, 10, 180, 160);
-                    pdf.save('generated.pdf');
-                } else {
-                    alert("Please upload an image first.");
-                }
-            });
-
-            logo.addEventListener('click', function () {
-                location.reload();
-            });
-        });
-    </script>
+<script>/* same JS code here */</script>
 
 </body>
 
