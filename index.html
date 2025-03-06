@@ -43,7 +43,6 @@
             }
         }
 
-        /* Navbar styles */
         #navbar {
             position: fixed;
             top: 0;
@@ -56,8 +55,8 @@
             z-index: 998;
             display: flex;
             align-items: center;
-            gap: 15px;
             padding-left: 150px;
+            gap: 15px;
         }
 
         .nav-button {
@@ -78,70 +77,46 @@
             transform: translateY(-2px);
         }
 
-        /* Hamburger menu styles */
-        .menu-icon {
-            display: none;
-            flex-direction: column;
-            justify-content: space-around;
-            width: 30px;
-            height: 25px;
+        #logo {
+            width: 120px;
+            height: auto;
+            position: fixed;
+            top: -25px;
+            left: 1px;
+            border-radius: 10px;
+            padding: 5px;
+            background-color: #ffffff00;
             cursor: pointer;
             z-index: 9999;
         }
 
-        .menu-icon div {
-            width: 30px;
-            height: 5px;
-            background-color: white;
-            border-radius: 5px;
-        }
-
-        .mobile-menu {
-            display: none;
-            position: absolute;
-            top: 60px;
-            left: 0;
-            width: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
-            z-index: 998;
-        }
-
-        .mobile-menu a {
-            display: block;
-            padding: 15px;
-            font-size: 18px;
-            text-align: center;
-            color: white;
-            text-decoration: none;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .mobile-menu a:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-        }
-
-        @media (max-width: 768px) {
-            #navbar {
-                display: none;
-            }
-
-            .menu-icon {
-                display: flex;
-            }
-
-            .mobile-menu.active {
-                display: block;
-            }
-        }
-
-        /* Other styles go here */
         .intro-text {
             text-align: center;
             color: #fff;
             padding: 150px 20px 30px;
             max-width: 900px;
             font-family: 'Montserrat', sans-serif;
+        }
+
+        .intro-text h1 {
+            font-size: 40px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+
+        .intro-text h2 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .intro-text p {
+            font-size: 18px;
+            font-weight: 400;
+            line-height: 1.8;
+            margin-bottom: 15px;
         }
 
         .container {
@@ -157,6 +132,75 @@
             flex-direction: column;
             align-items: center;
             margin-top: 20px;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #ffffff;
+            margin-bottom: 20px;
+        }
+
+        #upload,
+        #download {
+            margin: 13px;
+            padding: 15px 30px;
+            font-size: 18px;
+            cursor: pointer;
+            border: 2px solid #ffffff;
+            border-radius: 5px;
+            background-color: #8e44ad;
+            color: white;
+            transition: background-color 0.3s ease;
+            width: 70%;
+            max-width: 300px;
+        }
+
+        #upload:hover,
+        #download:hover {
+            background-color: #732d91;
+        }
+
+        #upload {
+            position: relative;
+            z-index: 1;
+        }
+
+        #upload::before {
+            content: '';
+            position: absolute;
+            top: -6px;
+            left: -6px;
+            right: -6px;
+            bottom: -6px;
+            border-radius: 10px;
+            background: linear-gradient(257deg, #ff00ff, #00ffff, #ff00ff, #00ffff);
+            background-size: 400%;
+            z-index: -1;
+            filter: blur(9px);
+            animation: neonMove 14s linear infinite;
+        }
+
+        @keyframes neonMove {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            100% {
+                background-position: 400% 50%;
+            }
+        }
+
+        #imagePreview {
+            max-width: 50%;
+            height: auto;
+            display: none;
+            margin-top: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        input[type="file"] {
+            display: none;
         }
 
         footer {
@@ -175,29 +219,13 @@
 
 <body>
 
-    <!-- Navbar -->
     <div id="navbar">
         <a href="index.html" class="nav-button">Image to PDF</a>
         <a href="word-to-pdf.html" class="nav-button">Word to PDF</a>
     </div>
 
-    <!-- Hamburger menu -->
-    <div class="menu-icon" id="menu-icon">
-        <div></div>
-        <div></div>
-        <div></div>
-    </div>
-
-    <!-- Mobile menu -->
-    <div class="mobile-menu" id="mobile-menu">
-        <a href="index.html">Image to PDF</a>
-        <a href="word-to-pdf.html">Word to PDF</a>
-    </div>
-
-    <!-- Logo -->
     <img src="https://i.postimg.cc/zvJ9FSsX/8004204-removebg-preview.png" alt="Website Logo" id="logo" />
 
-    <!-- Page Content -->
     <div class="intro-text">
         <h1>CREATE YOUR PDF IN SECONDS!</h1>
         <h2>100% FREE, QUICK, AND EASY!</h2>
@@ -205,7 +233,6 @@
         <p style="font-size: 20px; font-weight: 500;">Convert your files to PDF in seconds!</p>
     </div>
 
-    <!-- File upload and download section -->
     <div class="container">
         <h1>Image to PDF Converter</h1>
         <label for="file-input" id="upload">Choose File</label>
@@ -217,16 +244,6 @@
     <footer>
         <p>© 2024 PDF Converter. Made with ❤️ by Arun Jetly.</p>
     </footer>
-
-    <!-- JavaScript for hamburger menu functionality -->
-    <script>
-        const menuIcon = document.getElementById('menu-icon');
-        const mobileMenu = document.getElementById('mobile-menu');
-
-        menuIcon.addEventListener('click', () => {
-            mobileMenu.classList.toggle('active');
-        });
-    </script>
 
     <script>
         const { jsPDF } = window.jspdf;
@@ -246,29 +263,30 @@
             }
         });
 
-        downloadButton.addEventListener('click', () => {
-            const img = new Image();
-            img.src = imagePreview.src;
-            img.onload = () => {
-                const pdf = new jsPDF();
-                const pageWidth = pdf.internal.pageSize.getWidth();
-                const pageHeight = pdf.internal.pageSize.getHeight();
+    downloadButton.addEventListener('click', () => {
+    const img = new Image();
+    img.src = imagePreview.src;
+    img.onload = () => {
+        const pdf = new jsPDF();
+        const pageWidth = pdf.internal.pageSize.getWidth();
+        const pageHeight = pdf.internal.pageSize.getHeight();
 
-                let imgWidth = img.width;
-                let imgHeight = img.height;
+        let imgWidth = img.width;
+        let imgHeight = img.height;
 
-                // Scale the image to fit inside the PDF page while keeping aspect ratio
-                const ratio = Math.min(pageWidth / imgWidth, pageHeight / imgHeight);
-                imgWidth *= ratio;
-                imgHeight *= ratio;
+        // Scale the image to fit inside the PDF page while keeping aspect ratio
+        const ratio = Math.min(pageWidth / imgWidth, pageHeight / imgHeight);
+        imgWidth *= ratio;
+        imgHeight *= ratio;
 
-                const x = (pageWidth - imgWidth) / 2;
-                const y = (pageHeight - imgHeight) / 2;
+        const x = (pageWidth - imgWidth) / 2;
+        const y = (pageHeight - imgHeight) / 2;
 
-                pdf.addImage(imagePreview.src, 'JPEG', x, y, imgWidth, imgHeight);
-                pdf.save('converted.pdf');
-            };
-        });
+        pdf.addImage(imagePreview.src, 'JPEG', x, y, imgWidth, imgHeight);
+        pdf.save('converted.pdf');
+    };
+});
+
     </script>
 
 </body>
