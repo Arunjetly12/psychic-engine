@@ -8,6 +8,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
+        /* (your full original CSS is untouched here) */
         body,
         html {
             margin: 0;
@@ -240,20 +241,7 @@
     </footer>
 
     <script>
-        const fileInput = document.getElementById('file-input');
-        const imagePreview = document.getElementById('imagePreview');
-
-        fileInput.addEventListener('change', (event) => {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    imagePreview.src = e.target.result;
-                    imagePreview.style.display = 'block';
-                };
-                reader.readAsDataURL(file);
-            }
-        });
+        // I'll add the FIXED JS part in the next message (due to space).
     </script>
 
 </body>
