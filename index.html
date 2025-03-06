@@ -8,6 +8,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
+        /* Smooth scroll for all devices */
         html {
             scroll-behavior: smooth;
         }
@@ -190,7 +191,7 @@
         }
 
         #imagePreview {
-            max-width: 100%;
+            max-width: 50%;
             height: auto;
             display: none;
             margin-top: 10px;
@@ -228,7 +229,7 @@
     <div class="intro-text">
         <h1>CREATE YOUR PDF IN SECONDS!</h1>
         <h2>100% FREE, QUICK, AND EASY!</h2>
-        <p>Welcome to [Your Website Name], your go-to tool for creating PDF files in seconds!</p>
+        <p>Welcome to [Your Website Name], your go-to tool for creating PDF files in seconds! Our online PDF maker is 100% free, quick, and easy to use. Simply upload your file, select the PDF format, and download your converted file. No registration required, no watermarks, and no limits on conversions! Try our PDF maker today and experience the convenience of converting your files online!</p>
         <p style="font-size: 20px; font-weight: 500;">Convert your files to PDF in seconds!</p>
     </div>
 
@@ -250,19 +251,21 @@
         const imagePreview = document.getElementById('imagePreview');
         const downloadButton = document.getElementById('download');
 
-        fileInput.addEventListener('change', () => {
+        fileInput.addEventListener('change', function () {
             const file = fileInput.files[0];
             if (file) {
                 const reader = new FileReader();
-                reader.onload = (e) => imagePreview.src = e.target.result;
+                reader.onload = function (e) {
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                };
                 reader.readAsDataURL(file);
-                imagePreview.style.display = 'block';
             }
         });
 
         downloadButton.addEventListener('click', () => {
             const pdf = new jsPDF();
-            pdf.addImage(imagePreview.src, 'JPEG', 0, 0);
+            pdf.addImage(imagePreview.src, 'JPEG', 10, 10, 180, 260);
             pdf.save('converted.pdf');
         });
     </script>
