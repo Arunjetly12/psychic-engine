@@ -215,77 +215,43 @@
             backdrop-filter: blur(5px);
         }
 
-        /* Hamburger Menu */
-        .hamburger-menu {
-            display: none;
-            flex-direction: column;
-            justify-content: space-between;
+        /* Hamburger Button Styles */
+        .hamburger {
+            position: fixed;
+            top: 20px;
+            right: 20px;
             width: 30px;
             height: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
             cursor: pointer;
             z-index: 9999;
         }
 
-        .hamburger-bar {
-            height: 4px;
+        .hamburger div {
             width: 100%;
-            background-color: white;
-            border-radius: 2px;
-            transition: all 0.3s;
+            height: 4px;
+            background-color: #fff;
+            border-radius: 4px;
         }
 
-        .navbar-links {
-            display: flex;
-            gap: 15px;
-        }
-
-        .navbar-links a {
-            display: block;
-        }
-
-        .menu-active {
-            display: block;
-        }
-
-        @media screen and (max-width: 768px) {
-            .navbar-links {
-                display: none;
-                flex-direction: column;
-                background-color: rgba(0, 0, 0, 0.7);
-                position: absolute;
-                top: 60px;
-                right: 0;
-                width: 200px;
-                padding: 10px;
-                z-index: 9998;
-            }
-
-            .hamburger-menu {
-                display: flex;
-            }
-
-            .navbar-links.menu-active {
-                display: flex;
-            }
-        }
     </style>
 </head>
 
 <body>
 
+    <!-- Hamburger Button -->
+    <div class="hamburger">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+
     <div id="navbar">
         <a href="index.html" class="nav-button">Image to PDF</a>
         <a href="word-to-pdf.html" class="nav-button">Word to PDF</a>
-        <!-- Hamburger menu -->
-        <div class="hamburger-menu" onclick="toggleMenu()">
-            <div class="hamburger-bar"></div>
-            <div class="hamburger-bar"></div>
-            <div class="hamburger-bar"></div>
-        </div>
-        <div class="navbar-links">
-            <a href="index.html" class="nav-button">Image to PDF</a>
-            <a href="word-to-pdf.html" class="nav-button">Word to PDF</a>
-        </div>
     </div>
 
     <img src="https://i.postimg.cc/zvJ9FSsX/8004204-removebg-preview.png" alt="Website Logo" id="logo" />
@@ -310,12 +276,6 @@
     </footer>
 
     <script>
-        // Hamburger menu toggle
-        function toggleMenu() {
-            const navbarLinks = document.querySelector('.navbar-links');
-            navbarLinks.classList.toggle('menu-active');
-        }
-
         const { jsPDF } = window.jspdf;
         const fileInput = document.getElementById('file-input');
         const imagePreview = document.getElementById('imagePreview');
