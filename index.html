@@ -90,132 +90,7 @@
             z-index: 9999;
         }
 
-        .intro-text {
-            text-align: center;
-            color: #fff;
-            padding: 150px 20px 30px;
-            max-width: 900px;
-            font-family: 'Montserrat', sans-serif;
-        }
-
-        .intro-text h1 {
-            font-size: 40px;
-            font-weight: 600;
-            margin-bottom: 10px;
-            line-height: 1.3;
-        }
-
-        .intro-text h2 {
-            font-size: 28px;
-            font-weight: 600;
-            margin-bottom: 20px;
-            line-height: 1.4;
-        }
-
-        .intro-text p {
-            font-size: 18px;
-            font-weight: 400;
-            line-height: 1.8;
-            margin-bottom: 15px;
-        }
-
-        .container {
-            text-align: center;
-            padding: 20px;
-            background-color: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 12px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-            width: 150%;
-            max-width: 500px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 20px;
-        }
-
-        h1 {
-            font-size: 24px;
-            color: #ffffff;
-            margin-bottom: 20px;
-        }
-
-        #upload,
-        #download {
-            margin: 13px;
-            padding: 15px 30px;
-            font-size: 18px;
-            cursor: pointer;
-            border: 2px solid #ffffff;
-            border-radius: 5px;
-            background-color: #8e44ad;
-            color: white;
-            transition: background-color 0.3s ease;
-            width: 70%;
-            max-width: 300px;
-        }
-
-        #upload:hover,
-        #download:hover {
-            background-color: #732d91;
-        }
-
-        #upload {
-            position: relative;
-            z-index: 1;
-        }
-
-        #upload::before {
-            content: '';
-            position: absolute;
-            top: -6px;
-            left: -6px;
-            right: -6px;
-            bottom: -6px;
-            border-radius: 10px;
-            background: linear-gradient(257deg, #ff00ff, #00ffff, #ff00ff, #00ffff);
-            background-size: 400%;
-            z-index: -1;
-            filter: blur(9px);
-            animation: neonMove 14s linear infinite;
-        }
-
-        @keyframes neonMove {
-            0% {
-                background-position: 0% 50%;
-            }
-
-            100% {
-                background-position: 400% 50%;
-            }
-        }
-
-        #imagePreview {
-            max-width: 50%;
-            height: auto;
-            display: none;
-            margin-top: 10px;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-        }
-
-        input[type="file"] {
-            display: none;
-        }
-
-        footer {
-            width: 100%;
-            text-align: center;
-            padding: 10px 0;
-            position: fixed;
-            bottom: 0;
-            background: rgba(0, 0, 0, 3%);
-            color: white;
-            font-size: 14px;
-            backdrop-filter: blur(5px);
-        }
-
-        /* Hamburger Button Styles */
+        /* Hamburger Button */
         .hamburger {
             position: fixed;
             top: 20px;
@@ -227,26 +102,89 @@
             justify-content: space-between;
             align-items: center;
             cursor: pointer;
-            z-index: 9999;
+            z-index: 1000;
         }
 
         .hamburger div {
             width: 100%;
-            height: 4px;
+            height: 5px;
             background-color: #fff;
-            border-radius: 4px;
+            transition: 0.3s;
         }
 
+        /* Slide-in Menu */
+        #sideMenu {
+            position: fixed;
+            top: 0;
+            right: -250px;
+            width: 250px;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 999;
+            transition: right 0.3s ease-in-out;
+        }
+
+        #sideMenu ul {
+            padding: 20px;
+            list-style: none;
+            color: white;
+        }
+
+        #sideMenu ul li {
+            padding: 15px 0;
+            font-size: 18px;
+            cursor: pointer;
+            text-align: center;
+            border-bottom: 1px solid #fff;
+        }
+
+        #sideMenu ul li:hover {
+            background-color: #555;
+        }
+
+        .open {
+            right: 0;
+        }
+
+        /* Smooth scroll for all devices */
+        html {
+            scroll-behavior: smooth;
+        }
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            min-height: 180vh;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #5b2a82, #af58d0, #5b2a82);
+            background-size: 400% 400%;
+            animation: gradientFlow 15s ease infinite;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow-y: visible;
+        }
     </style>
 </head>
 
 <body>
 
     <!-- Hamburger Button -->
-    <div class="hamburger">
+    <div class="hamburger" onclick="toggleMenu()">
         <div></div>
         <div></div>
         <div></div>
+    </div>
+
+    <!-- Slide-in Menu -->
+    <div id="sideMenu">
+        <ul>
+            <li>Home</li>
+            <li>Image to PDF</li>
+            <li>Word to PDF</li>
+            <li>Contact</li>
+        </ul>
     </div>
 
     <div id="navbar">
@@ -276,6 +214,12 @@
     </footer>
 
     <script>
+        // Toggle menu
+        function toggleMenu() {
+            const sideMenu = document.getElementById('sideMenu');
+            sideMenu.classList.toggle('open');
+        }
+
         const { jsPDF } = window.jspdf;
         const fileInput = document.getElementById('file-input');
         const imagePreview = document.getElementById('imagePreview');
@@ -316,6 +260,7 @@
                 pdf.save('converted.pdf');
             };
         });
+
     </script>
 
 </body>
