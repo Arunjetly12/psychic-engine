@@ -19,7 +19,6 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            overflow-x: hidden;
         }
 
         @keyframes gradientFlow {
@@ -36,7 +35,6 @@
             height: 60px;
             background-color: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(10px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
             z-index: 998;
             display: flex;
             align-items: center;
@@ -53,13 +51,7 @@
             background: rgba(255, 255, 255, 0.2);
             color: #fff;
             cursor: pointer;
-            transition: all 0.3s ease;
             text-decoration: none;
-        }
-
-        .nav-button:hover {
-            background: rgba(255, 255, 255, 0.35);
-            transform: translateY(-2px);
         }
 
         #logo {
@@ -67,49 +59,42 @@
             position: fixed;
             top: -25px;
             left: 1px;
-            border-radius: 10px;
-            padding: 5px;
-            background-color: transparent;
-            cursor: pointer;
             z-index: 9999;
         }
 
-        .intro {
+        .intro-section {
+            max-width: 800px;
+            padding: 100px 20px 50px;
             text-align: center;
             color: white;
-            margin-top: 100px;
-            padding: 20px;
-            max-width: 800px;
+            font-family: 'Montserrat', sans-serif;
         }
 
-        .intro h1 {
-            font-family: 'Montserrat', sans-serif;
+        .intro-section h1 {
             font-size: 40px;
             font-weight: 700;
             line-height: 1.3;
             margin-bottom: 10px;
         }
 
-        .intro h2 {
-            font-family: 'Montserrat', sans-serif;
+        .intro-section h2 {
             font-size: 28px;
             font-weight: 600;
             line-height: 1.4;
             margin-bottom: 20px;
         }
 
-        .intro p {
-            font-family: 'Montserrat', sans-serif;
+        .intro-section p.tagline {
+            font-size: 20px;
+            font-weight: 500;
+            line-height: 1.3;
+            margin-bottom: 30px;
+        }
+
+        .intro-section p.body-text {
             font-size: 18px;
             font-weight: 400;
             line-height: 1.8;
-            margin-bottom: 20px;
-        }
-
-        .intro .tagline {
-            font-size: 20px;
-            font-weight: 500;
-            margin-bottom: 40px;
         }
 
         .container {
@@ -119,12 +104,9 @@
             backdrop-filter: blur(10px);
             border-radius: 12px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-            width: 150%;
+            width: 90%;
             max-width: 500px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 50px;
+            margin-bottom: 50px;
         }
 
         h1 {
@@ -142,18 +124,10 @@
             border-radius: 5px;
             background-color: #8e44ad;
             color: white;
-            transition: background-color 0.3s ease;
-            width: 70%;
-            max-width: 300px;
-        }
-
-        #upload:hover, #download:hover {
-            background-color: #732d91;
         }
 
         #upload {
             position: relative;
-            z-index: 1;
         }
 
         #upload::before {
@@ -166,28 +140,17 @@
             border-radius: 10px;
             background: linear-gradient(257deg, #ff00ff, #00ffff, #ff00ff, #00ffff);
             background-size: 400%;
-            z-index: -1;
             filter: blur(9px);
-            animation: neonMove 14s linear infinite;
-        }
-
-        @keyframes neonMove {
-            0% { background-position: 0% 50%; }
-            100% { background-position: 400% 50%; }
         }
 
         #imagePreview {
             max-width: 50%;
-            height: auto;
-            display: none;
             margin-top: 10px;
+            display: none;
             border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
 
-        input[type="file"] {
-            display: none;
-        }
+        input[type="file"] { display: none; }
 
         footer {
             width: 100%;
@@ -199,39 +162,6 @@
             color: white;
             font-size: 14px;
             backdrop-filter: blur(5px);
-        }
-
-        @media (max-width: 768px) {
-            .intro h1 { font-size: 32px; }
-            .intro h2 { font-size: 24px; }
-            .intro p, .intro .tagline { font-size: 16px; }
-
-            #upload, #download {
-                padding: 10px 20px;
-                font-size: 16px;
-                max-width: 200px;
-            }
-
-            #imagePreview {
-                max-width: 90%;
-                margin: 10px auto;
-            }
-
-            .container {
-                padding: 15px;
-                width: 95%;
-            }
-
-            #logo {
-                width: 80px;
-                top: 10px;
-                left: 10px;
-            }
-
-            #navbar {
-                height: 50px;
-                padding-left: 100px;
-            }
         }
     </style>
 </head>
@@ -245,14 +175,71 @@
 
     <img src="https://i.postimg.cc/zvJ9FSsX/8004204-removebg-preview.png" alt="Website Logo" id="logo" />
 
-    <div class="intro">
+    <section class="intro-section">
         <h1>CREATE YOUR PDF IN SECONDS!</h1>
         <h2>100% FREE, QUICK, AND EASY!</h2>
-        <p>Welcome to PDF Wizard, your go-to tool for creating PDF files in seconds!...</p>
-        <div class="tagline">Convert your files to PDF in seconds!</div>
+        <p class="tagline">Convert your files to PDF in seconds!</p>
+        <p class="body-text">
+            Welcome to [Your Website Name], your go-to tool for creating PDF files in seconds! Our online PDF maker is
+            100% free, quick, and easy to use. Simply upload your file, select the PDF format, and download your converted
+            file. No registration required, no watermarks, and no limits on conversions! Try our PDF maker today and
+            experience the convenience of converting your files online!
+        </p>
+    </section>
+
+    <div class="container">
+        <h1>Image to PDF Converter</h1>
+        <label for="file-input" id="upload">Choose File</label>
+        <input type="file" id="file-input" accept="image/*" />
+        <br><br>
+        <button id="download">Download PDF</button>
+        <br><br>
+        <img id="imagePreview" />
     </div>
 
-    <!-- Your container code continues here... -->
+    <footer>
+        <p>© 2024 Image to PDF Converter. Made with ❤️ by Arun Jetly.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const fileInput = document.getElementById('file-input');
+            const downloadButton = document.getElementById('download');
+            const imagePreview = document.getElementById('imagePreview');
+            const logo = document.getElementById('logo');
+            let uploadedImage = null;
+
+            fileInput.addEventListener('change', function (e) {
+                const file = e.target.files[0];
+                if (file && file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function (event) {
+                        uploadedImage = event.target.result;
+                        imagePreview.src = uploadedImage;
+                        imagePreview.style.display = 'block';
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    alert("Please upload a valid image.");
+                }
+            });
+
+            downloadButton.addEventListener('click', function () {
+                if (uploadedImage) {
+                    const { jsPDF } = window.jspdf;
+                    const pdf = new jsPDF();
+                    pdf.addImage(uploadedImage, 'JPEG', 10, 10, 180, 160);
+                    pdf.save('generated.pdf');
+                } else {
+                    alert("Please upload an image first.");
+                }
+            });
+
+            logo.addEventListener('click', function () {
+                location.reload();
+            });
+        });
+    </script>
 
 </body>
 
