@@ -39,12 +39,8 @@
             z-index: 998;
             display: flex;
             align-items: center;
-            padding-left: 20px;
+            padding-left: 150px;
             gap: 15px;
-        }
-
-        #navbar img {
-            height: 40px;
         }
 
         .nav-button {
@@ -63,6 +59,17 @@
         .nav-button:hover {
             background: rgba(255, 255, 255, 0.35);
             transform: translateY(-2px);         
+        }
+
+        #logo {
+            position: fixed;
+            top: 10px;
+            left: 20px;
+            z-index: 999;
+        }
+
+        #logo img {
+            height: 40px;
         }
 
         .container {
@@ -121,12 +128,18 @@
 
 <body>
 
-    <div id="navbar">
+    <!-- Logo -->
+    <div id="logo">
         <img src="logo.png" alt="Logo">
+    </div>
+
+    <!-- Navbar -->
+    <div id="navbar">
         <a href="index.html" class="nav-button">Image to PDF</a>
         <a href="word-to-pdf.html" class="nav-button">Word to PDF</a>
     </div>
 
+    <!-- Container -->
     <div class="container">
         <h1>Word to PDF Converter</h1>
 
@@ -137,10 +150,12 @@
         <button id="download">Download PDF</button>
     </div>
 
+    <!-- Footer -->
     <footer>
         <p>© 2024 Word to PDF Converter. Made with ❤️ by Arun Jetly.</p>
     </footer>
 
+    <!-- Script -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const wordInput = document.getElementById('word-input');
