@@ -140,21 +140,22 @@
 </head>
 
 <body>
-
     <div id="navbar">
         <img src="https://i.postimg.cc/zvJ9FSsX/8004204-removebg-preview.png" alt="Logo">
-        <a href="#" class="nav-button image-to-pdf">Image to PDF</a>  <!-- Image to PDF Button -->
-        <a href="#" class="nav-button word-to-pdf">Word to PDF</a>  <!-- Word to PDF Button -->
-        
+        <!-- Navbar Buttons Container -->
+        <div class="navbar-buttons">
+            <a href="#" class="nav-button image-to-pdf">Image to PDF</a>  <!-- Image to PDF Button -->
+            <a href="#" class="nav-button word-to-pdf">Word to PDF</a>  <!-- Word to PDF Button -->
+        </div>
+    </div>
+
     <div class="container">
         <h1>Word to PDF Converter</h1>
 
         <label for="word-input" id="upload">Choose Word File</label>
         <input type="file" id="word-input" accept=".doc,.docx" />
-
-        <br><br>
-        <button id="download">Download PDF</button>
     </div>
+</body>
 
     <footer>
         <p>© 2024 Word to PDF Converter. Made with ❤️ by Arun Jetly.</p>
