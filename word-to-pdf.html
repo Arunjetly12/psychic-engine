@@ -75,14 +75,15 @@
 }
 .nav-button:hover {
     background: rgba(255, 255, 255, 0.35);
-    transform: translateY(-2px); 
+    transform: translateY(-2px);
+    
 }
-/* Positioning buttons properly */
-#image-to-pdf-btn,
-#word-to-pdf-btn {
-    display: block;
-    width: 180px; /* Ensure the buttons are of the same width */
-    margin: 20px auto; /* Center the buttons and give space */
+.nav-button.image-to-pdf {
+    margin-left: 0; /* No margin for the first button */
+}
+
+.nav-button.word-to-pdf {
+    margin-left: 15px; /* Adjust margin for space between buttons */
 }
 
 /* Container for Content */
