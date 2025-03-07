@@ -105,17 +105,12 @@
 
   <!-- Thank You Popup (Hidden initially) -->
   <div id="thankYouPopup" style="display: none;">
-    🎉 Thank You for Signing Up! Check your email for verification.
+    🎉 Thank You for Signing Up!
   </div>
 
-  <!-- EmailJS Script -->
-  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
   <script>
-    emailjs.init("W867bWH_QahvBZWcl"); // ✅ Your Public Key
-
     const form = document.getElementById('signupForm');
     const emailInput = document.getElementById('emailInput');
-    const fullNameInput = document.getElementById('fullNameInput');
     const emailError = document.getElementById('emailError');
     const thankYouPopup = document.getElementById('thankYouPopup');
 
@@ -123,7 +118,6 @@
       event.preventDefault();
 
       const emailValue = emailInput.value;
-      const fullNameValue = fullNameInput.value;
 
       if (!emailValue.endsWith('@gmail.com')) {
         emailError.style.display = 'block';
@@ -132,25 +126,11 @@
         emailError.style.display = 'none';
       }
 
-      // Prepare email parameters
-      const templateParams = {
-        user_email: emailValue,
-        user_name: fullNameValue
-      };
-
-      // Send verification email
-      emailjs.send("service_qu7gkif", "template_a50h3kv", templateParams)
-        .then(function(response) {
-          console.log('✅ Email sent successfully!', response.status, response.text);
-          thankYouPopup.style.display = 'block';
-          setTimeout(() => {
-            thankYouPopup.style.display = 'none';
-            window.location.href = "login.html";
-          }, 3000);
-        }, function(error) {
-          console.error('❌ Failed to send email...', error);
-          alert('Error sending verification email. Please try again.');
-        });
+      thankYouPopup.style.display = 'block';
+      setTimeout(() => {
+        thankYouPopup.style.display = 'none';
+        window.location.href = "login.html";
+      }, 3000);
     });
   </script>
 
