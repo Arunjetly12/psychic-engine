@@ -147,10 +147,11 @@
       }
 
       if (!hasError) {
-        // ✅ Save email and password to localStorage
-        localStorage.setItem("signupEmail", emailValue);
-        localStorage.setItem("signupPassword", passwordValue);
+        // ✅ FIXED HERE:
+        localStorage.setItem("userEmail", emailValue);
+        localStorage.setItem("userPassword", passwordValue);
 
+        alert("✅ Signup successful!");
         window.location.href = "thankyou.html";
       }
     });
