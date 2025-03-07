@@ -43,7 +43,7 @@
             }
         }
 
-       #navbar {
+        #navbar {
             position: fixed;
             top: 0;
             left: 0;
@@ -58,7 +58,6 @@
             padding-left: 150px;
             gap: 15px;
         }
-
 
         .nav-button {
             padding: 10px 20px;
@@ -258,19 +257,6 @@
             object-fit: cover;
         }
 
-        /* White Account Info Box Styles */
-        #accountInfo {
-            display: none;
-            position: absolute;
-            top: 50px;
-            right: 80px;
-            width: 200px;
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-        }
-
         /* Side Menu Styles */
         #sideMenu {
             position: fixed;
@@ -311,16 +297,10 @@
     </div>
 
     <!-- Round Account Button -->
-    <div class="account-button" id="accountButton">
-        <img src="https://i.postimg.cc/76nDPCDC/145856997-296fe121-5dfa-43f4-98b5-db50019738a7.jpg" alt="Account" />
-    </div>
+<div class="account-button" id="accountButton">
+    <img src="https://i.postimg.cc/76nDPCDC/145856997-296fe121-5dfa-43f4-98b5-db50019738a7.jpg" alt="Account" />
+</div>
 
-    <!-- White Account Info Box (near the button) -->
-    <div id="accountInfo">
-        <p>Welcome, User!</p>
-        <button id="logoutBtn">Logout</button>
-        
-    </div>
 
     <!-- Side Menu -->
     <div id="sideMenu">
@@ -338,43 +318,65 @@
         <a href="word-to-pdf.html" class="nav-button">Word to PDF</a>
     </div>
 
+    <img src="https://i.postimg.cc/zvJ9FSsX/8004204-removebg-preview.png" alt="Website Logo" id="logo" />
+
     <div class="intro-text">
         <h1>CREATE YOUR PDF IN SECONDS!</h1>
         <h2>100% FREE, QUICK, AND EASY!</h2>
-        <p>Welcome to our PDF conversion tool! You can easily convert your images to PDF files with just a few clicks. Upload, convert, and download your file instantly.</p>
+        <p>Welcome to [Your Website Name], your go-to tool for creating PDF files in seconds! Our online PDF maker is 100% free, quick, and easy to use. Simply upload your file, select the PDF format, and download your converted file. No registration required, no watermarks, and no limits on conversions! Try our PDF maker today and experience the convenience of converting your files online!</p>
+        <p style="font-size: 20px; font-weight: 500;">Convert your files to PDF in seconds!</p>
     </div>
 
     <div class="container">
-        <h1>Choose an image to convert to PDF</h1>
-        <input type="file" id="fileInput" accept="image/*">
-        <label for="fileInput" id="upload">Choose File</label>
-        <img id="imagePreview" alt="Image Preview">
+        <h1>Image to PDF Converter</h1>
+        <label for="file-input" id="upload">Choose File</label>
+        <input type="file" id="file-input" accept="image/*" />
         <button id="download">Download PDF</button>
+        <img id="imagePreview" />
     </div>
 
     <footer>
-        <p>&copy; 2025 Your Website. All rights reserved.</p>
+        <p>© 2024 PDF Converter. Made with ❤️ by Arun Jetly.</p>
     </footer>
 
     <script>
-        // JavaScript for showing the side menu
-        const hamburgerBtn = document.getElementById("hamburgerBtn");
-        const sideMenu = document.getElementById("sideMenu");
-        const accountButton = document.getElementById("accountButton");
-        const accountInfo = document.getElementById("accountInfo");
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const sideMenu = document.getElementById('sideMenu');
 
-        hamburgerBtn.addEventListener("click", () => {
-            sideMenu.style.left = sideMenu.style.left === "0px" ? "-250px" : "0";
+        hamburgerBtn.addEventListener('click', () => {
+            if (sideMenu.style.left === '0px') {
+                sideMenu.style.left = '-250px';
+            } else {
+                sideMenu.style.left = '0px';
+            }
         });
 
-        accountButton.addEventListener("click", () => {
-            accountInfo.style.display = accountInfo.style.display === "none" ? "block" : "none";
+        const { jsPDF } = window.jspdf;
+        const fileInput = document.getElementById('file-input');
+        const imagePreview = document.getElementById('imagePreview');
+        const downloadButton = document.getElementById('download');
+
+        fileInput.addEventListener('change', function () {
+            const file = fileInput.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
         });
 
-        // Simulate logout function
-        const logoutBtn = document.getElementById("logoutBtn");
-        logoutBtn.addEventListener("click", () => {
-            alert("Logging out...");
+        downloadButton.addEventListener('click', () => {
+            if (!fileInput.files[0]) {
+                alert('Please choose an image file!');
+                return;
+            }
+
+            const doc = new jsPDF();
+            doc.addImage(imagePreview.src, 'JPEG', 10, 10, 180, 250);
+            doc.save('converted.pdf');
         });
     </script>
 </body>
