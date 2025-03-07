@@ -147,6 +147,11 @@
       }
 
       if (!hasError) {
+        // Save email and password in localStorage
+        localStorage.setItem("signupEmail", emailValue);
+        localStorage.setItem("signupPassword", passwordValue);
+
+        // Redirect to thank you page
         window.location.href = "thankyou.html";
       }
     });
