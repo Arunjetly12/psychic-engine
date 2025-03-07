@@ -264,6 +264,17 @@
             background-color: #732d91;
         }
 
+        /* User Email Display Style */
+        #user-email {
+            color: white;
+            font-weight: 600;
+            font-size: 18px;
+            position: fixed;
+            top: 20px;
+            right: 70px;
+            z-index: 9999;
+        }
+
     </style>
 </head>
 
@@ -276,95 +287,93 @@
         <div></div>
     </div>
 
-<!-- Side Menu -->
-<div id="sideMenu">
-    <a href="index.html">Home</a>
-    <a href="image-to-pdf.html">Image to PDF</a>
-    <a href="word-to-pdf.html">Word to PDF</a>
-    <a href="signup.html">Signup</a>
-    <a href="login.html">Login</a>
-    <a href="about.html">About Us</a>
-    <a href="contact.html">Contact</a>
-</div>
+    <!-- Side Menu -->
+    <div id="sideMenu">
+        <a href="index.html">Home</a>
+        <a href="image-to-pdf.html">Image to PDF</a>
+        <a href="word-to-pdf.html">Word to PDF</a>
+        <a href="signup.html">Signup</a>
+        <a href="login.html">Login</a>
+        <a href="about.html">About Us</a>
+        <a href="contact.html">Contact</a>
+    </div>
 
-
+    <!-- Navbar -->
     <div id="navbar">
         <a href="index.html" class="nav-button">Image to PDF</a>
         <a href="word-to-pdf.html" class="nav-button">Word to PDF</a>
     </div>
 
+    <!-- Logo -->
     <img src="https://i.postimg.cc/zvJ9FSsX/8004204-removebg-preview.png" alt="Website Logo" id="logo" />
 
+    <!-- User Email Display -->
+    <div id="user-email">user@example.com</div>
+
+    <!-- Intro Text -->
     <div class="intro-text">
         <h1>CREATE YOUR PDF IN SECONDS!</h1>
         <h2>100% FREE, QUICK, AND EASY!</h2>
         <p>Welcome to [Your Website Name], your go-to tool for creating PDF files in seconds! Our online PDF maker is 100% free, quick, and easy to use. Simply upload your file, select the PDF format, and download your converted file. No registration required, no watermarks, and no limits on conversions! Try our PDF maker today and experience the convenience of converting your files online!</p>
-        <p style="font-size: 20px; font-weight: 500;">Convert your files to PDF in seconds!</p>
     </div>
 
+    <!-- Image to PDF Converter Section -->
     <div class="container">
-        <h1>Image to PDF Converter</h1>
-        <label for="file-input" id="upload">Choose File</label>
-        <input type="file" id="file-input" accept="image/*" />
-        <button id="download">Download PDF</button>
+        <h1>Convert your image to PDF</h1>
+        <input type="file" id="fileInput" accept="image/*" />
+        <button id="upload">Choose File</button>
         <img id="imagePreview" />
+        <button id="download" style="display:none;">Download PDF</button>
     </div>
 
     <footer>
-        <p>© 2024 PDF Converter. Made with ❤️ by Arun Jetly.</p>
+        <p>© 2025 [Your Website Name]. All Rights Reserved.</p>
     </footer>
 
     <script>
-        const hamburgerBtn = document.getElementById('hamburgerBtn');
-        const sideMenu = document.getElementById('sideMenu');
+        // Hamburger Menu Toggle
+        const hamburger = document.getElementById("hamburgerBtn");
+        const sideMenu = document.getElementById("sideMenu");
 
-        hamburgerBtn.addEventListener('click', () => {
-            if (sideMenu.style.left === '0px') {
-                sideMenu.style.left = '-250px';
-            } else {
-                sideMenu.style.left = '0px';
-            }
+        hamburger.addEventListener("click", () => {
+            sideMenu.style.left = sideMenu.style.left === "-250px" ? "0" : "-250px";
         });
 
-        const { jsPDF } = window.jspdf;
-        const fileInput = document.getElementById('file-input');
+        // Simulating Email Display
+        const userEmail = "user@example.com"; // Replace with dynamic value
+        document.getElementById('user-email').textContent = userEmail;
+
+        // Image Preview & PDF Generation
+        const uploadButton = document.getElementById('upload');
+        const fileInput = document.getElementById('fileInput');
         const imagePreview = document.getElementById('imagePreview');
         const downloadButton = document.getElementById('download');
 
-        fileInput.addEventListener('change', function () {
-            const file = fileInput.files[0];
-            if (file) {
+        uploadButton.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file && file.type.startsWith('image/')) {
                 const reader = new FileReader();
-                reader.onload = function (e) {
-                    imagePreview.src = e.target.result;
+                reader.onload = function (event) {
+                    imagePreview.src = event.target.result;
                     imagePreview.style.display = 'block';
+                    downloadButton.style.display = 'inline-block';
                 };
                 reader.readAsDataURL(file);
+            } else {
+                alert('Please upload a valid image file.');
             }
         });
 
         downloadButton.addEventListener('click', () => {
-            const img = new Image();
-            img.src = imagePreview.src;
-            img.onload = () => {
-                const pdf = new jsPDF();
-                const pageWidth = pdf.internal.pageSize.getWidth();
-                const pageHeight = pdf.internal.pageSize.getHeight();
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
 
-                let imgWidth = img.width;
-                let imgHeight = img.height;
-
-                // Scale the image to fit inside the PDF page while keeping aspect ratio
-                const ratio = Math.min(pageWidth / imgWidth, pageHeight / imgHeight);
-                imgWidth *= ratio;
-                imgHeight *= ratio;
-
-                const x = (pageWidth - imgWidth) / 2;
-                const y = (pageHeight - imgHeight) / 2;
-
-                pdf.addImage(imagePreview.src, 'JPEG', x, y, imgWidth, imgHeight);
-                pdf.save('converted.pdf');
-            };
+            doc.addImage(imagePreview.src, 'JPEG', 15, 40, 180, 160);
+            doc.save('converted-image.pdf');
         });
     </script>
 
