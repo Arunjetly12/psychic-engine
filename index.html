@@ -318,7 +318,20 @@
         <a href="word-to-pdf.html" class="nav-button">Word to PDF</a>
     </div>
 
-    <img src="https://i.postimg.cc/zvJ9FSsX/8004204-removebg-preview.png" alt="Website Logo" id="logo" />
+    <!-- Your existing logo image tag -->
+<img src="https://i.postimg.cc/zvJ9FSsX/8004204-removebg-preview.png" alt="Website Logo" id="logo" onclick="reloadPage()"/>
+
+<!-- Other content -->
+
+<!-- Add this script just before the closing body tag -->
+<script>
+    function reloadPage() {
+        // Reload the page and go to the homepage
+        window.location.href = 'index.html'; // Change 'index.html' to your homepage path if different
+    }
+</script>
+</body>
+</html>
 
     <div class="intro-text">
         <h1>CREATE YOUR PDF IN SECONDS!</h1>
