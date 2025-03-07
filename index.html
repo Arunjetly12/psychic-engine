@@ -257,31 +257,42 @@
             object-fit: cover;
         }
 
-        /* Side Menu Styles */
-        #sideMenu {
-            position: fixed;
-            top: 0;
-            left: -250px;
-            width: 250px;
-            height: 100%;
+        /* Popup Menu Styles */
+        #accountMenu {
+            position: absolute;
+            top: 50px;
+            right: 0;
+            width: 150px;
             background-color: #5b2a82;
             color: white;
-            transition: left 0.3s ease-in-out;
-            padding-top: 60px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            padding: 10px;
+            display: none;
+            transition: all 0.3s ease-in-out;
         }
 
-        #sideMenu a {
-            display: block;
-            padding: 15px;
-            text-decoration: none;
+        #accountMenu img {
+            width: 100%;
+            height: 40px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        #accountMenu button {
+            width: 100%;
+            padding: 10px;
+            background-color: red;
+            border: none;
             color: white;
-            font-size: 18px;
-            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
             transition: background-color 0.3s ease;
         }
 
-        #sideMenu a:hover {
-            background-color: #732d91;
+        #accountMenu button:hover {
+            background-color: darkred;
         }
 
     </style>
@@ -297,10 +308,15 @@
     </div>
 
     <!-- Round Account Button -->
-<div class="account-button" id="accountButton">
-    <img src="https://i.postimg.cc/76nDPCDC/145856997-296fe121-5dfa-43f4-98b5-db50019738a7.jpg" alt="Account" />
-</div>
+    <div class="account-button" id="accountButton">
+        <img src="https://i.postimg.cc/76nDPCDC/145856997-296fe121-5dfa-43f4-98b5-db50019738a7.jpg" alt="Account" />
+    </div>
 
+    <!-- Account Popup Menu -->
+    <div id="accountMenu">
+        <img src="https://i.postimg.cc/76nDPCDC/145856997-296fe121-5dfa-43f4-98b5-db50019738a7.jpg" alt="Account" />
+        <button id="logoutBtn">Logout</button>
+    </div>
 
     <!-- Side Menu -->
     <div id="sideMenu">
@@ -324,60 +340,52 @@
         <h1>CREATE YOUR PDF IN SECONDS!</h1>
         <h2>100% FREE, QUICK, AND EASY!</h2>
         <p>Welcome to [Your Website Name], your go-to tool for creating PDF files in seconds! Our online PDF maker is 100% free, quick, and easy to use. Simply upload your file, select the PDF format, and download your converted file. No registration required, no watermarks, and no limits on conversions! Try our PDF maker today and experience the convenience of converting your files online!</p>
-        <p style="font-size: 20px; font-weight: 500;">Convert your files to PDF in seconds!</p>
+        <p>Convert your files to PDF in seconds!</p>
     </div>
 
     <div class="container">
-        <h1>Image to PDF Converter</h1>
-        <label for="file-input" id="upload">Choose File</label>
-        <input type="file" id="file-input" accept="image/*" />
-        <button id="download">Download PDF</button>
+        <h1>Upload Image</h1>
+        <label id="upload" for="fileInput">Choose File</label>
+        <input type="file" id="fileInput" accept="image/*" onchange="previewImage(event)">
         <img id="imagePreview" />
+        <button id="download" onclick="generatePDF()">Download PDF</button>
     </div>
 
     <footer>
-        <p>© 2024 PDF Converter. Made with ❤️ by Arun Jetly.</p>
+        <p>&copy; 2025 Your Website Name. All rights reserved.</p>
     </footer>
 
     <script>
-        const hamburgerBtn = document.getElementById('hamburgerBtn');
-        const sideMenu = document.getElementById('sideMenu');
+        const accountButton = document.getElementById('accountButton');
+        const accountMenu = document.getElementById('accountMenu');
+        const logoutBtn = document.getElementById('logoutBtn');
 
-        hamburgerBtn.addEventListener('click', () => {
-            if (sideMenu.style.left === '0px') {
-                sideMenu.style.left = '-250px';
-            } else {
-                sideMenu.style.left = '0px';
-            }
+        accountButton.addEventListener('click', () => {
+            accountMenu.style.display = (accountMenu.style.display === 'block') ? 'none' : 'block';
         });
 
-        const { jsPDF } = window.jspdf;
-        const fileInput = document.getElementById('file-input');
-        const imagePreview = document.getElementById('imagePreview');
-        const downloadButton = document.getElementById('download');
-
-        fileInput.addEventListener('change', function () {
-            const file = fileInput.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    imagePreview.src = e.target.result;
-                    imagePreview.style.display = 'block';
-                };
-                reader.readAsDataURL(file);
-            }
+        logoutBtn.addEventListener('click', () => {
+            // Add functionality to log the user out
+            alert('Logging out...');
         });
 
-        downloadButton.addEventListener('click', () => {
-            if (!fileInput.files[0]) {
-                alert('Please choose an image file!');
-                return;
-            }
+        function previewImage(event) {
+            const reader = new FileReader();
+            reader.onload = function () {
+                const imgElement = document.getElementById('imagePreview');
+                imgElement.style.display = 'block';
+                imgElement.src = reader.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
 
+        function generatePDF() {
+            const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
-            doc.addImage(imagePreview.src, 'JPEG', 10, 10, 180, 250);
-            doc.save('converted.pdf');
-        });
+            const img = document.getElementById('imagePreview');
+            doc.addImage(img, 'JPEG', 10, 10, 180, 160);
+            doc.save('converted-image.pdf');
+        }
     </script>
 </body>
 
