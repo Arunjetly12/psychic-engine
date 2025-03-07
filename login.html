@@ -1,1 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - PDF Converter</title>
+  <style>
+    body {
+      font-family: Montserrat, sans-serif;
+      background-color: #0F0F0F;
+      color: white;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .login-container {
+      background-color: #1A1A1A;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
+      width: 100%;
+      max-width: 400px;
+      position: relative;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 2px solid transparent;
+      border-radius: 8px;
+      transition: border-color 0.3s;
+    }
+    input.error {
+      border-color: red;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background-color: #8A2BE2;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+    button:hover {
+      background-color: #A74CED;
+    }
+    .error-message {
+      color: red;
+      font-size: 14px;
+      margin-top: -5px;
+      margin-bottom: 10px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
 
+  <div class="login-container">
+    <h2>Login</h2>
+    <form id="loginForm">
+      <input type="email" id="loginEmail" placeholder="Email Address" required>
+      <div id="loginEmailError" class="error-message"></div>
+
+      <input type="password" id="loginPassword" placeholder="Password" required>
+      <div id="loginPasswordError" class="error-message"></div>
+
+      <button type="submit">Login</button>
+    </form>
+  </div>
+
+  <script>
+    const loginForm = document.getElementById("loginForm");
+    const loginEmail = document.getElementById("loginEmail");
+    const loginPassword = document.getElementById("loginPassword");
+    const loginEmailError = document.getElementById("loginEmailError");
+    const loginPasswordError = document.getElementById("loginPasswordError");
+
+    loginForm.addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      // Reset styles
+      loginEmail.classList.remove("error");
+      loginPassword.classList.remove("error");
+      loginEmailError.style.display = "none";
+      loginPasswordError.style.display = "none";
+
+      // Get stored data
+      const storedEmail = localStorage.getItem("userEmail");
+      const storedPassword = localStorage.getItem("userPassword");
+
+      const enteredEmail = loginEmail.value.trim();
+      const enteredPassword = loginPassword.value.trim();
+
+      let hasError = false;
+
+      if (enteredEmail === "") {
+        loginEmailError.textContent = "Please enter your email.";
+        loginEmailError.style.display = "block";
+        loginEmail.classList.add("error");
+        hasError = true;
+      }
+
+      if (enteredPassword === "") {
+        loginPasswordError.textContent = "Please enter your password.";
+        loginPasswordError.style.display = "block";
+        loginPassword.classList.add("error");
+        hasError = true;
+      }
+
+      if (!hasError) {
+        if (enteredEmail === storedEmail && enteredPassword === storedPassword) {
+          alert("Login successful!");
+          window.location.href = "index.html"; // or any home page
+        } else {
+          loginPasswordError.textContent = "Invalid email or password.";
+          loginPasswordError.style.display = "block";
+          loginPassword.classList.add("error");
+        }
+      }
+    });
+  </script>
+
+</body>
+</html>
