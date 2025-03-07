@@ -58,41 +58,43 @@
     
         }
           
-        .nav-button {
-            width: 120px;
-            height: auto;
-            position: fixed;
-            left: 100px;
-            padding: 10px 20px;
-            font-size: 16px;
-            font-weight: 600;
-            border: none;
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.2);
-            color: #fff;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-        }
+        /* Navigation Button */
+.nav-button {
+    width: 120px;
+    height: auto;
+    position: fixed;
+    top: 20px;  /* Adjust the top position for spacing */
+    left: 50%;  /* Center the button horizontally */
+    transform: translateX(-50%);  /* Offset the button to align it in the center */
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
 
-        .nav-button:hover {
-            background: rgba(255, 255, 255, 0.35);
-            transform: translateY(-2px); 
-        }
+.nav-button:hover {
+    background: rgba(255, 255, 255, 0.35);
+    transform: translateY(-2px); 
+}
 
-       
-
-        .container {
-            text-align: center;
-            padding: 20px;
-            background-color: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 12px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-            width: 90%;
-            max-width: 500px;
-            margin-top: 100px;
-        }
+/* Container for Content */
+.container {
+    text-align: center;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    width: 90%;
+    max-width: 500px;
+    margin: 100px auto 0;  /* Center container vertically and horizontally */
+}
 
         h1 {
             font-size: 24px;
