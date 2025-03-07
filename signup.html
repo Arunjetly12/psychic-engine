@@ -92,7 +92,7 @@
     const passwordError = document.getElementById("passwordError");
 
     signupForm.addEventListener("submit", function(event) {
-      event.preventDefault(); // Stop form from submitting
+      event.preventDefault();
 
       let hasError = false;
 
@@ -115,16 +115,28 @@
         emailError.style.display = "block";
         emailInput.classList.add("error");
         hasError = true;
+      } else if (!emailValue.endsWith("@gmail.com")) {
+        emailError.textContent = "Only @gmail.com addresses are allowed.";
+        emailError.style.display = "block";
+        emailInput.classList.add("error");
+        hasError = true;
       }
 
-      // Password match check
+      // Password strength check
       const passwordValue = passwordInput.value.trim();
       const confirmPasswordValue = confirmPasswordInput.value.trim();
+      const passwordStrength = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
+
       if (passwordValue === "" || confirmPasswordValue === "") {
         passwordError.textContent = "Please enter your password and confirm it.";
         passwordError.style.display = "block";
         passwordInput.classList.add("error");
         confirmPasswordInput.classList.add("error");
+        hasError = true;
+      } else if (!passwordStrength.test(passwordValue)) {
+        passwordError.textContent = "Password must be at least 8 characters long, include 1 uppercase letter and 1 number.";
+        passwordError.style.display = "block";
+        passwordInput.classList.add("error");
         hasError = true;
       } else if (passwordValue !== confirmPasswordValue) {
         passwordError.textContent = "Passwords do not match.";
