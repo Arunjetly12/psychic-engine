@@ -215,70 +215,71 @@
             backdrop-filter: blur(5px);
         }
 
-        /* Hamburger Button Styles */
-        .hamburger {
+        /* Account Button Styles */
+        .account-btn {
             position: fixed;
             top: 20px;
             right: 20px;
-            width: 30px;
-            height: 25px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #fff;
+            border: 2px solid #5b2a82;
             display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
             cursor: pointer;
-            z-index: 9999;
+            z-index: 999;
         }
 
-        .hamburger div {
-            width: 100%;
-            height: 4px;
-            background-color: #fff;
-            border-radius: 4px;
+        .account-btn img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
         }
 
-        /* Side Menu Styles */
-        #sideMenu {
-            position: fixed;
-            top: 0;
-            left: -250px;
-            width: 250px;
-            height: 100%;
+        /* Account Menu Styles */
+        .account-menu {
+            position: absolute;
+            top: 70px;
+            right: 0;
+            width: 150px;
             background-color: #5b2a82;
             color: white;
-            transition: left 0.3s ease-in-out;
-            padding-top: 60px;
+            border-radius: 8px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            display: none;
+            flex-direction: column;
         }
 
-        #sideMenu a {
-            display: block;
-            padding: 15px;
+        .account-menu a {
+            padding: 10px;
             text-decoration: none;
             color: white;
-            font-size: 18px;
-            font-weight: 600;
+            font-size: 16px;
+            text-align: center;
             transition: background-color 0.3s ease;
         }
 
-        #sideMenu a:hover {
+        .account-menu a:hover {
             background-color: #732d91;
-        }
-
-        /* User Email Display Style */
-        #user-email {
-            color: white;
-            font-weight: 600;
-            font-size: 18px;
-            position: fixed;
-            top: 20px;
-            right: 70px;
-            z-index: 9999;
         }
 
     </style>
 </head>
 
 <body>
+
+    <!-- Account Button -->
+    <div class="account-btn" id="accountBtn">
+        <img src="https://via.placeholder.com/30" alt="Account Image">
+    </div>
+
+    <!-- Account Menu -->
+    <div class="account-menu" id="accountMenu">
+        <img src="https://via.placeholder.com/50" alt="Account Image" style="border-radius: 50%; margin: 10px auto;">
+        <a href="#" id="logoutBtn">Logout</a>
+    </div>
 
     <!-- Hamburger Button -->
     <div class="hamburger" id="hamburgerBtn">
@@ -298,85 +299,78 @@
         <a href="contact.html">Contact</a>
     </div>
 
-    <!-- Navbar -->
     <div id="navbar">
         <a href="index.html" class="nav-button">Image to PDF</a>
         <a href="word-to-pdf.html" class="nav-button">Word to PDF</a>
     </div>
 
-    <!-- Logo -->
     <img src="https://i.postimg.cc/zvJ9FSsX/8004204-removebg-preview.png" alt="Website Logo" id="logo" />
 
-    <!-- User Email Display -->
-    <div id="user-email">user@example.com</div>
-
-    <!-- Intro Text -->
     <div class="intro-text">
         <h1>CREATE YOUR PDF IN SECONDS!</h1>
         <h2>100% FREE, QUICK, AND EASY!</h2>
         <p>Welcome to [Your Website Name], your go-to tool for creating PDF files in seconds! Our online PDF maker is 100% free, quick, and easy to use. Simply upload your file, select the PDF format, and download your converted file. No registration required, no watermarks, and no limits on conversions! Try our PDF maker today and experience the convenience of converting your files online!</p>
+        <p style="font-size: 20px; font-weight: 500;">Convert your files to PDF in seconds!</p>
     </div>
 
-    <!-- Image to PDF Converter Section -->
     <div class="container">
-        <h1>Convert your image to PDF</h1>
-        <input type="file" id="fileInput" accept="image/*" />
-        <button id="upload">Choose File</button>
+        <h1>Image to PDF Converter</h1>
+        <label for="file-input" id="upload">Choose File</label>
+        <input type="file" id="file-input" accept="image/*" />
+        <button id="download">Download PDF</button>
         <img id="imagePreview" />
-        <button id="download" style="display:none;">Download PDF</button>
     </div>
 
     <footer>
-        <p>© 2025 [Your Website Name]. All Rights Reserved.</p>
+        <p>© 2024 PDF Converter. Made with ❤️ by Arun Jetly.</p>
     </footer>
 
     <script>
-        // Hamburger Menu Toggle
-        const hamburger = document.getElementById("hamburgerBtn");
-        const sideMenu = document.getElementById("sideMenu");
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const sideMenu = document.getElementById('sideMenu');
 
-        hamburger.addEventListener("click", () => {
-            sideMenu.style.left = sideMenu.style.left === "-250px" ? "0" : "-250px";
-        });
-
-        // Simulating Email Display
-        const userEmail = "user@example.com"; // Replace with dynamic value
-        document.getElementById('user-email').textContent = userEmail;
-
-        // Image Preview & PDF Generation
-        const uploadButton = document.getElementById('upload');
-        const fileInput = document.getElementById('fileInput');
-        const imagePreview = document.getElementById('imagePreview');
-        const downloadButton = document.getElementById('download');
-
-        uploadButton.addEventListener('click', () => {
-            fileInput.click();
-        });
-
-        fileInput.addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if (file && file.type.startsWith('image/')) {
-                const reader = new FileReader();
-                reader.onload = function (event) {
-                    imagePreview.src = event.target.result;
-                    imagePreview.style.display = 'block';
-                    downloadButton.style.display = 'inline-block';
-                };
-                reader.readAsDataURL(file);
+        hamburgerBtn.addEventListener('click', () => {
+            if (sideMenu.style.left === '0px') {
+                sideMenu.style.left = '-250px';
             } else {
-                alert('Please upload a valid image file.');
+                sideMenu.style.left = '0px';
             }
         });
 
-        downloadButton.addEventListener('click', () => {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
+        // Account Button and Menu
+        const accountBtn = document.getElementById('accountBtn');
+        const accountMenu = document.getElementById('accountMenu');
 
-            doc.addImage(imagePreview.src, 'JPEG', 15, 40, 180, 160);
-            doc.save('converted-image.pdf');
+        accountBtn.addEventListener('click', () => {
+            if (accountMenu.style.display === 'none' || accountMenu.style.display === '') {
+                accountMenu.style.display = 'flex';
+            } else {
+                accountMenu.style.display = 'none';
+            }
+        });
+
+        const { jsPDF } = window.jspdf;
+        const fileInput = document.getElementById('file-input');
+        const imagePreview = document.getElementById('imagePreview');
+        const downloadBtn = document.getElementById('download');
+
+        fileInput.addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                imagePreview.src = event.target.result;
+                imagePreview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        });
+
+        downloadBtn.addEventListener('click', function () {
+            const doc = new jsPDF();
+            const img = imagePreview.src;
+            doc.addImage(img, 'JPEG', 10, 10, 180, 160);
+            doc.save('image.pdf');
         });
     </script>
-
 </body>
 
 </html>
