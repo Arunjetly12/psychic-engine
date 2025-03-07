@@ -95,7 +95,7 @@
       loginEmailError.style.display = "none";
       loginPasswordError.style.display = "none";
 
-      // Get stored data
+      // Get stored data from localStorage
       const storedEmail = localStorage.getItem("userEmail");
       const storedPassword = localStorage.getItem("userPassword");
 
@@ -119,7 +119,11 @@
       }
 
       if (!hasError) {
-        if (enteredEmail === storedEmail && enteredPassword === storedPassword) {
+        if (!storedEmail || !storedPassword) {
+          loginEmailError.textContent = "No account found. Please sign up first.";
+          loginEmailError.style.display = "block";
+          loginEmail.classList.add("error");
+        } else if (enteredEmail === storedEmail && enteredPassword === storedPassword) {
           alert("Login successful!");
           window.location.href = "index.html"; // or any home page
         } else {
