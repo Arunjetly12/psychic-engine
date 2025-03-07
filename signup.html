@@ -35,8 +35,12 @@
       width: 100%;
       padding: 12px;
       margin: 10px 0;
-      border: none;
+      border: 2px solid transparent;
       border-radius: 8px;
+      transition: border-color 0.3s;
+    }
+    input.error {
+      border-color: red;
     }
     button {
       width: 100%;
@@ -92,18 +96,25 @@
 
       let hasError = false;
 
+      // Reset styles
+      emailInput.classList.remove("error");
+      passwordInput.classList.remove("error");
+      confirmPasswordInput.classList.remove("error");
+      emailError.style.display = "none";
+      passwordError.style.display = "none";
+
       // Email validation
       const emailValue = emailInput.value.trim();
       if (emailValue === "") {
         emailError.textContent = "Please enter your email address.";
         emailError.style.display = "block";
+        emailInput.classList.add("error");
         hasError = true;
       } else if (!/^\S+@\S+\.\S+$/.test(emailValue)) {
         emailError.textContent = "Please enter a valid email address.";
         emailError.style.display = "block";
+        emailInput.classList.add("error");
         hasError = true;
-      } else {
-        emailError.style.display = "none";
       }
 
       // Password match check
@@ -112,18 +123,20 @@
       if (passwordValue === "" || confirmPasswordValue === "") {
         passwordError.textContent = "Please enter your password and confirm it.";
         passwordError.style.display = "block";
+        passwordInput.classList.add("error");
+        confirmPasswordInput.classList.add("error");
         hasError = true;
       } else if (passwordValue !== confirmPasswordValue) {
         passwordError.textContent = "Passwords do not match.";
         passwordError.style.display = "block";
+        passwordInput.classList.add("error");
+        confirmPasswordInput.classList.add("error");
         hasError = true;
-      } else {
-        passwordError.style.display = "none";
       }
 
       if (!hasError) {
         alert("Signup successful! (Next we'll add email verification)");
-        // Next steps: redirect or proceed
+        // Proceed next
       }
     });
   </script>
