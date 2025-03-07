@@ -27,21 +27,22 @@
             100% { background-position: 0% 50%; }
         }
 
-        #navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 60px;
-            background-color: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            z-index: 998;
-            display: flex;
-            align-items: center;
-            padding-left: 20px;
-            gap: 15px;
-        }
+       /* Navbar */
+#navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background-color: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    z-index: 998;
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    gap: 15px;
+}
 
         #navbar img {
             height: 40px;
@@ -58,15 +59,10 @@
     
         }
           
-        /* Navigation Button */
+/* Button styling */
 .nav-button {
-    width: 120px;
-    height: auto;
-    position: fixed;
-    top: 20px;  /* Adjust the top position for spacing */
-    left: 50%;  /* Center the button horizontally */
-    transform: translateX(-50%);  /* Offset the button to align it in the center */
-    padding: 10px 20px;
+    width: 200px; /* Same width for both buttons */
+    padding: 12px 24px;
     font-size: 16px;
     font-weight: 600;
     border: none;
@@ -76,13 +72,22 @@
     cursor: pointer;
     transition: all 0.3s ease;
     text-decoration: none;
+    display: inline-block; /* Ensures it behaves like a block element */
+    text-align: center;
+    margin: 10px auto; /* Center the button horizontally with space around */
+    box-sizing: border-box;
 }
-
 .nav-button:hover {
     background: rgba(255, 255, 255, 0.35);
     transform: translateY(-2px); 
 }
-
+/* Positioning buttons properly */
+#image-to-pdf-btn,
+#word-to-pdf-btn {
+    display: block;
+    width: 180px; /* Ensure the buttons are of the same width */
+    margin: 20px auto; /* Center the buttons and give space */
+}
 
 /* Container for Content */
 .container {
