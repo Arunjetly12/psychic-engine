@@ -7,14 +7,13 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <nav class="navbar">
-            <div class="logo">Your Logo</div>
-            <ul class="nav-links">
-                <li><a href="index.html">Image to PDF</a></li>
-                <li><a href="word-to-pdf.html" class="active">Word to PDF</a></li>
-            </ul>
-            <div class="menu-icon">☰</div>
+    <nav class="navbar">
+        <div class="logo">PDF Converter</div>
+        <div class="nav-links">
+            <a href="index.html">Image to PDF</a>
+            <a href="word-to-pdf.html" class="active">Word to PDF</a>
+        </div>
+        <div class="menu-container">
             <div class="account-button">
                 <img src="default-profile.png" alt="Account">
                 <div class="account-menu">
@@ -22,18 +21,27 @@
                     <button>Logout</button>
                 </div>
             </div>
-        </nav>
+            <div class="hamburger-menu">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+        </div>
+    </nav>
+    
+    <header>
+        <h1>CREATE YOUR PDF IN SECONDS!</h1>
+        <h2>100% FREE, QUICK, AND EASY!</h2>
+        <p>Welcome to [Your Website Name], your go-to tool for creating PDF files in seconds! Our online PDF maker is 100% free, quick, and easy to use. Simply upload your file, select the PDF format, and download your converted file. No registration required, no watermarks, and no limits on conversions! Try our PDF maker today and experience the convenience of converting your files online!</p>
+        <p class="tagline">Convert your files to PDF in seconds!</p>
     </header>
     
-    <main>
-        <section class="converter-container">
-            <h1>Convert Word to PDF</h1>
-            <p>Select your Word file and convert it to PDF instantly.</p>
-            <div class="upload-section">
-                <button class="upload-btn">Upload Word File</button>
-                <button class="download-btn">Download PDF</button>
-            </div>
-        </section>
-    </main>
+    <div class="container">
+        <label for="wordUpload" class="upload-btn">Choose Word File</label>
+        <input type="file" id="wordUpload" accept=".doc, .docx" hidden>
+        <button class="download-btn">Download PDF</button>
+    </div>
+    
+    <script src="script.js"></script>
 </body>
 </html>
