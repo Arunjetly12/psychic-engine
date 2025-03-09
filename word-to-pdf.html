@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Word to PDF Converter</title>
+    <title>Image to PDF Converter</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
@@ -341,8 +341,8 @@
     </div>
 
     <div class="container">
-        <h1>Word to PDF Converter</h1>
-        <label for="file-input" id="upload">Choose Word File</label>
+        <h1>Image to PDF Converter</h1>
+        <label for="file-input" id="upload">Choose File</label>
         <input type="file" id="file-input" accept="image/*" />
         <button id="download">Download PDF</button>
         <img id="imagePreview" />
@@ -381,37 +381,17 @@
             }
         });
 
-        downloadButton.addEventListener('click', async () => {
-    if (!fileInput.files[0]) {
-        alert('Please choose a Word file!');
-        return;
-    }
+        downloadButton.addEventListener('click', () => {
+            if (!fileInput.files[0]) {
+                alert('Please choose an image file!');
+                return;
+            }
 
-    const file = fileInput.files[0];
-
-    if (file.name.split('.').pop().toLowerCase() !== 'docx') {
-        alert('Please upload a valid .docx file!');
-        return;
-    }
-
-    const reader = new FileReader();
-    reader.readAsArrayBuffer(file);
-
-    reader.onload = async function (event) {
-        const content = event.target.result;
-
-        // Convert DOCX to plain text using Mammoth.js
-        window.mammoth.extractRawText({ arrayBuffer: content }).then(function (result) {
-            const text = result.value;
-
-            // Create PDF
             const doc = new jsPDF();
-            doc.text(text, 10, 10, { maxWidth: 180 });
+            doc.addImage(imagePreview.src, 'JPEG', 10, 10, 180, 250);
             doc.save('converted.pdf');
-        }).catch(function (error) {
-            console.log("Error:", error);
-            alert('Failed to convert the file. Please try again.');
         });
-    };
-});
+    </script>
+</body>
 
+</html>
