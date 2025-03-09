@@ -400,13 +400,18 @@
     reader.onload = async function (event) {
         const content = event.target.result;
 
-        // Load docx content using docx.js
-        const docx = await window.mammoth.extractRawText({ arrayBuffer: content });
+        // Convert DOCX to plain text using Mammoth.js
+        window.mammoth.extractRawText({ arrayBuffer: content }).then(function (result) {
+            const text = result.value;
 
-        // Create PDF
-        const doc = new jsPDF();
-        doc.text(docx.value, 10, 10, { maxWidth: 180 });
-        doc.save('converted.pdf');
+            // Create PDF
+            const doc = new jsPDF();
+            doc.text(text, 10, 10, { maxWidth: 180 });
+            doc.save('converted.pdf');
+        }).catch(function (error) {
+            console.log("Error:", error);
+            alert('Failed to convert the file. Please try again.');
+        });
     };
 });
 
