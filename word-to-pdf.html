@@ -364,22 +364,35 @@
             }
         });
 
-        const { jsPDF } = window.jspdf;
-        const fileInput = document.getElementById('file-input');
-        const textPreview = document.getElementById('textPreview');
-        const downloadButton = document.getElementById('download');
+const { jsPDF } = window.jspdf;
+const fileInput = document.getElementById('file-input');
+const textPreview = document.getElementById('textPreview'); 
+const downloadButton = document.getElementById('download');
 
-        fileInput.addEventListener('change', function () {
-            const file = fileInput.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    imagePreview.src = e.target.result;
-                    imagePreview.style.display = 'block';
-                };
-                reader.readAsDataURL(file);
-            }
-          });
+fileInput.addEventListener('change', function () {
+    const file = fileInput.files[0];
+    if (file) {
+        if (file.name.split('.').pop().toLowerCase() !== 'docx') {
+            alert('Please upload a valid .docx file!');
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.readAsArrayBuffer(file);
+
+        reader.onload = async function (event) {
+            const content = event.target.result;
+
+            // Extract text from DOCX using mammoth.js
+            const docx = await window.mammoth.convertToHtml({ arrayBuffer: content });
+
+            // Set the extracted content as a preview
+            textPreview.innerHTML = docx.value;
+            textPreview.style.display = 'block';
+        };
+    }
+});
+
 
         downloadButton.addEventListener('click', async () => {
             if (!fileInput.files[0]) {
