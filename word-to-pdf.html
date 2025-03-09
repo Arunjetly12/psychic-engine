@@ -362,11 +362,12 @@
             } else {
                 sideMenu.style.left = '0px';
             }
-        });
+       });
 
 const { jsPDF } = window.jspdf;
 const fileInput = document.getElementById('file-input');
 const textPreview = document.getElementById('textPreview'); 
+const previewImage = document.getElementById('previewImage'); // Image preview
 const downloadButton = document.getElementById('download');
 
 fileInput.addEventListener('change', function () {
@@ -389,6 +390,15 @@ fileInput.addEventListener('change', function () {
             // Set the extracted content as a preview
             textPreview.innerHTML = docx.value;
             textPreview.style.display = 'block';
+
+            // Convert the preview text into an image
+            setTimeout(() => {
+                html2canvas(textPreview).then(canvas => {
+                    previewImage.src = canvas.toDataURL("image/png");
+                    previewImage.style.display = 'block';
+                    textPreview.style.display = 'none'; // Hide text, show image instead
+                });
+            }, 
         };
     }
 });
