@@ -343,12 +343,13 @@
     <div class="container">
         <h1>Word to PDF Converter</h1>
         <label for="file-input" id="upload">Choose File</label>
-        <input type="file" id="file-input" accept="image/*" />
+        <input type="file" id="file-input" accept=".docx">
         <button id="download">Download PDF</button>
-        <img id="imagePreview" />
-        <div id="textPreview" style="display: none;"></div>
-<img id="previewImage" style="display: none; max-width: 100%; height: auto;">
-   </div>
+        <div id="doc-preview" style="border: 1px solid #ccc; padding: 10px; margin-top: 10px; display: none;">
+    <h3>Document Preview:</h3>
+    <p id="preview-text"></p>
+</div>
+
           <footer>
         <p>© 2024 PDF Converter. Made with ❤️ by Arun Jetly.</p>
     </footer>
