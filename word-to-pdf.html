@@ -3,30 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Background Theme</title>
+    <title>New Page</title>
+    <link rel="stylesheet" href="styles.css">
     <style>
         body {
+            background-color: #1a1a2e;
+            color: white;
+            font-family: Montserrat, sans-serif;
             margin: 0;
             padding: 0;
-            height: 100vh;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            background: linear-gradient(45deg, #1e1e2e, #4b0082);
-            animation: backgroundAnimation 10s infinite alternate;
+            justify-content: center;
+            height: 100vh;
         }
-
-        @keyframes backgroundAnimation {
-            0% {
-                background: linear-gradient(45deg, #1e1e2e, #4b0082);
-            }
-            100% {
-                background: linear-gradient(45deg, #4b0082, #1e1e2e);
-            }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+            text-align: center;
+        }
+        h1 {
+            font-size: 36px;
+        }
+        p {
+            font-size: 18px;
         }
     </style>
 </head>
 <body>
+    <div class="container">
+        <h1>New Page</h1>
+        <p>Content will be added here later.</p>
+    </div>
 </body>
 </html>
-
