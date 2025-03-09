@@ -381,17 +381,32 @@
             }
         });
 
-        downloadButton.addEventListener('click', () => {
-            if (!fileInput.files[0]) {
-                alert('Please choose an image file!');
-                return;
-            }
+        downloadButton.addEventListener('click', async () => {
+    if (!fileInput.files[0]) {
+        alert('Please choose a Word file!');
+        return;
+    }
 
-            const doc = new jsPDF();
-            doc.addImage(imagePreview.src, 'JPEG', 10, 10, 180, 250);
-            doc.save('converted.pdf');
-        });
-    </script>
-</body>
+    const file = fileInput.files[0];
 
-</html>
+    if (file.name.split('.').pop().toLowerCase() !== 'docx') {
+        alert('Please upload a valid .docx file!');
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.readAsArrayBuffer(file);
+
+    reader.onload = async function (event) {
+        const content = event.target.result;
+
+        // Load docx content using docx.js
+        const docx = await window.mammoth.extractRawText({ arrayBuffer: content });
+
+        // Create PDF
+        const doc = new jsPDF();
+        doc.text(docx.value, 10, 10, { maxWidth: 180 });
+        doc.save('converted.pdf');
+    };
+});
+
