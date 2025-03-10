@@ -362,24 +362,35 @@
             } else {
                 sideMenu.style.left = '0px';
             }
-        });
-
-        const { jsPDF } = window.jspdf;
-        const fileInput = document.getElementById('file-input');
-        const imagePreview = document.getElementById('imagePreview');
-        const downloadButton = document.getElementById('download');
-
-        fileInput.addEventListener('change', function () {
-            const file = fileInput.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    imagePreview.src = e.target.result;
-                    imagePreview.style.display = 'block';
-                };
-                reader.readAsDataURL(file);
-            }
-        });
+        }); 
+const { jsPDF } = window.jspdf; 
+const fileInput = document.getElementById('file-input'); 
+fileInput.setAttribute("multiple", true); // added this line
+const imagePreview = document.getElementById('imagePreview'); 
+const downloadButton = document.getElementById('download'); 
+fileInput.addEventListener('change', function () { 
+  const files = fileInput.files; // changed file to files
+  if (files) { 
+    var imagesHtml = ''; // added this line
+    for (var i = 0; i < files.length; i++) { 
+      const reader = new FileReader(); 
+      reader.onload = function (e) { 
+        imagesHtml += '<img src="'+e.target.result+'" style="display:block;">'; 
+        imagePreview.innerHTML = imagesHtml; 
+      }; 
+      reader.readAsDataURL(files[i]); 
+    }
+    // convert to pdf part added below
+    downloadButton.addEventListener('click', function () {
+      var pdf = new jsPDF();
+      for (var i = 0; i < files.length; i++) {
+        pdf.addPage();
+        pdf.addImage(imagesHtml.split('src="')[i+1].split('"')[0], 'JPEG', 15, 15);
+      }
+      pdf.save('output.pdf');
+    });
+  }
+});
 
         downloadButton.addEventListener('click', () => {
             if (!fileInput.files[0]) {
