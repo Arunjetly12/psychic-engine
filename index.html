@@ -362,16 +362,16 @@
             } else {
                 sideMenu.style.left = '0px';
             }
-        }); 
+}); 
 const { jsPDF } = window.jspdf; 
 const fileInput = document.getElementById('file-input'); 
-fileInput.setAttribute("multiple", true); // added this line
+fileInput.setAttribute("multiple", true); 
 const imagePreview = document.getElementById('imagePreview'); 
 const downloadButton = document.getElementById('download'); 
 fileInput.addEventListener('change', function () { 
-  const files = fileInput.files; // changed file to files
+  const files = fileInput.files; 
   if (files) { 
-    var imagesHtml = ''; // added this line
+    var imagesHtml = ''; 
     for (var i = 0; i < files.length; i++) { 
       const reader = new FileReader(); 
       reader.onload = function (e) { 
@@ -379,17 +379,22 @@ fileInput.addEventListener('change', function () {
         imagePreview.innerHTML = imagesHtml; 
       }; 
       reader.readAsDataURL(files[i]); 
-    }
-    // convert to pdf part added below
-    downloadButton.addEventListener('click', function () {
-      var pdf = new jsPDF();
-      for (var i = 0; i < files.length; i++) {
-        pdf.addPage();
-        pdf.addImage(imagesHtml.split('src="')[i+1].split('"')[0], 'JPEG', 15, 15);
+    } 
+    downloadButton.addEventListener('click', function () { 
+      var pdf = new jsPDF(); 
+      var x = 15; 
+      var y = 15; 
+      for (var i = 0; i < files.length; i++) { 
+        pdf.addImage(imagesHtml.split('src="')[i+1].split('"')[0], 'JPEG', x, y);
+        y += 200; 
+        if (y > 280) { 
+          y = 15;
+          x += 200;
+        }
       }
-      pdf.save('output.pdf');
-    });
-  }
+      pdf.save('output.pdf'); 
+    }); 
+  } 
 });
 
         downloadButton.addEventListener('click', () => {
