@@ -382,15 +382,10 @@ fileInput.addEventListener('change', function () {
     } 
     downloadButton.addEventListener('click', function () { 
       var pdf = new jsPDF(); 
-      var x = 15; 
       var y = 15; 
       for (var i = 0; i < files.length; i++) { 
-        pdf.addImage(imagesHtml.split('src="')[i+1].split('"')[0], 'JPEG', x, y);
-        y += 200; 
-        if (y > 280) { 
-          y = 15;
-          x += 200;
-        }
+        pdf.addImage(imagesHtml.split('src="')[i+1].split('"')[0], 'JPEG', 15, y);
+        y += 250; 
       }
       pdf.save('output.pdf'); 
     }); 
