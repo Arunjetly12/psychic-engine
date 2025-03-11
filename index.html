@@ -22,6 +22,10 @@
             border-radius: 8px;
             font-size: 16px;
             transition: 0.3s;
+            display: block;
+            width: 200px;
+            margin-left: auto;
+            margin-right: auto;
         }
         .btn:hover {
             background-color: #8a2be2;
@@ -37,7 +41,10 @@
             cursor: pointer;
             font-size: 16px;
             transition: 0.3s;
-            display: inline-block;
+            display: block;
+            width: 200px;
+            margin: 10px auto;
+            text-align: center;
         }
         .custom-file-label:hover {
             background-color: #8a2be2;
@@ -59,10 +66,25 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             border-radius: 10px;
         }
+        #drop-area {
+            border: 2px dashed violet;
+            padding: 20px;
+            margin: 20px auto;
+            width: 50%;
+            text-align: center;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        #drop-area.highlight {
+            background-color: #f3e5f5;
+        }
     </style>
 </head>
 <body>
     <h1>PDF Maker</h1>
+    <div id="drop-area" ondragover="highlightDrop(event)" ondragleave="removeHighlight(event)" ondrop="handleDrop(event)">
+        Drag & Drop Files Here or Click Below
+    </div>
     <label for="fileInput" class="custom-file-label">Choose Files</label>
     <input type="file" id="fileInput" class="file-input" multiple accept="image/*" onchange="addImages()">
     <button class="btn" onclick="generatePDF()">Download PDF</button>
@@ -76,11 +98,11 @@
     <script>
         let selectedImages = [];
 
-        function addImages() {
+        function addImages(files = null) {
             let input = document.getElementById('fileInput');
-            let files = Array.from(input.files);
+            let fileList = files || Array.from(input.files);
             
-            files.forEach(file => {
+            fileList.forEach(file => {
                 let reader = new FileReader();
                 reader.onload = function(event) {
                     selectedImages.push(event.target.result);
@@ -157,6 +179,23 @@
                     }
                 };
             });
+        }
+
+        function highlightDrop(event) {
+            event.preventDefault();
+            document.getElementById('drop-area').classList.add('highlight');
+        }
+
+        function removeHighlight(event) {
+            event.preventDefault();
+            document.getElementById('drop-area').classList.remove('highlight');
+        }
+
+        function handleDrop(event) {
+            event.preventDefault();
+            document.getElementById('drop-area').classList.remove('highlight');
+            let files = event.dataTransfer.files;
+            addImages(files);
         }
     </script>
 </body>
