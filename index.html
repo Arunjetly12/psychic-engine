@@ -25,41 +25,72 @@
         input {
             margin: 10px;
         }
+        #imageList {
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
     <h1>PDF Maker</h1>
-    <input type="file" id="fileInput" multiple accept="image/*">
+    <input type="file" id="fileInput" multiple accept="image/*" onchange="addImages()">
     <button class="btn" onclick="generatePDF()">Download PDF</button>
-
+    <div id="imageList"></div>
+    
     <script>
-        function generatePDF() {
+        let selectedImages = [];
+
+        function addImages() {
             let input = document.getElementById('fileInput');
-            if (input.files.length === 0) {
+            let files = Array.from(input.files);
+            
+            files.forEach(file => {
+                let reader = new FileReader();
+                reader.onload = function(event) {
+                    selectedImages.push(event.target.result);
+                    updateImageList();
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function updateImageList() {
+            let imageList = document.getElementById('imageList');
+            imageList.innerHTML = '';
+            selectedImages.forEach((img, index) => {
+                let imgElement = document.createElement('img');
+                imgElement.src = img;
+                imgElement.width = 100;
+                imgElement.style.margin = '5px';
+                let removeBtn = document.createElement('button');
+                removeBtn.innerText = 'Remove';
+                removeBtn.className = 'btn';
+                removeBtn.onclick = () => removeImage(index);
+                imageList.appendChild(imgElement);
+                imageList.appendChild(removeBtn);
+            });
+        }
+
+        function removeImage(index) {
+            selectedImages.splice(index, 1);
+            updateImageList();
+        }
+
+        function generatePDF() {
+            if (selectedImages.length === 0) {
                 alert('Please select images first.');
                 return;
             }
             
             let docDefinition = { content: [] };
-            let files = Array.from(input.files);
-            let promises = files.map(file => {
-                return new Promise((resolve) => {
-                    let reader = new FileReader();
-                    reader.onload = function(event) {
-                        docDefinition.content.push({
-                            image: event.target.result,
-                            width: 500,
-                            margin: [0, 10]
-                        });
-                        resolve();
-                    };
-                    reader.readAsDataURL(file);
+            selectedImages.forEach(img => {
+                docDefinition.content.push({
+                    image: img,
+                    width: 500,
+                    margin: [0, 10]
                 });
             });
             
-            Promise.all(promises).then(() => {
-                pdfMake.createPdf(docDefinition).download("images.pdf");
-            });
+            pdfMake.createPdf(docDefinition).download("images.pdf");
         }
     </script>
 </body>
