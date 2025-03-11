@@ -12,6 +12,21 @@
             background-color: white;
             padding: 20px;
         }
+        .navbar {
+            background-color: white;
+            padding: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+        .navbar h1 {
+            margin: 0;
+            font-size: 24px;
+            color: black;
+        }
         .btn {
             background-color: violet;
             color: white;
@@ -69,7 +84,7 @@
         #drop-area {
             border: 2px dashed violet;
             padding: 20px;
-            margin: 20px auto;
+            margin: 80px auto 20px;
             width: 50%;
             text-align: center;
             border-radius: 10px;
@@ -81,7 +96,9 @@
     </style>
 </head>
 <body>
-    <h1>PDF Maker</h1>
+    <div class="navbar">
+        <h1>PDF Maker</h1>
+    </div>
     <div id="drop-area" ondragover="highlightDrop(event)" ondragleave="removeHighlight(event)" ondrop="handleDrop(event)">
         Drag & Drop Files Here or Click Below
     </div>
@@ -178,23 +195,6 @@
                     }
                 };
             });
-        }
-
-        function highlightDrop(event) {
-            event.preventDefault();
-            document.getElementById('drop-area').classList.add('highlight');
-        }
-
-        function removeHighlight(event) {
-            event.preventDefault();
-            document.getElementById('drop-area').classList.remove('highlight');
-        }
-
-        function handleDrop(event) {
-            event.preventDefault();
-            document.getElementById('drop-area').classList.remove('highlight');
-            let files = event.dataTransfer.files;
-            addImages(files);
         }
     </script>
 </body>
