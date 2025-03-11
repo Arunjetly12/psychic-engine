@@ -81,7 +81,8 @@
             }
             
             const { jsPDF } = window.jspdf;
-            let pdf = new jsPDF();
+            let pdf;
+            let processedImages = 0;
             
             selectedImages.forEach((img, index) => {
                 let image = new Image();
@@ -89,13 +90,24 @@
                 image.onload = function () {
                     let imgWidth = image.width;
                     let imgHeight = image.height;
-                    let pdfWidth = pdf.internal.pageSize.getWidth();
-                    let pdfHeight = (imgHeight * pdfWidth) / imgWidth;
+                    let aspectRatio = imgWidth / imgHeight;
+                    let pdfWidth = imgWidth * 0.2645;
+                    let pdfHeight = imgHeight * 0.2645;
                     
-                    if (index !== 0) pdf.addPage();
+                    if (!pdf) {
+                        pdf = new jsPDF({
+                            orientation: aspectRatio > 1 ? 'landscape' : 'portrait',
+                            unit: 'mm',
+                            format: [pdfWidth, pdfHeight]
+                        });
+                    } else {
+                        pdf.addPage([pdfWidth, pdfHeight]);
+                    }
+                    
                     pdf.addImage(img, 'JPEG', 0, 0, pdfWidth, pdfHeight);
                     
-                    if (index === selectedImages.length - 1) {
+                    processedImages++;
+                    if (processedImages === selectedImages.length) {
                         pdf.save("images.pdf");
                     }
                 };
