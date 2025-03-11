@@ -11,6 +11,11 @@
             text-align: center;
             background-color: white;
             padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
         }
         .navbar {
             background-color: white;
@@ -21,13 +26,25 @@
             left: 0;
             width: 100%;
             z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         .navbar h1 {
             margin: 0;
             font-size: 24px;
             color: black;
+            text-align: center;
         }
-        .btn {
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            margin-top: 80px;
+        }
+        .btn, .custom-file-label {
             background-color: violet;
             color: white;
             border: none;
@@ -39,37 +56,25 @@
             transition: 0.3s;
             display: block;
             width: 200px;
-            margin-left: auto;
-            margin-right: auto;
+            text-align: center;
         }
-        .btn:hover {
+        .btn:hover, .custom-file-label:hover {
             background-color: #8a2be2;
         }
         .file-input {
             display: none;
         }
-        .custom-file-label {
-            background-color: violet;
-            color: white;
-            padding: 12px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: 0.3s;
-            display: block;
-            width: 200px;
-            margin: 10px auto;
+        #drop-area {
+            border: 2px dashed violet;
+            padding: 20px;
+            margin: 20px auto;
+            width: 50%;
             text-align: center;
+            border-radius: 10px;
+            cursor: pointer;
         }
-        .custom-file-label:hover {
-            background-color: #8a2be2;
-        }
-        #imageList {
-            margin-top: 20px;
-            text-align: left;
-            max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
+        #drop-area.highlight {
+            background-color: #f3e5f5;
         }
         .edit-panel {
             position: fixed;
@@ -81,37 +86,24 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             border-radius: 10px;
         }
-        #drop-area {
-            border: 2px dashed violet;
-            padding: 20px;
-            margin: 80px auto 20px;
-            width: 50%;
-            text-align: center;
-            border-radius: 10px;
-            cursor: pointer;
-        }
-        #drop-area.highlight {
-            background-color: #f3e5f5;
-        }
     </style>
 </head>
 <body>
     <div class="navbar">
         <h1>PDF Maker</h1>
     </div>
-    <div id="drop-area" ondragover="highlightDrop(event)" ondragleave="removeHighlight(event)" ondrop="handleDrop(event)">
-        Drag & Drop Files Here or Click Below
+    <div class="container">
+        <div id="drop-area" ondragover="highlightDrop(event)" ondragleave="removeHighlight(event)" ondrop="handleDrop(event)">
+            Drag & Drop Files Here or Click Below
+        </div>
+        <label for="fileInput" class="custom-file-label">Choose Files</label>
+        <input type="file" id="fileInput" class="file-input" multiple accept="image/*" onchange="addImages(this.files)">
+        <button class="btn" onclick="generatePDF()">Download PDF</button>
     </div>
-    <label for="fileInput" class="custom-file-label">Choose Files</label>
-    <input type="file" id="fileInput" class="file-input" multiple accept="image/*" onchange="addImages(this.files)">
-    <button class="btn" onclick="generatePDF()">Download PDF</button>
-    <div id="imageList"></div>
-    
     <div class="edit-panel">
         <h3>Edit Images</h3>
         <div id="editImageList"></div>
     </div>
-    
     <script>
         let selectedImages = [];
 
@@ -129,9 +121,7 @@
         }
 
         function updateImageList() {
-            let imageList = document.getElementById('imageList');
             let editImageList = document.getElementById('editImageList');
-            imageList.innerHTML = '';
             editImageList.innerHTML = '';
             
             selectedImages.forEach((img, index) => {
