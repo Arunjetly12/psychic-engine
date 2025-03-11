@@ -16,24 +16,62 @@
             background-color: violet;
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 12px 20px;
             margin: 10px;
             cursor: pointer;
-            border-radius: 5px;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: 0.3s;
         }
-        input {
-            margin: 10px;
+        .btn:hover {
+            background-color: #8a2be2;
+        }
+        .file-input {
+            display: none;
+        }
+        .custom-file-label {
+            background-color: violet;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: 0.3s;
+            display: inline-block;
+        }
+        .custom-file-label:hover {
+            background-color: #8a2be2;
         }
         #imageList {
             margin-top: 20px;
+            text-align: left;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .edit-panel {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: white;
+            padding: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
         }
     </style>
 </head>
 <body>
     <h1>PDF Maker</h1>
-    <input type="file" id="fileInput" multiple accept="image/*" onchange="addImages()">
+    <label for="fileInput" class="custom-file-label">Choose Files</label>
+    <input type="file" id="fileInput" class="file-input" multiple accept="image/*" onchange="addImages()">
     <button class="btn" onclick="generatePDF()">Download PDF</button>
     <div id="imageList"></div>
+    
+    <div class="edit-panel">
+        <h3>Edit Images</h3>
+        <div id="editImageList"></div>
+    </div>
     
     <script>
         let selectedImages = [];
@@ -54,18 +92,25 @@
 
         function updateImageList() {
             let imageList = document.getElementById('imageList');
+            let editImageList = document.getElementById('editImageList');
             imageList.innerHTML = '';
+            editImageList.innerHTML = '';
+            
             selectedImages.forEach((img, index) => {
                 let imgElement = document.createElement('img');
                 imgElement.src = img;
                 imgElement.width = 100;
                 imgElement.style.margin = '5px';
+                
                 let removeBtn = document.createElement('button');
                 removeBtn.innerText = 'Remove';
                 removeBtn.className = 'btn';
                 removeBtn.onclick = () => removeImage(index);
-                imageList.appendChild(imgElement);
-                imageList.appendChild(removeBtn);
+                
+                let editItem = document.createElement('div');
+                editItem.appendChild(imgElement);
+                editItem.appendChild(removeBtn);
+                editImageList.appendChild(editItem);
             });
         }
 
