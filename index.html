@@ -83,12 +83,9 @@
             
             let docDefinition = { content: [] };
             selectedImages.forEach(img => {
-                docDefinition.content.push({
-                    image: img,
-                    fit: [500, 700],
-                    margin: [0, 10],
-                    pageBreak: 'after'
-                });
+                docDefinition.content.push(
+                    { image: img, width: 595, height: 842, pageBreak: 'after' }
+                );
             });
             
             pdfMake.createPdf(docDefinition).download("images.pdf");
