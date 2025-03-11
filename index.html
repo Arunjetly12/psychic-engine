@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simple PDF Maker</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -81,14 +80,26 @@
                 return;
             }
             
-            let docDefinition = { content: [] };
-            selectedImages.forEach(img => {
-                docDefinition.content.push(
-                    { image: img, width: 595, height: 842, pageBreak: 'after' }
-                );
-            });
+            const { jsPDF } = window.jspdf;
+            let pdf = new jsPDF();
             
-            pdfMake.createPdf(docDefinition).download("images.pdf");
+            selectedImages.forEach((img, index) => {
+                let image = new Image();
+                image.src = img;
+                image.onload = function () {
+                    let imgWidth = image.width;
+                    let imgHeight = image.height;
+                    let pdfWidth = pdf.internal.pageSize.getWidth();
+                    let pdfHeight = (imgHeight * pdfWidth) / imgWidth;
+                    
+                    if (index !== 0) pdf.addPage();
+                    pdf.addImage(img, 'JPEG', 0, 0, pdfWidth, pdfHeight);
+                    
+                    if (index === selectedImages.length - 1) {
+                        pdf.save("images.pdf");
+                    }
+                };
+            });
         }
     </script>
 </body>
