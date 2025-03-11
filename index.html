@@ -86,7 +86,7 @@
         Drag & Drop Files Here or Click Below
     </div>
     <label for="fileInput" class="custom-file-label">Choose Files</label>
-    <input type="file" id="fileInput" class="file-input" multiple accept="image/*" onchange="addImages()">
+    <input type="file" id="fileInput" class="file-input" multiple accept="image/*" onchange="addImages(this.files)">
     <button class="btn" onclick="generatePDF()">Download PDF</button>
     <div id="imageList"></div>
     
@@ -98,9 +98,8 @@
     <script>
         let selectedImages = [];
 
-        function addImages(files = null) {
-            let input = document.getElementById('fileInput');
-            let fileList = files || Array.from(input.files);
+        function addImages(files) {
+            let fileList = Array.from(files);
             
             fileList.forEach(file => {
                 let reader = new FileReader();
