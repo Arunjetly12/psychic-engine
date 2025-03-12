@@ -150,6 +150,7 @@
                 imgElement.src = img;
                 imgElement.width = 100;
                 imgElement.style.margin = '5px';
+                imgElement.onclick = () => window.open(img, '_blank'); // Zoom feature
                 
                 let removeBtn = document.createElement('button');
                 removeBtn.innerText = 'Remove';
@@ -193,11 +194,11 @@
                     } else {
                         pdf.addPage([imgWidth, imgHeight]);
                     }
-                    
                     pdf.addImage(img, 'JPEG', 0, 0, imgWidth, imgHeight);
                     
                     if (index === selectedImages.length - 1) {
-                        pdf.save("images.pdf");
+                        let fileName = prompt("Enter PDF Name:", "images.pdf");
+                        pdf.save(fileName);
                     }
                 };
             });
