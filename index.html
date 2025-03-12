@@ -107,6 +107,23 @@
     <script>
         let selectedImages = [];
 
+        function highlightDrop(event) {
+            event.preventDefault();
+            document.getElementById('drop-area').classList.add('highlight');
+        }
+
+        function removeHighlight(event) {
+            event.preventDefault();
+            document.getElementById('drop-area').classList.remove('highlight');
+        }
+
+        function handleDrop(event) {
+            event.preventDefault();
+            removeHighlight(event);
+            let files = event.dataTransfer.files;
+            addImages(files);
+        }
+
         function addImages(files) {
             let fileList = Array.from(files);
             
@@ -154,7 +171,8 @@
             }
             
             const { jsPDF } = window.jspdf;
-            let pdf = new jsPDF();
+            let pdf;
+            let processedImages = 0;
             
             selectedImages.forEach((img, index) => {
                 let image = new Image();
@@ -162,12 +180,13 @@
                 image.onload = function () {
                     let imgWidth = image.width;
                     let imgHeight = image.height;
+                    let aspectRatio = imgWidth / imgHeight;
                     let pdfWidth = imgWidth * 0.2645;
                     let pdfHeight = imgHeight * 0.2645;
                     
-                    if (index === 0) {
+                    if (!pdf) {
                         pdf = new jsPDF({
-                            orientation: imgWidth > imgHeight ? 'landscape' : 'portrait',
+                            orientation: aspectRatio > 1 ? 'landscape' : 'portrait',
                             unit: 'mm',
                             format: [pdfWidth, pdfHeight]
                         });
@@ -176,7 +195,9 @@
                     }
                     
                     pdf.addImage(img, 'JPEG', 0, 0, pdfWidth, pdfHeight);
-                    if (index === selectedImages.length - 1) {
+                    
+                    processedImages++;
+                    if (processedImages === selectedImages.length) {
                         pdf.save("images.pdf");
                     }
                 };
