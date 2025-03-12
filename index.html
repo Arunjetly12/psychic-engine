@@ -109,107 +109,112 @@
         <div id="editImageList"></div>
         <button class="btn" onclick="openAdvancedEdit()">Advanced Edit</button>
     </div>
-    
     <script>
-        let selectedImages = [];
+    let selectedImages = [];
 
-        function highlightDrop(event) {
-            event.preventDefault();
-            document.getElementById('drop-area').classList.add('highlight');
+    function highlightDrop(event) {
+        event.preventDefault();
+        document.getElementById('drop-area').classList.add('highlight');
+    }
+
+    function removeHighlight(event) {
+        event.preventDefault();
+        document.getElementById('drop-area').classList.remove('highlight');
+    }
+
+    function handleDrop(event) {
+        event.preventDefault();
+        removeHighlight(event);
+        addImages(event.dataTransfer.files);
+    }
+
+    function addImages(files) {
+        let fileList = Array.from(files);
+        let editPanel = document.getElementById('editPanel');
+        editPanel.classList.add('open');
+
+        fileList.forEach(file => {
+            let reader = new FileReader();
+            reader.onload = function(event) {
+                selectedImages.push(event.target.result);
+                updateImageList();
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
+    function updateImageList() {
+        let editImageList = document.getElementById('editImageList');
+        editImageList.innerHTML = '';
+
+        selectedImages.forEach((img, index) => {
+            let imgElement = document.createElement('img');
+            imgElement.src = img;
+            imgElement.width = 100;
+            imgElement.style.margin = '5px';
+            imgElement.onclick = () => window.open(img, '_blank');
+
+            let removeBtn = document.createElement('button');
+            removeBtn.innerText = 'Remove';
+            removeBtn.className = 'btn';
+            removeBtn.onclick = () => removeImage(index);
+
+            let editItem = document.createElement('div');
+            editItem.appendChild(imgElement);
+            editItem.appendChild(removeBtn);
+            editImageList.appendChild(editItem);
+        });
+    }
+
+    function removeImage(index) {
+        selectedImages.splice(index, 1);
+        updateImageList();
+    }
+
+    function generatePDF() {
+        if (selectedImages.length === 0) {
+            alert('Please select images first.');
+            return;
         }
 
-        function removeHighlight(event) {
-            event.preventDefault();
-            document.getElementById('drop-area').classList.remove('highlight');
-        }
+        const { jsPDF } = window.jspdf;
+        let pdf = new jsPDF({ unit: 'mm', format: 'a4' });
 
-        function handleDrop(event) {
-            event.preventDefault();
-            removeHighlight(event);
-            addImages(event.dataTransfer.files);
-        }
+        selectedImages.forEach((img, index) => {
+            let image = new Image();
+            image.src = img;
 
-        function addImages(files) {
-            let fileList = Array.from(files);
-            let editPanel = document.getElementById('editPanel');
-            editPanel.classList.add('open');
-            
-            fileList.forEach(file => {
-                let reader = new FileReader();
-                reader.onload = function(event) {
-                    selectedImages.push(event.target.result);
-                    updateImageList();
-                };
-                reader.readAsDataURL(file);
-            });
-        }
+            image.onload = function () {
+                let pageWidth = 210;  // A4 width in mm
+                let pageHeight = 297; // A4 height in mm
 
-        function updateImageList() {
-            let editImageList = document.getElementById('editImageList');
-            editImageList.innerHTML = '';
-            
-            selectedImages.forEach((img, index) => {
-                let imgElement = document.createElement('img');
-                imgElement.src = img;
-                imgElement.width = 100;
-                imgElement.style.margin = '5px';
-                imgElement.onclick = () => window.open(img, '_blank');
-                
-                let removeBtn = document.createElement('button');
-                removeBtn.innerText = 'Remove';
-                removeBtn.className = 'btn';
-                removeBtn.onclick = () => removeImage(index);
-                
-                let editItem = document.createElement('div');
-                editItem.appendChild(imgElement);
-                editItem.appendChild(removeBtn);
-                editImageList.appendChild(editItem);
-            });
-        }
+                let imgWidth = image.width * 0.2645; // Convert px to mm
+                let imgHeight = image.height * 0.2645;
 
-        function removeImage(index) {
-            selectedImages.splice(index, 1);
-            updateImageList();
-        }
+                // Scale image to fit within A4 while maintaining aspect ratio
+                let scale = Math.min(pageWidth / imgWidth, pageHeight / imgHeight);
+                let scaledWidth = imgWidth * scale;
+                let scaledHeight = imgHeight * scale;
 
-        function generatePDF() {
-            if (selectedImages.length === 0) {
-                alert('Please select images first.');
-                return;
-            }
-            
-            const { jsPDF } = window.jspdf;
-            let pdf = new jsPDF();
-            
-            selectedImages.forEach((img, index) => {
-                let image = new Image();
-                image.src = img;
-                image.onload = function () {
-                    let imgWidth = image.width * 0.2645;
-                    let imgHeight = image.height * 0.2645;
+                // Center image on A4 page
+                let x = (pageWidth - scaledWidth) / 2;
+                let y = (pageHeight - scaledHeight) / 2;
 
-                    if (index === 0) {
-                        pdf = new jsPDF({
-                            orientation: imgWidth > imgHeight ? 'landscape' : 'portrait',
-                            unit: 'mm',
-                            format: [imgWidth, imgHeight]
-                        });
-                    } else {
-                        pdf.addPage([imgWidth, imgHeight]);
-                    }
-                    pdf.addImage(img, 'JPEG', 0, 0, imgWidth, imgHeight);
-                    
-                    if (index === selectedImages.length - 1) {
-                        let fileName = prompt("Enter PDF Name:", "images.pdf");
-                        pdf.save(fileName);
-                    }
-                };
-            });
-        }
+                if (index !== 0) pdf.addPage();
+                pdf.addImage(img, 'JPEG', x, y, scaledWidth, scaledHeight);
 
-        function openAdvancedEdit() {
-            alert('Advanced Editing Features Coming Soon!');
-        }
-    </script>
+                if (index === selectedImages.length - 1) {
+                    let fileName = prompt("Enter PDF Name:", "images.pdf");
+                    pdf.save(fileName);
+                }
+            };
+        });
+    }
+
+    function openAdvancedEdit() {
+        alert('Advanced Editing Features Coming Soon!');
+    }
+</script>
 </body>
 </html>
+
