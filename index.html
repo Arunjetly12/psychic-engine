@@ -31,12 +31,6 @@
             justify-content: center;
             align-items: center;
         }
-        .navbar h1 {
-            margin: 0;
-            font-size: 24px;
-            color: black;
-            font-weight: 600;
-        }
         .container {
             display: flex;
             flex-direction: column;
@@ -81,7 +75,7 @@
         }
         .edit-panel {
             position: fixed;
-            right: 20px;
+            right: -300px;
             top: 50%;
             transform: translateY(-50%);
             background-color: white;
@@ -89,29 +83,12 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             border-radius: 10px;
             width: 250px;
-            height: 700px; /* Fixed height */
-            overflow-y: auto; /* Enables scrolling */
-            }
-        .edit-panel.minimized {
-            height: 50px;
-            overflow: hidden;
+            height: 700px;
+            overflow-y: auto;
+            transition: right 0.3s ease-in-out;
         }
-        .edit-panel .toggle-btn {
-            position: absolute;
-            top: 5px;
-            right: 10px;
-            background: violet;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        .edit-panel img {
-            display: block;
-            width: 100%;
-            margin-bottom: 10px;
-            cursor: pointer;
+        .edit-panel.open {
+            right: 20px;
         }
     </style>
 </head>
@@ -127,7 +104,7 @@
         <input type="file" id="fileInput" class="file-input" multiple accept="image/*" onchange="addImages(this.files)">
         <button class="btn" onclick="generatePDF()">Download PDF</button>
     </div>
-    <div class="edit-panel">
+    <div class="edit-panel" id="editPanel">
         <h3>Edit Images</h3>
         <div id="editImageList"></div>
     </div>
@@ -148,12 +125,13 @@
         function handleDrop(event) {
             event.preventDefault();
             removeHighlight(event);
-            let files = event.dataTransfer.files;
-            addImages(files);
+            addImages(event.dataTransfer.files);
         }
 
         function addImages(files) {
             let fileList = Array.from(files);
+            let editPanel = document.getElementById('editPanel');
+            editPanel.classList.add('open');
             
             fileList.forEach(file => {
                 let reader = new FileReader();
@@ -174,7 +152,7 @@
                 imgElement.src = img;
                 imgElement.width = 100;
                 imgElement.style.margin = '5px';
-                imgElement.onclick = () => window.open(img, '_blank'); // Zoom feature
+                imgElement.onclick = () => window.open(img, '_blank');
                 
                 let removeBtn = document.createElement('button');
                 removeBtn.innerText = 'Remove';
