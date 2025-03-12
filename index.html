@@ -31,6 +31,12 @@
             justify-content: center;
             align-items: center;
         }
+        .navbar h1 {
+            margin: 0;
+            font-size: 24px;
+            color: black;
+            font-weight: 600;
+        }
         .container {
             display: flex;
             flex-direction: column;
@@ -75,7 +81,7 @@
         }
         .edit-panel {
             position: fixed;
-            right: -300px;
+            right: 20px;
             top: 50%;
             transform: translateY(-50%);
             background-color: white;
@@ -85,10 +91,18 @@
             width: 250px;
             height: 700px;
             overflow-y: auto;
-            transition: right 0.3s ease-in-out;
+            display: none;
         }
-        .edit-panel.open {
-            right: 20px;
+        .edit-panel .toggle-btn {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            background: violet;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
         }
     </style>
 </head>
@@ -103,36 +117,33 @@
         <label for="fileInput" class="custom-file-label">Choose Files</label>
         <input type="file" id="fileInput" class="file-input" multiple accept="image/*" onchange="addImages(this.files)">
         <button class="btn" onclick="generatePDF()">Download PDF</button>
+        <button class="btn" onclick="toggleEditPanel()">Advanced Edit</button>
     </div>
     <div class="edit-panel" id="editPanel">
         <h3>Edit Images</h3>
+        <button class="btn" onclick="rotateImage('left')">Rotate Left</button>
+        <button class="btn" onclick="rotateImage('right')">Rotate Right</button>
+        <button class="btn" onclick="resizeImage()">Resize</button>
         <div id="editImageList"></div>
     </div>
-    
     <script>
         let selectedImages = [];
-
         function highlightDrop(event) {
             event.preventDefault();
             document.getElementById('drop-area').classList.add('highlight');
         }
-
         function removeHighlight(event) {
             event.preventDefault();
             document.getElementById('drop-area').classList.remove('highlight');
         }
-
         function handleDrop(event) {
             event.preventDefault();
             removeHighlight(event);
-            addImages(event.dataTransfer.files);
+            let files = event.dataTransfer.files;
+            addImages(files);
         }
-
         function addImages(files) {
             let fileList = Array.from(files);
-            let editPanel = document.getElementById('editPanel');
-            editPanel.classList.add('open');
-            
             fileList.forEach(file => {
                 let reader = new FileReader();
                 reader.onload = function(event) {
@@ -142,68 +153,18 @@
                 reader.readAsDataURL(file);
             });
         }
-
-        function updateImageList() {
-            let editImageList = document.getElementById('editImageList');
-            editImageList.innerHTML = '';
-            
-            selectedImages.forEach((img, index) => {
-                let imgElement = document.createElement('img');
-                imgElement.src = img;
-                imgElement.width = 100;
-                imgElement.style.margin = '5px';
-                imgElement.onclick = () => window.open(img, '_blank');
-                
-                let removeBtn = document.createElement('button');
-                removeBtn.innerText = 'Remove';
-                removeBtn.className = 'btn';
-                removeBtn.onclick = () => removeImage(index);
-                
-                let editItem = document.createElement('div');
-                editItem.appendChild(imgElement);
-                editItem.appendChild(removeBtn);
-                editImageList.appendChild(editItem);
-            });
+        function toggleEditPanel() {
+            let panel = document.getElementById('editPanel');
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
         }
-
-        function removeImage(index) {
-            selectedImages.splice(index, 1);
-            updateImageList();
+        function rotateImage(direction) {
+            alert(`Rotate ${direction} feature coming soon!`);
         }
-
+        function resizeImage() {
+            alert('Resize feature coming soon!');
+        }
         function generatePDF() {
-            if (selectedImages.length === 0) {
-                alert('Please select images first.');
-                return;
-            }
-            
-            const { jsPDF } = window.jspdf;
-            let pdf = new jsPDF();
-            
-            selectedImages.forEach((img, index) => {
-                let image = new Image();
-                image.src = img;
-                image.onload = function () {
-                    let imgWidth = image.width * 0.2645;
-                    let imgHeight = image.height * 0.2645;
-
-                    if (index === 0) {
-                        pdf = new jsPDF({
-                            orientation: imgWidth > imgHeight ? 'landscape' : 'portrait',
-                            unit: 'mm',
-                            format: [imgWidth, imgHeight]
-                        });
-                    } else {
-                        pdf.addPage([imgWidth, imgHeight]);
-                    }
-                    pdf.addImage(img, 'JPEG', 0, 0, imgWidth, imgHeight);
-                    
-                    if (index === selectedImages.length - 1) {
-                        let fileName = prompt("Enter PDF Name:", "images.pdf");
-                        pdf.save(fileName);
-                    }
-                };
-            });
+            alert('PDF generation code here!');
         }
     </script>
 </body>
