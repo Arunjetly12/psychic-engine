@@ -155,7 +155,6 @@
             
             const { jsPDF } = window.jspdf;
             let pdf = new jsPDF();
-            let processedImages = 0;
             
             selectedImages.forEach((img, index) => {
                 let image = new Image();
@@ -163,13 +162,12 @@
                 image.onload = function () {
                     let imgWidth = image.width;
                     let imgHeight = image.height;
-                    let aspectRatio = imgWidth / imgHeight;
                     let pdfWidth = imgWidth * 0.2645;
                     let pdfHeight = imgHeight * 0.2645;
                     
                     if (index === 0) {
                         pdf = new jsPDF({
-                            orientation: aspectRatio > 1 ? 'landscape' : 'portrait',
+                            orientation: imgWidth > imgHeight ? 'landscape' : 'portrait',
                             unit: 'mm',
                             format: [pdfWidth, pdfHeight]
                         });
@@ -178,9 +176,7 @@
                     }
                     
                     pdf.addImage(img, 'JPEG', 0, 0, pdfWidth, pdfHeight);
-                    
-                    processedImages++;
-                    if (processedImages === selectedImages.length) {
+                    if (index === selectedImages.length - 1) {
                         pdf.save("images.pdf");
                     }
                 };
