@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Images</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h2>Edit Your Images</h2>
+    <div id="editArea"></div>
+    <button onclick="saveAndReturn()">Save & Return</button>
+
+    <script>
+        let images = JSON.parse(localStorage.getItem('imagesToEdit')) || [];
+
+        function loadImages() {
+            let editArea = document.getElementById('editArea');
+            editArea.innerHTML = '';
+            
+            images.forEach((img, index) => {
+                let imgElement = document.createElement('img');
+                imgElement.src = img;
+                imgElement.width = 200;
+                imgElement.style.margin = '5px';
+
+                let rotateBtn = document.createElement('button');
+                rotateBtn.innerText = 'Rotate';
+                rotateBtn.onclick = () => rotateImage(index);
+
+                let resizeBtn = document.createElement('button');
+                resizeBtn.innerText = 'Resize';
+                resizeBtn.onclick = () => resizeImage(index);
+
+                let editItem = document.createElement('div');
+                editItem.appendChild(imgElement);
+                editItem.appendChild(rotateBtn);
+                editItem.appendChild(resizeBtn);
+                editArea.appendChild(editItem);
+            });
+        }
+
+        function rotateImage(index) {
+            alert('Rotate function will be added here.');
+        }
+
+        function resizeImage(index) {
+            alert('Resize function will be added here.');
+        }
+
+        function saveAndReturn() {
+            localStorage.setItem('editedImages', JSON.stringify(images));
+            window.location.href = 'index.html';
+        }
+
+        window.onload = loadImages;
+    </script>
+</body>
+</html>
