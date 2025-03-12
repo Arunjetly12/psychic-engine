@@ -175,33 +175,28 @@
             }
             
             const { jsPDF } = window.jspdf;
-            let pdf;
-            let processedImages = 0;
+            let pdf = new jsPDF();
             
             selectedImages.forEach((img, index) => {
                 let image = new Image();
                 image.src = img;
                 image.onload = function () {
-                    let imgWidth = image.width;
-                    let imgHeight = image.height;
-                    let aspectRatio = imgWidth / imgHeight;
-                    let pdfWidth = imgWidth * 0.2645;
-                    let pdfHeight = imgHeight * 0.2645;
-                    
-                    if (!pdf) {
+                    let imgWidth = image.width * 0.2645;
+                    let imgHeight = image.height * 0.2645;
+
+                    if (index === 0) {
                         pdf = new jsPDF({
-                            orientation: aspectRatio > 1 ? 'landscape' : 'portrait',
+                            orientation: imgWidth > imgHeight ? 'landscape' : 'portrait',
                             unit: 'mm',
-                            format: [pdfWidth, pdfHeight]
+                            format: [imgWidth, imgHeight]
                         });
                     } else {
-                        pdf.addPage([pdfWidth, pdfHeight]);
+                        pdf.addPage([imgWidth, imgHeight]);
                     }
                     
-                    pdf.addImage(img, 'JPEG', 0, 0, pdfWidth, pdfHeight);
+                    pdf.addImage(img, 'JPEG', 0, 0, imgWidth, imgHeight);
                     
-                    processedImages++;
-                    if (processedImages === selectedImages.length) {
+                    if (index === selectedImages.length - 1) {
                         pdf.save("images.pdf");
                     }
                 };
