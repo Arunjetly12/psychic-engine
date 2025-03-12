@@ -154,7 +154,7 @@
             }
             
             const { jsPDF } = window.jspdf;
-            let pdf;
+            let pdf = new jsPDF();
             let processedImages = 0;
             
             selectedImages.forEach((img, index) => {
@@ -167,7 +167,7 @@
                     let pdfWidth = imgWidth * 0.2645;
                     let pdfHeight = imgHeight * 0.2645;
                     
-                    if (!pdf) {
+                    if (index === 0) {
                         pdf = new jsPDF({
                             orientation: aspectRatio > 1 ? 'landscape' : 'portrait',
                             unit: 'mm',
