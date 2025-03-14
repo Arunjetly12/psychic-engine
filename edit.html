@@ -57,14 +57,16 @@
     <script>
         // Load image from localStorage when page loads
         window.onload = function() {
-            let imageData = localStorage.getItem("imageToEdit"); // Retrieve the image data
-            if (imageData) {
-                document.getElementById("editImage").src = imageData;
-            } else {
-                alert("No image found to edit!");
-                window.location.href = "index.html"; // Redirect if no image is found
-            }
-        };
+    let imageData = localStorage.getItem("imageToEdit");
+
+    if (imageData) {
+        document.getElementById("editImage").src = imageData;
+    } else {
+        alert("No image found to edit!");
+        window.location.href = "index.html"; // Redirect back if no image
+    }
+};
+
 
         function saveAndReturn() {
             // Store the edited image back into localStorage before returning
