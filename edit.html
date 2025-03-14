@@ -59,41 +59,29 @@
         window.onload = function() {
     let imagesData = localStorage.getItem("imagesToEdit");
 
-    if (imagesData) {
+    console.log("Retrieved images data:", imagesData); // Debugging step
+
+    if (imagesData && imagesData !== "[]") {
         let imagesArray = JSON.parse(imagesData);
         let previewContainer = document.getElementById("editPreviewContainer");
 
         previewContainer.innerHTML = ""; // Clear previous content
 
-        imagesArray.forEach(src => {
+        imagesArray.forEach((src, index) => {
             let imgElement = document.createElement("img");
             imgElement.src = src;
             imgElement.classList.add("edit-preview"); // Add class for styling
             previewContainer.appendChild(imgElement);
+
+            console.log(`Image ${index + 1} added to edit preview.`);
         });
 
-        console.log("Images loaded for editing.");
     } else {
         alert("No images found to edit!");
         console.error("No image data found in localStorage.");
         window.location.href = "index.html"; // Redirect back if no image
     }
 };
-
-function saveAndReturn() {
-    let editedImages = [];
-    let images = document.querySelectorAll(".edit-preview");
-
-    images.forEach(img => {
-        editedImages.push(img.src);
-    });
-
-    localStorage.setItem("imagesToEdit", JSON.stringify(editedImages));
-    console.log("Edited images saved.");
-    window.location.href = "index.html";
-}
-
-}
 
     </script>
 </body>
