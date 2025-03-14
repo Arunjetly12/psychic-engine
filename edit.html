@@ -45,6 +45,7 @@
             border-radius: 8px;
             font-size: 18px;
             cursor: pointer;
+            border: none;
         }
     </style>
 </head>
@@ -56,14 +57,19 @@
     <script>
         // Load image from localStorage when page loads
         window.onload = function() {
-    let imageData = localStorage.getItem("imageToEdit"); // Use the correct key
-    if (imageData) {
-        document.getElementById("editImage").src = imageData;
-    }
-};
-
+            let imageData = localStorage.getItem("imageToEdit"); // Retrieve the image data
+            if (imageData) {
+                document.getElementById("editImage").src = imageData;
+            } else {
+                alert("No image found to edit!");
+                window.location.href = "index.html"; // Redirect if no image is found
+            }
+        };
 
         function saveAndReturn() {
+            // Store the edited image back into localStorage before returning
+            let editedImage = document.getElementById("editImage").src;
+            localStorage.setItem("imageToEdit", editedImage);
             window.location.href = "index.html";
         }
     </script>
