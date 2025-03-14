@@ -241,25 +241,24 @@
                         reader.readAsDataURL(blob);
                     })
                     .catch(error => {
-                        console.error("Error processing image:", error);
-                        alert("Failed to prepare some images for editing.");
-                        reject();
+                        console.error("Error converting image to Base64:", error);
+                        reject(error);
                     });
             }
         });
     });
 
-    // Wait for all images to be processed before redirecting
-    Promise.all(promises).then(() => {
-        if (imageArray.length > 0) {
-            localStorage.setItem("imagesToEdit", JSON.stringify(imageArray));
-            console.log("Images stored successfully for editing.");
-            window.location.href = "edit.html"; // Redirect when all images are stored
-        } else {
-            alert("No valid images found for editing.");
-        }
-    });
+    Promise.all(promises)
+        .then(() => {
+            localStorage.setItem("imageToEdit", JSON.stringify(imageArray)); // Store as array
+            window.location.href = "edit.html"; // Redirect to edit page
+        })
+        .catch(error => {
+            alert("Failed to prepare images for editing.");
+            console.error("Image processing error:", error);
+        });
 }
+
 
 window.onload = function () {
     const storedImage = localStorage.getItem("imageToEdit");
