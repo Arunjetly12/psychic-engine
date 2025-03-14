@@ -51,6 +51,20 @@
 <body>
     <div class="navbar"><h1>Edit Image</h1></div>
     <img id="editImage" src="" alt="Editing Image">
-    <button class="btn" onclick="window.location.href='index.html'">Save & Return</button>
+    <button class="btn" onclick="saveAndReturn()">Save & Return</button>
+
+    <script>
+        // Load image from localStorage when page loads
+        window.onload = function() {
+            let imageData = localStorage.getItem("editImage");
+            if (imageData) {
+                document.getElementById("editImage").src = imageData;
+            }
+        };
+
+        function saveAndReturn() {
+            window.location.href = "index.html";
+        }
+    </script>
 </body>
 </html>
