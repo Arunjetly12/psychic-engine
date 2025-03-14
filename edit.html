@@ -60,20 +60,34 @@
     let imageData = localStorage.getItem("imageToEdit");
 
     if (imageData) {
-        document.getElementById("editImage").src = imageData;
+        let editImageElement = document.getElementById("editImage");
+
+        if (editImageElement) {
+            editImageElement.src = imageData;
+            console.log("Image loaded successfully.");
+        } else {
+            console.error("Error: 'editImage' element not found.");
+        }
     } else {
         alert("No image found to edit!");
+        console.error("No image data found in localStorage.");
         window.location.href = "index.html"; // Redirect back if no image
     }
 };
 
+function saveAndReturn() {
+    let editImageElement = document.getElementById("editImage");
 
-        function saveAndReturn() {
-            // Store the edited image back into localStorage before returning
-            let editedImage = document.getElementById("editImage").src;
-            localStorage.setItem("imageToEdit", editedImage);
-            window.location.href = "index.html";
-        }
+    if (editImageElement && editImageElement.src) {
+        localStorage.setItem("imageToEdit", editImageElement.src);
+        console.log("Image saved successfully.");
+        window.location.href = "index.html";
+    } else {
+        alert("Error saving image.");
+        console.error("Error: Image element is missing or has no src.");
+    }
+}
+
     </script>
 </body>
 </html>
