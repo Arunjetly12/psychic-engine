@@ -185,18 +185,16 @@
             image.src = img;
 
             image.onload = function () {
-                let pageWidth = 210;  // A4 width in mm
-                let pageHeight = 297; // A4 height in mm
+                let pageWidth = 210;
+                let pageHeight = 297;
 
-                let imgWidth = image.width * 0.2645; // Convert px to mm
+                let imgWidth = image.width * 0.2645;
                 let imgHeight = image.height * 0.2645;
 
-                // Scale image to fit within A4 while maintaining aspect ratio
                 let scale = Math.min(pageWidth / imgWidth, pageHeight / imgHeight);
                 let scaledWidth = imgWidth * scale;
                 let scaledHeight = imgHeight * scale;
 
-                // Center image on A4 page
                 let x = (pageWidth - scaledWidth) / 2;
                 let y = (pageHeight - scaledHeight) / 2;
 
@@ -209,79 +207,7 @@
                 }
             };
         });
-     }
-
-    function openAdvancedEdit() {
-    const imageElement = document.getElementById("imagePreview");
-
-    if (imageElement && imageElement.src && imageElement.src.startsWith("data")) {
-        // Store image in localStorage
-        localStorage.setItem("imageToEdit", imageElement.src);
-        console.log("Image stored for editing:", imageElement.src);
-        window.location.href = "edit.html"; // Redirect to edit page
-    } else {
-        console.error("No images found in preview.");
-        alert("No image selected for editing! Please upload an image first.");
     }
-}
-
-
-
-    let imageArray = [];
-
-    let promises = Array.from(images).map(img => {
-        return new Promise((resolve, reject) => {
-            if (img.src.startsWith("data")) {
-                // Image already in Base64
-                imageArray.push(img.src);
-                resolve();
-            } else {
-                // Convert image to Base64
-                fetch(img.src)
-                    .then(response => response.blob())
-                    .then(blob => {
-                        const reader = new FileReader();
-                        reader.onloadend = function () {
-                            imageArray.push(reader.result);
-                            resolve();
-                        };
-                        reader.readAsDataURL(blob);
-                    })
-                    .catch(error => {
-                        console.error("Error converting image to Base64:", error);
-                        reject(error);
-                    });
-            }
-        });
-    });
-
-    Promise.all(promises)
-        .then(() => {
-            localStorage.setItem("imageToEdit", JSON.stringify(imageArray)); // Store as array
-            window.location.href = "edit.html"; // Redirect to edit page
-        })
-        .catch(error => {
-            alert("Failed to prepare images for editing.");
-            console.error("Image processing error:", error);
-        });
-}
-
-
-window.onload = function () {
-    let imageData = localStorage.getItem("imageToEdit");
-
-    if (imageData) {
-        document.getElementById("editImage").src = imageData;
-        console.log("Image loaded for editing:", imageData);
-    } else {
-        alert("No image found to edit!");
-        window.location.href = "index.html"; // Redirect back if no image
-    }
-};
-
-
-
-</script>
+    </script>
 </body>
 </html>
-
