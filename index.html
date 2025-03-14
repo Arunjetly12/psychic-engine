@@ -221,41 +221,45 @@
     }
 
     let imageArray = [];
-    
-    images.forEach(img => {
-        if (img.src.startsWith("data")) {
-            imageArray.push(img.src); // Already in Base64
-        } else {
-            // Convert to Base64
-            fetch(img.src)
-                .then(response => response.blob())
-                .then(blob => {
-                    const reader = new FileReader();
-                    reader.onloadend = function () {
-                        imageArray.push(reader.result);
-                        if (imageArray.length === images.length) {
-                            localStorage.setItem("imagesToEdit", JSON.stringify(imageArray));
-                            window.location.href = "edit.html"; // Redirect when all images are saved
-                        }
-                    };
-                    reader.readAsDataURL(blob);
-                })
-                .catch(error => {
-                    console.error("Error processing image:", error);
-                    alert("Failed to prepare some images for editing.");
-                });
-        }
+
+    let promises = Array.from(images).map(img => {
+        return new Promise((resolve, reject) => {
+            if (img.src.startsWith("data")) {
+                // Image already in Base64
+                imageArray.push(img.src);
+                resolve();
+            } else {
+                // Convert image to Base64
+                fetch(img.src)
+                    .then(response => response.blob())
+                    .then(blob => {
+                        const reader = new FileReader();
+                        reader.onloadend = function () {
+                            imageArray.push(reader.result);
+                            resolve();
+                        };
+                        reader.readAsDataURL(blob);
+                    })
+                    .catch(error => {
+                        console.error("Error processing image:", error);
+                        alert("Failed to prepare some images for editing.");
+                        reject();
+                    });
+            }
+        });
     });
 
-    if (imageArray.length === images.length) {
-        localStorage.setItem("imagesToEdit", JSON.stringify(imageArray));
-        console.log("Images stored for editing.");
-        window.location.href = "edit.html";
-    }
+    // Wait for all images to be processed before redirecting
+    Promise.all(promises).then(() => {
+        if (imageArray.length > 0) {
+            localStorage.setItem("imagesToEdit", JSON.stringify(imageArray));
+            console.log("Images stored successfully for editing.");
+            window.location.href = "edit.html"; // Redirect when all images are stored
+        } else {
+            alert("No valid images found for editing.");
+        }
+    });
 }
-
-
-
 
 window.onload = function () {
     const storedImage = localStorage.getItem("imageToEdit");
