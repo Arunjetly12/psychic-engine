@@ -212,38 +212,48 @@
      }
 
     function openAdvancedEdit() {
-    const imageElement = document.getElementById("imagePreview");
+    const images = document.querySelectorAll(".image-preview"); // Select all images
 
-    if (!imageElement || !imageElement.src) {
+    if (images.length === 0) {
         alert("No image selected for editing.");
+        console.error("No images found in preview.");
         return;
     }
 
-    console.log("Selected Image for Editing:", imageElement.src);
+    let imageArray = [];
+    
+    images.forEach(img => {
+        if (img.src.startsWith("data")) {
+            imageArray.push(img.src); // Already in Base64
+        } else {
+            // Convert to Base64
+            fetch(img.src)
+                .then(response => response.blob())
+                .then(blob => {
+                    const reader = new FileReader();
+                    reader.onloadend = function () {
+                        imageArray.push(reader.result);
+                        if (imageArray.length === images.length) {
+                            localStorage.setItem("imagesToEdit", JSON.stringify(imageArray));
+                            window.location.href = "edit.html"; // Redirect when all images are saved
+                        }
+                    };
+                    reader.readAsDataURL(blob);
+                })
+                .catch(error => {
+                    console.error("Error processing image:", error);
+                    alert("Failed to prepare some images for editing.");
+                });
+        }
+    });
 
-    if (imageElement.src.startsWith("data")) {
-        // Image is already in Base64 format
-        localStorage.setItem("imageToEdit", imageElement.src);
-        window.location.href = "edit.html"; 
-    } else {
-        // Convert image to Base64 before storing
-        fetch(imageElement.src)
-            .then(response => response.blob())
-            .then(blob => {
-                const reader = new FileReader();
-                reader.onloadend = function () {
-                    console.log("Converted to Base64:", reader.result);
-                    localStorage.setItem("imageToEdit", reader.result);
-                    window.location.href = "edit.html"; 
-                };
-                reader.readAsDataURL(blob);
-            })
-            .catch(error => {
-                console.error("Error processing image:", error);
-                alert("Failed to prepare image for editing.");
-            });
+    if (imageArray.length === images.length) {
+        localStorage.setItem("imagesToEdit", JSON.stringify(imageArray));
+        console.log("Images stored for editing.");
+        window.location.href = "edit.html";
     }
 }
+
 
 
 
