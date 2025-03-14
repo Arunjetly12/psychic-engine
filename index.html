@@ -212,13 +212,18 @@
      }
 
     function openAdvancedEdit() {
-    const images = document.querySelectorAll(".image-preview"); // Select all images
+    const imageElement = document.getElementById("imagePreview");
 
-    if (images.length === 0) {
-        alert("No image selected for editing.");
+    if (imageElement && imageElement.src && imageElement.src.startsWith("data")) {
+        // Store the image in localStorage before navigating
+        localStorage.setItem("imageToEdit", imageElement.src);
+        window.location.href = "edit.html"; // Redirect to edit page
+    } else {
         console.error("No images found in preview.");
-        return;
+        alert("No image selected for editing! Please upload an image first.");
     }
+}
+
 
     let imageArray = [];
 
@@ -261,14 +266,16 @@
 
 
 window.onload = function () {
-    const storedImage = localStorage.getItem("imageToEdit");
-    if (storedImage) {
-        const editImageElement = document.getElementById("editImage");
-        if (editImageElement) {
-            editImageElement.src = storedImage;
-        }
+    let imageData = localStorage.getItem("imageToEdit");
+
+    if (imageData) {
+        document.getElementById("editImage").src = imageData;
+    } else {
+        alert("No image found to edit!");
+        window.location.href = "index.html"; // Redirect back if no image is found
     }
 };
+
 
 </script>
 </body>
