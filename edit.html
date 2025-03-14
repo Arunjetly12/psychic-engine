@@ -56,11 +56,12 @@
     <script>
         // Load image from localStorage when page loads
         window.onload = function() {
-            let imageData = localStorage.getItem("editImage");
-            if (imageData) {
-                document.getElementById("editImage").src = imageData;
-            }
-        };
+    let imageData = localStorage.getItem("imageToEdit"); // Use the correct key
+    if (imageData) {
+        document.getElementById("editImage").src = imageData;
+    }
+};
+
 
         function saveAndReturn() {
             window.location.href = "index.html";
