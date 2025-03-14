@@ -57,28 +57,20 @@
     <script>
         // Load image from localStorage when page loads
         window.onload = function() {
-    let imagesData = localStorage.getItem("imagesToEdit");
+    let imageData = localStorage.getItem("imageToEdit");
 
-    console.log("Retrieved images data:", imagesData); // Debugging step
+    if (imageData) {
+        let images = JSON.parse(imageData); // Convert back to array
+        let container = document.getElementById("editImageContainer"); // New div for images
 
-    if (imagesData && imagesData !== "[]") {
-        let imagesArray = JSON.parse(imagesData);
-        let previewContainer = document.getElementById("editPreviewContainer");
-
-        previewContainer.innerHTML = ""; // Clear previous content
-
-        imagesArray.forEach((src, index) => {
-            let imgElement = document.createElement("img");
-            imgElement.src = src;
-            imgElement.classList.add("edit-preview"); // Add class for styling
-            previewContainer.appendChild(imgElement);
-
-            console.log(`Image ${index + 1} added to edit preview.`);
+        images.forEach(src => {
+            let img = document.createElement("img");
+            img.src = src;
+            img.classList.add("edit-image"); // Add styling class
+            container.appendChild(img);
         });
-
     } else {
-        alert("No images found to edit!");
-        console.error("No image data found in localStorage.");
+        alert("No image found to edit!");
         window.location.href = "index.html"; // Redirect back if no image
     }
 };
