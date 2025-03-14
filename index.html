@@ -218,6 +218,14 @@
         }
         window.location.href = "edit.html"; // Redirect to the editing page
     }
-    </script>
+
+    window.onload = function () {
+        const storedImage = localStorage.getItem("imageToEdit");
+        if (storedImage) {
+            document.getElementById("editImage").src = storedImage;
+        }
+    };
+</script>
 </body>
 </html>
+
