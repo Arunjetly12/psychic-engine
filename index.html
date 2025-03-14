@@ -209,9 +209,13 @@
                 }
             };
         });
-    }
+     }
 
     function openAdvancedEdit() {
+        const imageElement = document.getElementById("imagePreview");
+        if (imageElement && imageElement.src) {
+            localStorage.setItem("imageToEdit", imageElement.src);
+        }
         window.location.href = "edit.html"; // Redirect to the editing page
     }
     </script>
