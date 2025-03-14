@@ -57,35 +57,42 @@
     <script>
         // Load image from localStorage when page loads
         window.onload = function() {
-    let imageData = localStorage.getItem("imageToEdit");
+    let imagesData = localStorage.getItem("imagesToEdit");
 
-    if (imageData) {
-        let editImageElement = document.getElementById("editImage");
+    if (imagesData) {
+        let imagesArray = JSON.parse(imagesData);
+        let previewContainer = document.getElementById("editPreviewContainer");
 
-        if (editImageElement) {
-            editImageElement.src = imageData;
-            console.log("Image loaded successfully.");
-        } else {
-            console.error("Error: 'editImage' element not found.");
-        }
+        previewContainer.innerHTML = ""; // Clear previous content
+
+        imagesArray.forEach(src => {
+            let imgElement = document.createElement("img");
+            imgElement.src = src;
+            imgElement.classList.add("edit-preview"); // Add class for styling
+            previewContainer.appendChild(imgElement);
+        });
+
+        console.log("Images loaded for editing.");
     } else {
-        alert("No image found to edit!");
+        alert("No images found to edit!");
         console.error("No image data found in localStorage.");
         window.location.href = "index.html"; // Redirect back if no image
     }
 };
 
 function saveAndReturn() {
-    let editImageElement = document.getElementById("editImage");
+    let editedImages = [];
+    let images = document.querySelectorAll(".edit-preview");
 
-    if (editImageElement && editImageElement.src) {
-        localStorage.setItem("imageToEdit", editImageElement.src);
-        console.log("Image saved successfully.");
-        window.location.href = "index.html";
-    } else {
-        alert("Error saving image.");
-        console.error("Error: Image element is missing or has no src.");
-    }
+    images.forEach(img => {
+        editedImages.push(img.src);
+    });
+
+    localStorage.setItem("imagesToEdit", JSON.stringify(editedImages));
+    console.log("Edited images saved.");
+    window.location.href = "index.html";
+}
+
 }
 
     </script>
