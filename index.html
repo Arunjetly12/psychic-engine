@@ -72,24 +72,27 @@
         }
         #drop-area.highlight {
             background-color: #f3e5f5;
-        }
         .edit-panel {
-            position: fixed;
-            right: -300px;
-            top: 50%;
-            transform: translateY(-50%);
-            background-color: white;
-            padding: 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
-            width: 250px;
-            height: 700px;
-            overflow-y: auto;
-            transition: right 0.3s ease-in-out;
-        }
-        .edit-panel.open {
-            right: 20px;
-        }
+    display: none; /* Hide by default */
+    position: fixed;
+    right: -300px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: white;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    width: 250px;
+    height: 700px;
+    overflow-y: auto;
+    transition: right 0.3s ease-in-out;
+}
+
+.edit-panel.open {
+    display: block; /* Make it visible */
+    right: 20px;
+}
+
     </style>
 </head>
 <body>
