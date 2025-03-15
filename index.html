@@ -187,20 +187,23 @@
     }
 
     document.getElementById("fileInput").addEventListener("change", async (event) => {
-        const files = event.target.files;
-        let imageUrls = [];
+    const files = event.target.files;
+    let imageUrls = [];
 
-        for (let file of files) {
-            const uploadedUrl = await uploadImage(file);
-            imageUrls.push(uploadedUrl);
-        }
+    for (let file of files) {
+        const uploadedUrl = await uploadImage(file);
+        imageUrls.push(uploadedUrl);
+    }
 
-        // Store image URLs in sessionStorage
-        sessionStorage.setItem("uploadedImages", JSON.stringify(imageUrls));
+    // Store image URLs in sessionStorage
+    sessionStorage.setItem("uploadedImages", JSON.stringify(imageUrls));
 
-        // Show preview on the main page
-        displayImagePreviews(imageUrls);
-    });
+    // Show preview on the main page
+    displayImagePreviews(imageUrls);
+
+    // ✅ Open the edit panel after uploading
+    document.getElementById("editPanel").classList.add("open"); 
+});
 
     function displayImagePreviews(imageUrls) {
         const previewContainer = document.getElementById("editImageList");
