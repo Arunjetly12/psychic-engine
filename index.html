@@ -187,22 +187,31 @@
     }
 
     document.getElementById("fileInput").addEventListener("change", async (event) => {
-    const files = event.target.files;
-    let imageUrls = [];
+    console.log("File input changed, now uploading...");
 
+    const files = event.target.files;
+    if (files.length === 0) return;
+
+    console.log("Files detected:", files);
+
+    let imageUrls = [];
     for (let file of files) {
         const uploadedUrl = await uploadImage(file);
+        console.log("Uploaded URL:", uploadedUrl);
         imageUrls.push(uploadedUrl);
     }
 
-    // Store image URLs in sessionStorage
     sessionStorage.setItem("uploadedImages", JSON.stringify(imageUrls));
-
-    // Show preview on the main page
     displayImagePreviews(imageUrls);
 
-    // ✅ Open the edit panel after uploading
-    document.getElementById("editPanel").classList.add("open"); 
+    // ✅ Debug log for opening edit panel
+    console.log("Opening edit panel...");
+    document.getElementById("editPanel").classList.add("open");
+
+    // ✅ Check if the class is added
+    setTimeout(() => {
+        console.log("Current classes in editPanel:", document.getElementById("editPanel").classList);
+    }, 1000);
 });
 
 
