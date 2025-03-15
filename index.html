@@ -179,14 +179,24 @@
             return;
         const { put } = await import("@vercel/blob");
             
-    async function uploadImage(file) {
-        const fileBuffer = await file.arrayBuffer(); // Convert file to buffer
-        const { url } = await put(`uploads/${file.name}`, fileBuffer, {
-            access: "public",
-            contentType: file.type,
-        });
-        return url; // Return uploaded image URL
+   function addImages(files) {
+    let fileList = Array.from(files);
+    let editPanel = document.getElementById('editPanel');
+
+    if (fileList.length > 0) {
+        editPanel.classList.add('open'); // ✅ Open edit panel when images are selected
     }
+
+    fileList.forEach(file => {
+        let reader = new FileReader();
+        reader.onload = function(event) {
+            selectedImages.push(event.target.result);
+            updateImageList(); // ✅ Update UI with selected images
+        };
+        reader.readAsDataURL(file);
+    });
+}
+
 
     document.getElementById("fileInput").addEventListener("change", async (event) => {
     console.log("File input changed, now uploading...");
