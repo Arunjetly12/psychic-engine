@@ -30,13 +30,14 @@
             justify-content: center;
             align-items: center;
         }
-        #editImage {
+        #editImageContainer img {
             max-width: 100%;
             height: auto;
             border: 2px dashed violet;
             padding: 10px;
             margin-bottom: 20px;
             border-radius: 10px;
+            display: block;
         }
         .btn {
             background-color: violet;
@@ -51,30 +52,39 @@
 </head>
 <body>
     <div class="navbar"><h1>Edit Image</h1></div>
-    <img id="editImage" src="" alt="Editing Image">
+    <div id="editImageContainer"></div>
     <button class="btn" onclick="saveAndReturn()">Save & Return</button>
 
     <script>
-        // Load image from localStorage when page loads
-        window.onload = function() {
-    let imageData = localStorage.getItem("imageToEdit");
+        async function loadImages() {
+            let imageUrls = JSON.parse(localStorage.getItem("imageToEdit"));
+            if (!imageUrls || imageUrls.length === 0) {
+                alert("No image found to edit!");
+                window.location.href = "index.html";
+                return;
+            }
+            
+            let container = document.getElementById("editImageContainer");
+            container.innerHTML = ""; // Clear previous images
+            
+            imageUrls.forEach(url => {
+                let img = document.createElement("img");
+                img.src = url;
+                img.classList.add("edit-image");
+                container.appendChild(img);
+            });
+        }
 
-    if (imageData) {
-        let images = JSON.parse(imageData); // Convert back to array
-        let container = document.getElementById("editImageContainer"); // New div for images
+        function saveAndReturn() {
+            let editedImages = [];
+            document.querySelectorAll("#editImageContainer img").forEach(img => {
+                editedImages.push(img.src);
+            });
+            localStorage.setItem("imageToEdit", JSON.stringify(editedImages));
+            window.location.href = "index.html";
+        }
 
-        images.forEach(src => {
-            let img = document.createElement("img");
-            img.src = src;
-            img.classList.add("edit-image"); // Add styling class
-            container.appendChild(img);
-        });
-    } else {
-        alert("No image found to edit!");
-        window.location.href = "index.html"; // Redirect back if no image
-    }
-};
-
+        window.onload = loadImages;
     </script>
 </body>
 </html>
