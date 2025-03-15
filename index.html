@@ -175,7 +175,46 @@
         if (selectedImages.length === 0) {
             alert('Please select images first.');
             return;
+        import { put } from "@vercel/blob";
+
+    async function uploadImage(file) {
+        const fileBuffer = await file.arrayBuffer(); // Convert file to buffer
+        const { url } = await put(`uploads/${file.name}`, fileBuffer, {
+            access: "public",
+            contentType: file.type,
+        });
+        return url; // Return uploaded image URL
+    }
+
+    document.getElementById("fileInput").addEventListener("change", async (event) => {
+        const files = event.target.files;
+        let imageUrls = [];
+
+        for (let file of files) {
+            const uploadedUrl = await uploadImage(file);
+            imageUrls.push(uploadedUrl);
         }
+
+        // Store image URLs in sessionStorage
+        sessionStorage.setItem("uploadedImages", JSON.stringify(imageUrls));
+
+        // Show preview on the main page
+        displayImagePreviews(imageUrls);
+    });
+
+    function displayImagePreviews(imageUrls) {
+        const previewContainer = document.getElementById("editImageList");
+        previewContainer.innerHTML = ""; // Clear previous previews
+
+        imageUrls.forEach(url => {
+            let img = document.createElement("img");
+            img.src = url;
+            img.width = 100;
+            img.style.margin = "5px";
+            previewContainer.appendChild(img);
+        });
+    }
+        
 
         const { jsPDF } = window.jspdf;
         let pdf = new jsPDF({ unit: 'mm', format: 'a4' });
