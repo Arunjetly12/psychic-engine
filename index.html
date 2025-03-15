@@ -175,8 +175,8 @@
         if (selectedImages.length === 0) {
             alert('Please select images first.');
             return;
-        import { put } from "@vercel/blob";
-
+        const { put } = await import("@vercel/blob");
+            
     async function uploadImage(file) {
         const fileBuffer = await file.arrayBuffer(); // Convert file to buffer
         const { url } = await put(`uploads/${file.name}`, fileBuffer, {
