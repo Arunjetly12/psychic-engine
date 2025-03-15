@@ -73,9 +73,8 @@
         #drop-area.highlight {
             background-color: #f3e5f5;
         .edit-panel {
-    display: none; /* Hide by default */
     position: fixed;
-    right: -300px;
+    right: -300px; /* Hidden by default */
     top: 50%;
     transform: translateY(-50%);
     background-color: white;
@@ -89,9 +88,9 @@
 }
 
 .edit-panel.open {
-    display: block; /* Make it visible */
-    right: 20px;
+    right: 20px; /* When opened, it slides in */
 }
+
 
     </style>
 </head>
