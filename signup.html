@@ -1,161 +1,178 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Signup - PDF Converter</title>
-  <style>
-    body {
-      font-family: Montserrat, sans-serif;
-      background-color: #0F0F0F;
-      color: white;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-    .signup-container {
-      background-color: #1A1A1A;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
-      width: 100%;
-      max-width: 400px;
-      position: relative;
-    }
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    input[type="text"],
-    input[type="email"],
-    input[type="password"] {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      border: 2px solid transparent;
-      border-radius: 8px;
-      transition: border-color 0.3s;
-    }
-    input.error {
-      border-color: red;
-    }
-    button {
-      width: 100%;
-      padding: 12px;
-      border: none;
-      border-radius: 8px;
-      background-color: #8A2BE2;
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
-      margin-top: 15px;
-    }
-    button:hover {
-      background-color: #A74CED;
-    }
-    .error-message {
-      color: red;
-      font-size: 14px;
-      margin-top: -5px;
-      margin-bottom: 10px;
-      display: none;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Your Website</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        input:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 12px;
+            display: none;
+        }
+
+        p {
+            text-align: center;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
+    <div class="container">
+        <div class="signup-form">
+            <h2>Sign Up</h2>
+            <form id="signup-form">
+                <div class="input-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required>
+                    <span id="username-error" class="error-message"></span>
+                </div>
+                <div class="input-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                    <span id="email-error" class="error-message"></span>
+                </div>
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                    <span id="password-error" class="error-message"></span>
+                </div>
+                <div class="input-group">
+                    <label for="confirm-password">Confirm Password</label>
+                    <input type="password" id="confirm-password" name="confirm-password" required>
+                    <span id="confirm-password-error" class="error-message"></span>
+                </div>
+                <button type="submit" class="btn">Sign Up</button>
+                <p>Already have an account? <a href="login.html">Log in</a></p>
+            </form>
+        </div>
+    </div>
 
-  <div class="signup-container">
-    <h2>Create Account</h2>
-    <form id="signupForm">
-      <input type="text" id="fullName" placeholder="Full Name" required>
-      
-      <input type="email" id="email" placeholder="Email Address" required>
-      <div id="emailError" class="error-message"></div>
+    <script>
+        document.getElementById('signup-form').addEventListener('submit', function(event) {
+            event.preventDefault();
 
-      <input type="password" id="password" placeholder="Password" required>
-      <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
-      <div id="passwordError" class="error-message"></div>
+            let isValid = true;
 
-      <button type="submit">Sign Up</button>
-    </form>
-  </div>
+            // Clear previous errors
+            document.querySelectorAll('.error-message').forEach(error => error.style.display = 'none');
 
-  <script>
-    const signupForm = document.getElementById("signupForm");
-    const emailInput = document.getElementById("email");
-    const passwordInput = document.getElementById("password");
-    const confirmPasswordInput = document.getElementById("confirmPassword");
-    const emailError = document.getElementById("emailError");
-    const passwordError = document.getElementById("passwordError");
+            // Get form values
+            const username = document.getElementById('username').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
 
-    signupForm.addEventListener("submit", function(event) {
-      event.preventDefault();
+            // Validation
+            if (!username) {
+                document.getElementById('username-error').textContent = 'Username is required';
+                document.getElementById('username-error').style.display = 'block';
+                isValid = false;
+            }
 
-      let hasError = false;
+            if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                document.getElementById('email-error').textContent = 'Please enter a valid email';
+                document.getElementById('email-error').style.display = 'block';
+                isValid = false;
+            }
 
-      // Reset styles
-      emailInput.classList.remove("error");
-      passwordInput.classList.remove("error");
-      confirmPasswordInput.classList.remove("error");
-      emailError.style.display = "none";
-      passwordError.style.display = "none";
+            if (!password || password.length < 6) {
+                document.getElementById('password-error').textContent = 'Password must be at least 6 characters';
+                document.getElementById('password-error').style.display = 'block';
+                isValid = false;
+            }
 
-      // Email validation
-      const emailValue = emailInput.value.trim();
-      if (emailValue === "") {
-        emailError.textContent = "Please enter your email address.";
-        emailError.style.display = "block";
-        emailInput.classList.add("error");
-        hasError = true;
-      } else if (!/^\S+@\S+\.\S+$/.test(emailValue)) {
-        emailError.textContent = "Please enter a valid email address.";
-        emailError.style.display = "block";
-        emailInput.classList.add("error");
-        hasError = true;
-      } else if (!emailValue.endsWith("@gmail.com")) {
-        emailError.textContent = "Only @gmail.com addresses are allowed.";
-        emailError.style.display = "block";
-        emailInput.classList.add("error");
-        hasError = true;
-      }
+            if (password !== confirmPassword) {
+                document.getElementById('confirm-password-error').textContent = 'Passwords do not match';
+                document.getElementById('confirm-password-error').style.display = 'block';
+                isValid = false;
+            }
 
-      // Password strength check
-      const passwordValue = passwordInput.value.trim();
-      const confirmPasswordValue = confirmPasswordInput.value.trim();
-      const passwordStrength = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
-
-      if (passwordValue === "" || confirmPasswordValue === "") {
-        passwordError.textContent = "Please enter your password and confirm it.";
-        passwordError.style.display = "block";
-        passwordInput.classList.add("error");
-        confirmPasswordInput.classList.add("error");
-        hasError = true;
-      } else if (!passwordStrength.test(passwordValue)) {
-        passwordError.textContent = "Password must be at least 8 characters long, include 1 uppercase letter and 1 number.";
-        passwordError.style.display = "block";
-        passwordInput.classList.add("error");
-        hasError = true;
-      } else if (passwordValue !== confirmPasswordValue) {
-        passwordError.textContent = "Passwords do not match.";
-        passwordError.style.display = "block";
-        passwordInput.classList.add("error");
-        confirmPasswordInput.classList.add("error");
-        hasError = true;
-      }
-
-      if (!hasError) {
-        // ✅ FIXED HERE:
-        localStorage.setItem("userEmail", emailValue);
-        localStorage.setItem("userPassword", passwordValue);
-
-        alert("✅ Signup successful!");
-        window.location.href = "thankyou.html";
-      }
-    });
-  </script>
-
+            if (isValid) {
+                // Submit form (you can send the data to your backend here)
+                alert('Sign up successful!');
+            }
+        });
+    </script>
 </body>
 </html>
